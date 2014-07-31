@@ -80,7 +80,7 @@ def modify_entry(entryfile):
 	fin.close()
 	fout=open(entryfile,'w')
 	for line in lines:
-		if 'log' not in line:
+		if 'log' not in line.lower():
 			fout.write(line)
 	fout.close()
 
