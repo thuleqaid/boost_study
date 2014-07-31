@@ -1,10 +1,3 @@
-if(GDB)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
-endif(GDB)
-## [Start]include cmake file here
-include("${ROOT_DIR}/boostlog.cmake" OPTIONAL)
-## [Stop]include cmake file here
-
 # Setting for Source/Header files
 set(SRCROOT "${ROOT_DIR}")
 #file(GLOB SOURCE ${SRCROOT}/src/*.cpp)

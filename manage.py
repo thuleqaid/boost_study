@@ -32,8 +32,8 @@ def projmaker(info):
 	modify_proj(info)
 
 def make_ignorefunc(basedir,flag_log,flag_test):
-	loglist=('boostlog.cmake','include/log.hpp','src/log.cpp')
-	testlist=('boosttest.cmake','unittest',)
+	loglist=('include/log.hpp','src/log.cpp')
+	testlist=('unittest',)
 	ignorelist=[]
 	if flag_log:
 		for item in loglist:

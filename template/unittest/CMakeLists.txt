@@ -4,13 +4,14 @@ project(test_projname CXX)
 set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 ## [Start]set options here
-option(GDB "switch for debug information for GDB" OFF)
-option(BOOSTLOG "switch for Boost.log library" OFF)
+option(BOOST "switch for Boost library" ON)
+option(BOOSTTEST "switch for Boost.test library" ON)
 ## [Stop]set options here
 set(ROOT_DIR "..")
+include("${ROOT_DIR}/boost.cmake" OPTIONAL)
 include("${ROOT_DIR}/main.cmake")
-include("${ROOT_DIR}/boosttest.cmake")
 
 aux_source_directory(. TESTSRC)
 # Setting for Link
 add_executable(${PROJECT_NAME} ${SOURCE} ${TESTSRC})
+set(EXECUTABLE_OUTPUT_PATH "${ROOT_DIR}/bin")
