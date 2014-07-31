@@ -9,7 +9,7 @@ option(BOOSTLOG "switch for Boost.log library" OFF)
 ## [Stop]set options here
 set(ROOT_DIR "..")
 include("${ROOT_DIR}/main.cmake")
-include("${ROOT_DIR}/boostlog.cmake")
+include("${ROOT_DIR}/boosttest.cmake")
 
 aux_source_directory(. TESTSRC)
 # Setting for Link
