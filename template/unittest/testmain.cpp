@@ -1,5 +1,11 @@
 #define BOOST_TEST_MODULE TestSuitName
 #include <boost/test/unit_test.hpp>
+
+BOOST_AUTO_TEST_CASE(test_case_name_1)
+{
+  BOOST_CHECK( 1>0 );
+}
+
 /* include test case file */
 /* struct FixStruct
  * {

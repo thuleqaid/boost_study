@@ -13,4 +13,4 @@ include("${ROOT_DIR}/boost.cmake" OPTIONAL)
 include("${ROOT_DIR}/main.cmake")
 # Setting for Link
 add_executable(${PROJECT_NAME} ${SOURCE} ${ENTRY})
-set(EXECUTABLE_OUTPUT_PATH "${ROOT_DIR}/bin")
+set(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/${ROOT_DIR}/bin")
