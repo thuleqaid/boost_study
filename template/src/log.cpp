@@ -3,7 +3,6 @@
 #endif /* DEBUGLOG */
 #include "log.hpp"
 #ifdef DEBUGLOG
-	#include <vector>
 	#include <utility>
 	#include <boost/log/utility/setup/console.hpp>
 	#include <boost/log/utility/setup/file.hpp>
@@ -13,7 +12,7 @@
 #ifdef DEBUGLOG
 static logging::trivial::severity_level loglevel(E_LOGLEVEL level)
 {
-	const std::vector<std::pair<E_LOGLEVEL,logging::trivial::severity_level>> table={
+	const std::pair<E_LOGLEVEL,logging::trivial::severity_level> table[]={
 		{LEVEL_TRACE,logging::trivial::trace},
 		{LEVEL_DEBUG,logging::trivial::debug},
 		{LEVEL_INFO,logging::trivial::info},
@@ -22,10 +21,9 @@ static logging::trivial::severity_level loglevel(E_LOGLEVEL level)
 		{LEVEL_FATAL,logging::trivial::fatal},
 	};
 	logging::trivial::severity_level boostlevel=logging::trivial::trace;
-	for (auto &elem:table)
-	{
-		if (elem.first==level) {
-			boostlevel=elem.second;
+	for(size_t i=0;i<sizeof(table)/sizeof(table[0]);++i) {
+		if (table[i].first==level) {
+			boostlevel=table[i].second;
 			break;
 		}
 	}

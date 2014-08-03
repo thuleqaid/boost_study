@@ -20,18 +20,17 @@ template<typename OWNER_T,typename TIMERID_T, TIMERID_T startidx> class Timer
 {
 	public:
 		typedef void (*TimeOutFunc)(TIMERID_T);
-		Timer(TIMERID_T start_timerid=startidx);
+		Timer(const TIMERID_T &start_timerid=startidx);
 		~Timer();
-		TIMERID_T timer_new(TimeOutFunc func, boost::shared_ptr<OWNER_T> ptshare=nullptr, TIMERID_T timerid=std::numeric_limits<TIMERID_T>::min());
-		void timer_start(TIMERID_T timerid, boost::chrono::steady_clock::duration interval=boost::chrono::seconds(1), long count=1);
-		void timer_stop(TIMERID_T timerid);
-		void timer_delete(TIMERID_T timerid);
-		void timer_loop();
+		TIMERID_T timer_new(const TimeOutFunc &func, const boost::shared_ptr<OWNER_T> &ptshare=nullptr, const TIMERID_T &timerid=std::numeric_limits<TIMERID_T>::min());
+		void timer_start(const TIMERID_T &timerid, const boost::chrono::steady_clock::duration &interval=boost::chrono::seconds(1), const long count=1);
+		void timer_stop(const TIMERID_T &timerid);
+		void timer_delete(const TIMERID_T &timerid);
 	protected:
 		class Node
 		{
 			public:
-				Node(TimeOutFunc func, boost::shared_ptr<OWNER_T> ptshare, TIMERID_T timerid)
+				Node(const TimeOutFunc &func, const boost::shared_ptr<OWNER_T> &ptshare, const TIMERID_T &timerid)
 					:m_func(func)
 					,m_parent(ptshare)
 					,m_id(timerid)
@@ -50,7 +49,7 @@ template<typename OWNER_T,typename TIMERID_T, TIMERID_T startidx> class Timer
 				bool valid() const { return !m_parent.expired(); }
 				const boost::chrono::steady_clock::time_point& nexttime() const { return m_nexttime; }
 				long count() const { return m_count; }
-				void setInterval(boost::chrono::steady_clock::duration interval)
+				void setInterval(const boost::chrono::steady_clock::duration &interval)
 				{
 					m_interval=interval;
 #ifdef TIMER_ENABLE_LOG
@@ -64,7 +63,7 @@ template<typename OWNER_T,typename TIMERID_T, TIMERID_T startidx> class Timer
 					LOG(debug)<<"Timer::Node::setCount[id="<<m_id<<",count="<<m_count<<"]";
 #endif /* TIMER_ENABLE_LOG */
 				}
-				void renew(boost::chrono::steady_clock::time_point tp=boost::chrono::steady_clock::now()) { if (m_count!=0) {m_nexttime=tp+m_interval;} }
+				void renew(const boost::chrono::steady_clock::time_point &tp=boost::chrono::steady_clock::now()) { if (m_count!=0) {m_nexttime=tp+m_interval;} }
 				void fire()
 				{
 					if (m_count==0) {
@@ -93,8 +92,9 @@ template<typename OWNER_T,typename TIMERID_T, TIMERID_T startidx> class Timer
 				return n1->id()<n2->id();
 			}
 		};
+		void timer_loop();
 		void wakeup_thread(bool adopt, bool terminate);
-		boost::shared_ptr<Node> get_node_by_timerid(TIMERID_T timerid)
+		boost::shared_ptr<Node> get_node_by_timerid(const TIMERID_T &timerid)
 		{
 			boost::shared_ptr<Node> node=nullptr;
 			for(auto &elem:m_nodelist) {
@@ -120,7 +120,7 @@ template<typename OWNER_T,typename TIMERID_T, TIMERID_T startidx> class Timer
 };
 
 template<typename OWNER_T,typename TIMERID_T,TIMERID_T startidx>
-Timer<OWNER_T,TIMERID_T,startidx>::Timer(TIMERID_T start_timerid)
+Timer<OWNER_T,TIMERID_T,startidx>::Timer(const TIMERID_T &start_timerid)
 	:m_sharedOwner(new OWNER_T())
 	,m_start(start_timerid<=std::numeric_limits<TIMERID_T>::min()?std::numeric_limits<TIMERID_T>::min()+1:start_timerid)
 	,m_current(m_start)
@@ -137,7 +137,7 @@ Timer<OWNER_T,TIMERID_T,startidx>::~Timer()
 	}
 }
 template<typename OWNER_T,typename TIMERID_T,TIMERID_T startidx>
-TIMERID_T Timer<OWNER_T,TIMERID_T,startidx>::timer_new(TimeOutFunc func, boost::shared_ptr<OWNER_T> ptshare, TIMERID_T timerid)
+TIMERID_T Timer<OWNER_T,TIMERID_T,startidx>::timer_new(const TimeOutFunc &func, const boost::shared_ptr<OWNER_T> &ptshare, const TIMERID_T &timerid)
 {
 	TIMERID_T newid;
 	boost::lock_guard<boost::mutex> lg(m_condmutex);
@@ -190,7 +190,7 @@ TIMERID_T Timer<OWNER_T,TIMERID_T,startidx>::timer_new(TimeOutFunc func, boost::
 }
 
 template<typename OWNER_T,typename TIMERID_T,TIMERID_T startidx>
-void Timer<OWNER_T,TIMERID_T,startidx>::timer_start(TIMERID_T timerid, boost::chrono::steady_clock::duration interval, long count)
+void Timer<OWNER_T,TIMERID_T,startidx>::timer_start(const TIMERID_T &timerid, const boost::chrono::steady_clock::duration &interval, const long count)
 {
 	boost::lock_guard<boost::mutex> lg(m_condmutex);
 	auto elem=get_node_by_timerid(timerid);
@@ -209,7 +209,7 @@ void Timer<OWNER_T,TIMERID_T,startidx>::timer_start(TIMERID_T timerid, boost::ch
 	}
 }
 template<typename OWNER_T,typename TIMERID_T,TIMERID_T startidx>
-void Timer<OWNER_T,TIMERID_T,startidx>::timer_stop(TIMERID_T timerid)
+void Timer<OWNER_T,TIMERID_T,startidx>::timer_stop(const TIMERID_T &timerid)
 {
 	boost::lock_guard<boost::mutex> lg(m_condmutex);
 	auto elem=get_node_by_timerid(timerid);
@@ -225,7 +225,7 @@ void Timer<OWNER_T,TIMERID_T,startidx>::timer_stop(TIMERID_T timerid)
 	}
 }
 template<typename OWNER_T,typename TIMERID_T,TIMERID_T startidx>
-void Timer<OWNER_T,TIMERID_T,startidx>::timer_delete(TIMERID_T timerid)
+void Timer<OWNER_T,TIMERID_T,startidx>::timer_delete(const TIMERID_T &timerid)
 {
 	boost::lock_guard<boost::mutex> lg(m_condmutex);
 	auto pos=m_nodelist.begin();

@@ -32,10 +32,10 @@ SharedTimer getSharedTimer()
  *        局部变量：离开申明变量的{ }时，自动回收（指针变量需要手动delete）
  *   4. 申明父对象（boost::shared_ptr<int>）
  * 函数列表：
- *   TIMERID_T timer_new(TimeOutFunc func, boost::shared_ptr<OWNER_T> ptshare=nullptr, TIMERID_T timerid=std::numeric_limits<TIMERID_T>::min());
- *   void timer_start(TIMERID_T timerid, boost::chrono::steady_clock::duration interval=boost::chrono::seconds(1), long count=1);
- *   void timer_stop(TIMERID_T timerid);
- *   void timer_delete(TIMERID_T timerid);
+ *   TIMERID_T timer_new(const TimeOutFunc &func, const boost::shared_ptr<OWNER_T> &ptshare=nullptr, const TIMERID_T &timerid=std::numeric_limits<TIMERID_T>::min());
+ *   void timer_start(const TIMERID_T &timerid, const boost::chrono::steady_clock::duration &interval=boost::chrono::seconds(1), const long count=1);
+ *   void timer_stop(const TIMERID_T &timerid);
+ *   void timer_delete(const TIMERID_T &timerid);
  * 例：
  *   #include "timer.hpp" // timer.hpp中定义了父对象的类型，计时器ID的类型，计时器ID的自动分配起始值
  *                        // typedef Timer<int,unsigned long,1024> BasicTimer;
