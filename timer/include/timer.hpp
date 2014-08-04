@@ -23,9 +23,9 @@ template<typename OWNER_T,typename TIMERID_T, TIMERID_T startidx> class Timer
 		Timer(const TIMERID_T &start_timerid=startidx);
 		~Timer();
 		TIMERID_T timer_new(const TimeOutFunc &func, const boost::shared_ptr<OWNER_T> &ptshare=nullptr, const TIMERID_T &timerid=std::numeric_limits<TIMERID_T>::min());
-		void timer_start(const TIMERID_T &timerid, const boost::chrono::steady_clock::duration &interval=boost::chrono::seconds(1), const long count=1);
-		void timer_stop(const TIMERID_T &timerid);
-		void timer_delete(const TIMERID_T &timerid);
+		bool timer_start(const TIMERID_T &timerid, const boost::chrono::steady_clock::duration &interval=boost::chrono::seconds(1), const long count=1);
+		bool timer_stop(const TIMERID_T &timerid);
+		bool timer_delete(const TIMERID_T &timerid);
 	protected:
 		class Node
 		{
@@ -190,8 +190,9 @@ TIMERID_T Timer<OWNER_T,TIMERID_T,startidx>::timer_new(const TimeOutFunc &func, 
 }
 
 template<typename OWNER_T,typename TIMERID_T,TIMERID_T startidx>
-void Timer<OWNER_T,TIMERID_T,startidx>::timer_start(const TIMERID_T &timerid, const boost::chrono::steady_clock::duration &interval, const long count)
+bool Timer<OWNER_T,TIMERID_T,startidx>::timer_start(const TIMERID_T &timerid, const boost::chrono::steady_clock::duration &interval, const long count)
 {
+	bool ret=true;
 	boost::lock_guard<boost::mutex> lg(m_condmutex);
 	auto elem=get_node_by_timerid(timerid);
 	if (elem!=nullptr) {
@@ -202,15 +203,19 @@ void Timer<OWNER_T,TIMERID_T,startidx>::timer_start(const TIMERID_T &timerid, co
 		elem->setCount(count);
 		elem->renew();
 		wakeup_thread(true,false);
+		ret=true;
 	} else {
 #ifdef TIMER_ENABLE_LOG
 		LOG(warning)<<"Timer::timer_start[id="<<timerid<<"]";
 #endif /* TIMER_ENABLE_LOG */
+		ret=false;
 	}
+	return ret;
 }
 template<typename OWNER_T,typename TIMERID_T,TIMERID_T startidx>
-void Timer<OWNER_T,TIMERID_T,startidx>::timer_stop(const TIMERID_T &timerid)
+bool Timer<OWNER_T,TIMERID_T,startidx>::timer_stop(const TIMERID_T &timerid)
 {
+	bool ret=true;
 	boost::lock_guard<boost::mutex> lg(m_condmutex);
 	auto elem=get_node_by_timerid(timerid);
 	if (elem!=nullptr) {
@@ -218,15 +223,19 @@ void Timer<OWNER_T,TIMERID_T,startidx>::timer_stop(const TIMERID_T &timerid)
 		LOG(debug)<<"Timer::timer_stop[id="<<timerid<<"]";
 #endif /* TIMER_ENABLE_LOG */
 		elem->setCount(0);
+		ret=true;
 	} else {
 #ifdef TIMER_ENABLE_LOG
 		LOG(warning)<<"Timer::timer_stop[id="<<timerid<<"]";
 #endif /* TIMER_ENABLE_LOG */
+		ret=false;
 	}
+	return ret;
 }
 template<typename OWNER_T,typename TIMERID_T,TIMERID_T startidx>
-void Timer<OWNER_T,TIMERID_T,startidx>::timer_delete(const TIMERID_T &timerid)
+bool Timer<OWNER_T,TIMERID_T,startidx>::timer_delete(const TIMERID_T &timerid)
 {
+	bool ret=true;
 	boost::lock_guard<boost::mutex> lg(m_condmutex);
 	auto pos=m_nodelist.begin();
 	for(;pos!=m_nodelist.end();++pos) {
@@ -235,14 +244,17 @@ void Timer<OWNER_T,TIMERID_T,startidx>::timer_delete(const TIMERID_T &timerid)
 			LOG(debug)<<"Timer::timer_delete[id="<<timerid<<"]";
 #endif /* TIMER_ENABLE_LOG */
 			m_nodelist.erase(pos);
+			ret=true;
 			break;
 		} else if ((*pos)->id()>timerid) {
 #ifdef TIMER_ENABLE_LOG
 			LOG(warning)<<"Timer::timer_delete[id="<<timerid<<"]";
 #endif /* TIMER_ENABLE_LOG */
+			ret=false;
 			break;
 		}
 	}
+	return ret;
 }
 template<typename OWNER_T,typename TIMERID_T,TIMERID_T startidx>
 void Timer<OWNER_T,TIMERID_T,startidx>::timer_loop()
@@ -337,7 +349,10 @@ void Timer<OWNER_T,TIMERID_T,startidx>::wakeup_thread(bool adopt, bool terminate
 	m_cond.notify_one();
 }
 
-typedef Timer<int,unsigned long,1024> BasicTimer;
+typedef int TIMER_OWNER_T;
+typedef unsigned short TIMER_ID_T;
+#define TIMER_AUTO_ID_START 256
+typedef Timer<TIMER_OWNER_T,TIMER_ID_T,TIMER_AUTO_ID_START> BasicTimer;
 typedef boost::shared_ptr<BasicTimer> SharedTimer;
 void timerinit();
 SharedTimer getSharedTimer();

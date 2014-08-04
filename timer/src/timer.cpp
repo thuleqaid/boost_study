@@ -33,28 +33,28 @@ SharedTimer getSharedTimer()
  *   4. 申明父对象（boost::shared_ptr<int>）
  * 函数列表：
  *   TIMERID_T timer_new(const TimeOutFunc &func, const boost::shared_ptr<OWNER_T> &ptshare=nullptr, const TIMERID_T &timerid=std::numeric_limits<TIMERID_T>::min());
- *   void timer_start(const TIMERID_T &timerid, const boost::chrono::steady_clock::duration &interval=boost::chrono::seconds(1), const long count=1);
- *   void timer_stop(const TIMERID_T &timerid);
- *   void timer_delete(const TIMERID_T &timerid);
+ *   bool timer_start(const TIMERID_T &timerid, const boost::chrono::steady_clock::duration &interval=boost::chrono::seconds(1), const long count=1);
+ *   bool timer_stop(const TIMERID_T &timerid);
+ *   bool timer_delete(const TIMERID_T &timerid);
  * 例：
  *   #include "timer.hpp" // timer.hpp中定义了父对象的类型，计时器ID的类型，计时器ID的自动分配起始值
- *                        // typedef Timer<int,unsigned long,1024> BasicTimer;
- *   void test(unsigned long x)                            // 定义计时器回调函数
+ *                        // typedef Timer<TIMER_OWNER_T,TIMER_ID_T,TIMER_AUTO_ID_START> BasicTimer;
+ *   void test(TIMER_ID_T x)                            // 定义计时器回调函数
  *   {
  *   }
  *   int main(int argc, char **argv)
  *   {
- *   	boost::shared_ptr<int> pt(new int(0));             // 申明父对象
+ *   	boost::shared_ptr<TIMER_OWNER_T> pt(new TIMER_OWNER_T(0));   // 申明父对象
  *   	timerinit();                                       // 生成计时器线程
  *   	auto t=getSharedTimer();
- *   	unsigned long tid;
+ *   	TIMER_ID_T tid;
  *   	tid=t->timer_new(test,nullptr,20);                 // 不指定父对象，使用第2部分计时器ID
  *   	t->timer_start(tid,boost::chrono::seconds(1),-1);  // 1秒间隔，无限次
- *   	tid=t->timer_new(test,pt,20);                      // 指定父对象，使用第2部分计时器ID，20已被占用，自动分配第3部分计时器ID(1024)
+ *   	tid=t->timer_new(test,pt,20);                      // 指定父对象，使用第2部分计时器ID，20已被占用，自动分配第3部分计时器ID(TIMER_AUTO_ID_START)
  *   	t->timer_start(tid,boost::chrono::seconds(2),10);  // 2秒间隔，10次
- *   	tid=t->timer_new(test,pt,0);                       // 指定父对象，自动分配第3部分计时器ID(1025)
+ *   	tid=t->timer_new(test,pt,0);                       // 指定父对象，自动分配第3部分计时器ID(TIMER_AUTO_ID_START+1)
  *   	t->timer_start(tid,boost::chrono::seconds(3),10);  // 3秒间隔，10次
- *   	boost::this_thread::sleep_for(boost::chrono::seconds(5));
+ *   	boost::this_thread::sleep_for(boost::chrono::seconds(7));
  *   	pt.reset();                                        // 释放父对象，第2个和第3个计时器自动停止并释放
  *   	std::cin.get();                                    // 用户输入任意键后结束程序
  *   	return 0;
