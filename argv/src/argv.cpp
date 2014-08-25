@@ -70,9 +70,9 @@ void Argv::stopGroup()
 {
 	m_curidx=0;
 }
-bool Argv::showHelp(std::ostream& os)
+bool Argv::showHelp(std::ostream& os, bool force)
 {
-	if (getBoolOption("help") || (PARSE_NG==m_status))
+	if (force || getBoolOption("help") || (PARSE_NG==m_status))
 	{
 		boost::program_options::options_description desc;
 		for (auto &item: m_options)

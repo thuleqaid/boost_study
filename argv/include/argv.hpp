@@ -58,7 +58,7 @@ class Argv
 		bool parse(int argc,char* argv[]);
 		void startGroup(const std::string& groupdesc="",bool visible=true);
 		void stopGroup();
-		bool showHelp(std::ostream& os);
+		bool showHelp(std::ostream& os, bool force=false);
 		Argv& addBoolOption(const std::string& optname,const std::string& optdesc);
 		bool getBoolOption(const std::string& optname);
 		Argv& addIntegerOption(const std::string& optname,const std::string& optdesc);
