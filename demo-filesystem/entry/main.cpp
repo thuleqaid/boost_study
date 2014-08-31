@@ -26,6 +26,7 @@ void item_action(const bfs::path& ipath)
 int main(int argc, char **argv)
 {
 	loginit(LEVEL_TRACE);
+#if 0
 	/* parse command line */
 	std::string indir;
 	Argv opts;
@@ -103,5 +104,8 @@ int main(int argc, char **argv)
 	 *   remove for file, remove_all for directory
 	 * rename
 	 */
+#else
+	findInPath("vim",{});
+#endif
 	return 0;
 }
