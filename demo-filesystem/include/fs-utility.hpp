@@ -2,7 +2,6 @@
 #define __FS_UTILITY_HPP__
 #include <boost/filesystem.hpp>
 namespace bfs=boost::filesystem;
-#include <cstdlib>
 
 /* make multi-level directory */
 void makedirs(const bfs::path& inpath);
@@ -36,6 +35,6 @@ bool walk(const bfs::path& inpath, WalkAction action, bool recursive)
 }
 
 /* find executable file in the environment */
-void findInPath(const std::string& filename, std::initializer_list<std::string> additions, int count=-1);
+void findInPath(const std::string& filename, std::initializer_list<std::string> additions, std::vector<bfs::path>& result, int count=-1);
 
 #endif /* __FS_UTILITY_HPP__ */

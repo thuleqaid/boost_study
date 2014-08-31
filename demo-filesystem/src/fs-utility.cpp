@@ -1,4 +1,5 @@
 #include "fs-utility.hpp"
+#include <cstdlib>
 void makedirs(const bfs::path& inpath)
 {
 	/* path must exist for bfs::canonical(path) */
@@ -24,17 +25,21 @@ void makedirs(const bfs::path& inpath)
 	}
 }
 /* find executable file in the environment */
-static void _saveToList(bfs::path file,std::vector<bfs::path>& vec,const std::string& filename)
+static void _saveToList(const bfs::path& file,std::vector<bfs::path>& vec,const std::string& filename)
 {
 	if (file.filename().generic_string()==filename)
 	{
 		vec.push_back(file);
 	}
 }
-void findInPath(const std::string& filename, std::initializer_list<std::string> additions, int count)
+void findInPath(const std::string& filename, std::initializer_list<std::string> additions, std::vector<bfs::path>& result, int count)
 {
 	std::string env(std::getenv("PATH"));
+#ifdef WIN32
+	const std::string sep(";");
+#else
 	const std::string sep(":");
+#endif
 	std::string::size_type pos1(0),pos2;
 	std::vector<std::string> pathlist;
 	pathlist.reserve(additions.size());
@@ -60,14 +65,12 @@ void findInPath(const std::string& filename, std::initializer_list<std::string> 
 		}
 	}
 	std::copy(pathlist.cbegin(),pathlist.cend(),std::ostream_iterator<std::string>(std::cout,"\n"));
-	std::vector<bfs::path> foundlist;
 	for (auto &item:pathlist)
 	{
-		walk(bfs::path(item),std::bind(_saveToList,std::placeholders::_1,std::ref(foundlist),filename),false);
-		if ((count>0) && (foundlist.size()>=count))
+		walk(bfs::path(item),std::bind(_saveToList,std::placeholders::_1,std::ref(result),filename),false);
+		if ((count>0) && (result.size()-count>=0))
 		{
 			break;
 		}
 	}
-	std::copy(foundlist.cbegin(),foundlist.cend(),std::ostream_iterator<bfs::path>(std::cout,"\n"));
 }
