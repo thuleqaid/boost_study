@@ -1,0 +1,102 @@
+■2 Boost.thread
+	・2.0 Compile and link(CMakeLists.txt)
+		cmake_minimum_required(VERSION 2.8)
+		project(xxx CXX)
+		# Setting for Boost.log Library
+		include_directories(/usr/local/include)
+		link_directories(/usr/local/lib)
+		link_libraries(boost_system boost_thread)
+		add_definitions(-DBOOST_ALL_DYN_LINK)
+		# Setting for Source/Header files
+		set(SRCROOT ".")
+		file(GLOB SOURCE ${SRCROOT}/src/*.cpp)
+		include_directories(${SRCROOT}/include)
+		# Setting for Complie
+		set(CMAKE_CXX_COMPILER "/usr/bin/g++")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+		# Setting for Link
+		add_executable(${PROJECT_NAME} ${SOURCE})
+	・2.1 Async
+		※Boost
+		#define BOOST_THREAD_VERSION 4
+		#include <boost/thread/future.hpp>
+		int p0();
+		int p1(int x);
+		class Test
+		{
+			public:
+				Test();
+				static int print();
+				int objprint(int x);
+		};
+		int main()
+		{
+			boost::future<int> fi0(boost::async(p0));
+			boost::future<int> fi1(boost::async(boost::bind(p1,7)));
+			boost::future<int> fi2(boost::async(Test::print));
+			Test test;
+			boost::future<int> fi3(boost::async(boost::bind(&Test::objprint,&test,2)));
+			fi0.get();
+			fi1.get();
+			fi2.get();
+			fi3.get();
+		}
+		※C++11
+		boost->std
+		no need to use bind
+			std::future<int> fi1(std::async(p1,7));
+			std::future<int> fi3(std::async(&Test::objprint,&test,2));
+	・2.2 Mutex
+		※Boost
+		boost::mutex
+		boost::recursive_mutex
+			lock(),try_lock(),unlock()
+		boost::timed_mutex
+		boost::recursive_timed_mutex
+			lock(),try_lock(),unlock()
+			try_lock_for(),try_lock_until()
+		boost::lock_guard<Lockable> lg(Lockable &m)
+		boost::lock_guard<Lockable> lg(Lockable &m,boost::adopt_lock)
+		boost::unique_lock<Lockable> ul(Lockable &m)
+		boost::unique_lock<Lockable> ul(Lockable &m,boost::adopt_lock)
+		boost::unique_lock<Lockable> ul(Lockable &m,boost::defer_lock)
+		boost::unique_lock<Lockable> ul(Lockable &m,boost::try_to_lock)
+		boost::unique_lock<TimedLockable> ul(TimedLockable &m,boost::chrono::XXX(n))
+		※C++11
+		boost->std
+	・2.3 Condition
+		※Boost
+		boost::condition_variable cond;
+		boost::mutex mut;
+		bool data_ready;
+		void wait_for_data_to_process()
+		{
+			boost::unique_lock<boost::mutex> lock(mut);
+			while(!data_ready)
+			{
+				cond.wait(lock);
+			}
+			process_data();
+		}
+		void prepare_data_for_processing()
+		{
+		    retrieve_data();
+		    prepare_data();
+		    {
+		        boost::lock_guard<boost::mutex> lock(mut);
+		        data_ready=true;
+		    }
+		    cond.notify_one();
+		}
+		※C++11
+		boost->std
+	・2.4 Run Once
+		※Boost
+		boost::once_flag once;
+		void once_func();
+		int main()
+		{
+			boost::call_once(once,once_func);
+		}
+		※C++11
+		boost->std
