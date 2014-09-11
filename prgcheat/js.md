@@ -21,9 +21,50 @@
 ##### 其它类型
 无。
 ##### 顺序存储结构
-Array。ToDo
+Array。
+/* declare */
+var varname=\[\];
+var varname=new Array();
+var varname=\[value1,value2\];
+var varname=new Array(value1,value2);
+var varname=new Array(count);
+/* iterate */
+for (var i=0; i<varname.length; ++i)
+{
+	varname[i];
+}
+var sumValue=0;
+varname.forEach(function(x) {sumValue+=x;});
+/* method */
+str_data=varname.join(str-sep);
+varname.reverse();
+varname.sort();
+varname.sort(function(a,b) {return a-b;});
+varname.concat(another-array);
+subarray=varname.slice(start-idx,stop-idx);
+subarray=varname.splice(start-idx,count); /* varname is modified */
+varname.splice(start-idx,count,value1,value2); /* insert/replace values in varname */
+newlength=varname.push(value); /* append data in the end */
+popped-data=varname.pop(); /* remove data in the end */
+newlength=varname.unshift(value); /* append data in the front */
+popped-data=varname.shift(); /* remove data in the front */
+varname.indexOf(value);
+newarray=varname.map(function(x){return x*x;});
+newarray=varname.filter(function(x){return x<3;});
+newarray=varname.filter(function(x,i){return i%2==0;});
+boolvalue=varname.every(function(x){return x<10;});
+boolvalue=varname.some(function(x){return x<10;});
+value=varname.reduce(function(x,y){return x*y;},1);
+value=varname.reduce(function(x,y){return (x>y)?x:y;});
+/* varname.reduceRight(func)===varname.reverse().reduce(func) */
 ##### KV存储结构
-Object。ToDo
+Object。
+var varname={
+	prop:value,
+	$prop:value, // "$" is a hint for private-property, but no effect in fact
+	get prop() { },
+	set prop(value) { }
+	};
 ##### 类型转换
 布尔、小数和字符串类型之间会隐式转换。
 x+""->String(x)
@@ -137,7 +178,17 @@ var varname=function \[funcname\](\[参数名1\[,参数名2\]\])
 	funcname.apply(obj,\[\[参数名1\[,参数名2\]\]\]);
 	call的第2个参数开始是函数第1个参数，apply的第2个参数是函数所有参数组成的数组。
 #### 面向对象
-有。ToDo
+有。
+function ClassName(construct-vars)
+{
+	/* set instance-specified member */
+	/* this.XXX=YYY; */
+}
+ClassName.prototype={
+	constructor:ClassName,
+	member-func:function(){},
+	static-member:value
+	};
 #### 其它常用知识
 - **Regular Expression**
 - **Math**
