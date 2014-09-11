@@ -18,6 +18,15 @@
 ##### 字符型
 只有字符串类型。包括基本类型和对象类型两种。
 只读类型，通过字符串函数str.replace()等来改变内容，实际上是重新生成了一个新的字符串。
+chardata=str.charAt(idx);
+newstr=str.concat(str-data);
+int-pos=str.indexOf(value,startidx);
+arrayOfFoundStr=str.match(/regexp/);
+str.replace(old-value,new-value);
+str.replace(/regexp/,new-value);
+int-pos=str.search(/regexp/);
+substring=str.slice(startidx,stopidx);
+arrayOfSubStr=str.split(sep\[,max-count\]);
 ##### 其它类型
 无。
 ##### 顺序存储结构
@@ -40,7 +49,7 @@ str_data=varname.join(str-sep);
 varname.reverse();
 varname.sort();
 varname.sort(function(a,b) {return a-b;});
-varname.concat(another-array);
+newarray=varname.concat(another-array);
 subarray=varname.slice(start-idx,stop-idx);
 subarray=varname.splice(start-idx,count); /* varname is modified */
 varname.splice(start-idx,count,value1,value2); /* insert/replace values in varname */
@@ -190,8 +199,23 @@ ClassName.prototype={
 	static-member:value
 	};
 #### 其它常用知识
-- **Regular Expression**
 - **Math**
+ceil(x),floor(x),round(x)
+sin(x),cos(x),tan(x)
+asin(x),acos(x),atan(x),atan2(y,x)
+exp(x),log(x),pow(x,y),sqrt(x)
+min(x,y),max(x,y)
+abs(x),random()
 - **Date and Time**
-- **String**
+var varname=new Date();
+action	property-name
+get/set	FullYear
+get/set	Month(0~11)
+get/set	Date(1~31)
+get		Day(0~6)
+get/set	Hours(0~23)
+get/set	Minutes(0~59)
+get/set	Seconds(0~59)
+get/set	Milliseconds(0~999)
+get/set	FullYear
 
