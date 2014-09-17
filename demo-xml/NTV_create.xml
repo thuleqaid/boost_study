@@ -1,0 +1,20 @@
+<seq>
+	<from>hmi</from>
+	<to>dhc</to>
+	<type>sync</type>
+	<function>appapi_TSRNTV_create</function>
+	<return>H_HMIAPI_TSRNTV</return>
+	<param>ps_resource</param>
+	<param>ps_callback</param>
+	<memo>create NightView object</memo>
+	<seq>
+		<from>dhc</from>
+		<to>dhc</to>
+		<type>async</type>
+		<function>tsrntv_cmd_getUpdateInfo</function>
+		<return></return>
+		<param>ps_tsrntv_obj</param>
+		<param>sizeof(S_HMIAPI_TSRNTV_OBJECT)</param>
+		<memo>check PF-Messages before create</memo>
+	</seq>
+</seq>
