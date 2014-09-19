@@ -1,0 +1,30 @@
+\brief { brief description }
+\details { detailed decription }
+\author { list of authors }
+\version { version number }
+\date { date description }
+\pre { description of the precondition }
+\bug { bug description }
+\warning { warning message }
+\copyright { copyright description }
+
+\file [<name>]
+\class <name> [<header-file>] [<header-name>]
+	<header-name>==relative-path/<header-file>
+	#include <header-name>
+\fn (function declaration)
+\param [(dir)] <parameter-name> { parameter description }
+	[(dir)]:[in],[in,out],[out]
+\return { description of the return value }
+\retval <return value> { description }
+\sa { references }
+\exception <exception-object> { exception description }
+\todo { paragraph describing what is to be done }
+
+//! brief description
+/*!
+ * details
+ */
+
+int m_abc; //!< brief description after the memebr
+int m_abc; /*!< detailed description after the memebr */
