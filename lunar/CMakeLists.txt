@@ -18,5 +18,6 @@ set(ROOT_DIR ".")
 include("${ROOT_DIR}/boost.cmake" OPTIONAL)
 include("${ROOT_DIR}/main.cmake")
 # Setting for Link
+link_libraries(/home/thuleqaid/work/boost_study/lunar/libcaltrans.a)
 add_executable(${PROJECT_NAME} ${SOURCE} ${ENTRY})
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/${ROOT_DIR}/bin")
