@@ -16,7 +16,7 @@ def getTitle(filename):
     return title
 
 def listPath(pathname='html',outfile='contents'):
-    fh=open(outfile,'w')
+    fh=open(outfile,'a')
     for fname in sorted(os.listdir(pathname)):
         fullname=os.path.join(pathname,fname)
         if os.path.isfile(fullname):

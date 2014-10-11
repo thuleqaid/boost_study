@@ -4,6 +4,15 @@ import os
 import sys
 import urllib2
 
+def getContentLatest(pathname='contents'):
+    if not os.path.isfile(pathname):
+        return 0
+    fh=open(pathname,'r')
+    line=fh.readlines()[-1]
+    fh.close()
+    idx,title=line.split('\t',1)
+    return int(idx)
+
 def getLocalLatest(pathname='html'):
     if not os.path.isdir(pathname):
         os.makedirs(pathname)
@@ -46,7 +55,7 @@ if __name__ == '__main__':
         no1=int(sys.argv[1])
         no2=int(sys.argv[2])
     else:
-        no1=getLocalLatest()+1
+        no1=max(getLocalLatest(),getContentLatest())+1
         no2=getRemoteLatest()
     if no1<=no2:
         genConf(no1,no2)
