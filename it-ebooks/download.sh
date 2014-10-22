@@ -1,2 +1,2 @@
 #!/bin/bash
-curl -K curl-conf
+curl -m 30 -K curl-conf

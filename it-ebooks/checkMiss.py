@@ -12,6 +12,15 @@ def verifyFile(filename):
 				break
 	return ret
 
+def getContentLatest(pathname='contents'):
+    if not os.path.isfile(pathname):
+        return 0
+    fh=open(pathname,'r')
+    line=fh.readlines()[-1]
+    fh.close()
+    idx,title=line.split('\t',1)
+    return int(idx)
+
 def getLocalLatest(pathname='html'):
     if not os.path.isdir(pathname):
         os.makedirs(pathname)
@@ -33,7 +42,7 @@ def genConf(misslist,filename='curl-conf'):
 
 def main(pathname='html'):
 	miss=[]
-	for i in range(getLocalLatest(pathname)):
+	for i in range(getContentLatest(),getLocalLatest(pathname)):
 		fullname='%s/%04d.html'%(pathname,i+1)
 		if os.path.isfile(fullname):
 			if verifyFile(fullname):
