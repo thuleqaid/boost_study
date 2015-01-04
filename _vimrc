@@ -75,12 +75,13 @@ if has("persistent_undo")
     set undofile
 endif
 
-"MultipleSearch2
-Bundle 'MultipleSearch2.vim'
-let g:miniBufExplMapWindowNavVim=1
+"Multiple Highlight
+Bundle 'Mark--Karkat'
+let g:mwAutoSaveMarks = 0
 
 " MiniBufExplorer
 Bundle 'minibufexpl.vim'
+let g:miniBufExplMapWindowNavVim=1
 set hidden
 
 "NERDCommenter
@@ -99,9 +100,9 @@ Bundle 'JavaScript-syntax'
 "WordPress
 Bundle 'VimRepress'
 
-"vim-pad
-Bundle 'vim-pad'
-let g:pad_dir = '~/.vim/note'
+""vim-pad
+"Bundle 'vim-pad'
+"let g:pad_dir = '~/.vim/note'
 
 "markdown
 Bundle 'godlygeek/tabular'

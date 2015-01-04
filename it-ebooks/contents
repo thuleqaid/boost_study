@@ -4300,437 +4300,6 @@
 4329	Practical Node.js
 4330	Pro TypeScript
 4331	Pro JavaScript Development
-3901	Beginning iOS 7 Development
-3902	Pro Android UI
-3903	Beginning LEGO MINDSTORMS EV3
-3904	Advanced C and C++ Compiling
-3905	Pro Microsoft HDInsight
-3906	Beginning Application Lifecycle Management
-3907	Pro Apache Hadoop, 2nd Edition
-3908	jQuery 2 Recipes
-3909	Beginning Java 8 APIs, Extensions and Libraries
-3910	Java 8 Recipes, 2nd Edition
-3911	Mind Mapping with FreeMind
-3912	NumPy Cookbook
-3913	SQL Server 2012 with PowerShell V3 Cookbook
-3914	Oracle 11g Anti-hacker's Cookbook
-3915	Web Services Testing with soapUI
-3916	Java 7 Concurrency Cookbook
-3917	PHP and script.aculo.us Web 2.0 Application Interfaces
-3918	wxPython 2.8 Application Development Cookbook
-3919	pfSense 2 Cookbook
-3920	IBM Lotus Domino
-3921	Microsoft System Center 2012 Service Manager Cookbook
-3922	Microsoft Windows PowerShell 3.0 First Look
-3923	Gradle Effective Implementation Guide
-3924	Excel Programming with VBA Starter
-3925	Selenium 2 Testing Tools
-3926	Android NDK
-3927	OSGi and Apache Felix 3.0
-3928	OpenVPN 2 Cookbook
-3929	Yammer Starter
-3930	Augmented Reality using Appcelerator Titanium Starter
-3931	EVE Online
-3932	XNA 4 3D Game Development by Example
-3933	Microsoft Dynamics CRM 2011
-3934	Microsoft SQL Server 2012 Security Cookbook
-3935	JBoss ESB
-3936	OpenStack Cloud Computing Cookbook
-3937	JavaFX 1.2 Application Development Cookbook
-3938	HTML5 Games Development by Example
-3939	Flash Development for Android Cookbook
-3940	HTML5 Video How-To
-3941	TextMate How-To
-3942	Piwik Web Analytics Essentials
-3943	Microsoft Azure
-3944	Microsoft SharePoint 2010 Business Application Blueprints
-3945	Microsoft Dynamics AX 2012 Development Cookbook
-3946	Microsoft Windows Identity Foundation Cookbook
-3947	Microsoft Windows Server AppFabric Cookbook
-3948	Microsoft XNA 4.0 Game Development Cookbook
-3949	Alfresco 3 Cookbook
-3950	Magento 1.4 Themes Design
-3951	HTML5 Mobile Development Cookbook
-3952	Drupal Search Engine Optimization
-3953	jQuery Tools UI Library
-3954	jQuery Mobile Web Development Essentials
-3955	Ext JS 4 Web Application Development Cookbook
-3956	jQuery for Designers
-3957	CMS Design Using PHP and jQuery
-3958	MySQL Management and Administration with Navicat
-3959	PHP Application Development with NetBeans
-3960	Ruby and MongoDB Web Development
-3961	Java EE 6 Cookbook for Securing, Tuning, and Extending Enterprise Applications
-3962	Java 7 New Features Cookbook
-3963	Social Media for Wordpress
-3964	Joomla! Mobile Development
-3965	MCTS: Microsoft Silverlight 4 Development (70-506) Certification Guide
-3966	Oracle SOA Infrastructure Implementation Certification Handbook (1Z0-451)
-3967	Oracle Business Intelligence Enterprise Edition 11g
-3968	Oracle WebLogic Server 12c
-3969	Oracle Primavera P6 Version 8
-3970	Oracle ADF Real World Developer's Guide
-3971	Oracle Certified Associate, Java SE 7 Programmer Study Guide
-3972	Windows Presentation Foundation 4.5 Cookbook
-3973	Windows Azure programming patterns for Start-ups
-3974	Windows Phone 7 XNA Cookbook
-3975	Unity 3.x Scripting
-3976	Unity iOS Game Development
-3977	Unreal Development Kit Game Design Cookbook
-3978	WebGL
-3979	jQuery 1.4 Animation Techniques
-3980	Learning jQuery, 3rd Edition
-3981	Dreamweaver CS5.5 Mobile and Web Development with HTML5, CSS3, and jQuery
-3982	Jenkins Continuous Integration Cookbook
-3983	Learning Adobe Muse
-3984	Learning Adobe Edge Animate
-3985	IBM Cognos Business Intelligence 10.1 Dashboarding Cookbook
-3986	Governance, Risk, and Compliance Handbook for Oracle Applications
-3987	Getting Started with Citrix XenApp 6.5
-3988	Getting Started with Oracle Data Integrator 11g
-3989	iPad Enterprise Application Development BluePrints
-3990	iPhone Location Aware Apps by Example
-3991	Oracle BPM Suite 11g Developer's cookbook
-3992	HornetQ Messaging Developer's Guide
-3993	Microsoft Application Virtualization Advanced Guide
-3994	Visual Studio 2012 Cookbook
-3995	RapidWeaver 5
-3996	Mudbox 2013 Cookbook
-3997	Drupal 7 Multi Sites Configuration
-3998	Drupal 7 Views Cookbook
-3999	PostgreSQL 9.0 High Performance
-4000	PostgreSQL 9 Admin Cookbook
-4001	Drupal 7 Module Development
-4002	Migrating to Drupal 7
-4003	BackTrack 5 Cookbook
-4004	Mac Application Development by Example
-4005	Creating Games with cocos2d for iPhone 2
-4006	Android 4: New Features for Application Development
-4007	WCF 4.5 Multi-Layer Services Development with Entity Framework, 3rd Edition
-4008	Microsoft Dynamics AX 2012 Services
-4009	Windows Server 2012 Unified Remote Access Planning and Deployment
-4010	Data Visualization: a successful design process
-4011	Getting Started with Meteor.js JavaScript Framework
-4012	CoffeeScript Programming with jQuery, Rails, and Node.js
-4013	Linux Mint System Administrator's
-4014	C# 5 First Look
-4015	Learning Modernizr
-4016	Learning Highcharts
-4017	KeyShot 3D Rendering
-4018	Avid Media Composer 6.x Cookbook
-4019	Java EE 6 Development with NetBeans 7
-4020	Java EE Development with Eclipse
-4021	Learning RStudio for R Statistical Computing
-4022	jBPM5 Developer Guide
-4023	MATLAB Graphics and Data Visualization Cookbook
-4024	Kinect for Windows SDK Programming Guide
-4025	Oracle SOA Suite 11g Developer's Cookbook
-4026	SOA Made Simple
-4027	WiX 3.6: A Developer's Guide to Windows Installer XML
-4028	TeamCity 7 Continuous Integration Essentials
-4029	Mastering OpenCV with Practical Computer Vision Projects
-4030	Spring Security 3.1
-4031	Windows Server 2012 Hyper-V Cookbook
-4032	Yii Rapid Application Development Hotshot
-4033	Network Backup with Bacula How-To
-4034	Manage Partitions with GParted How-to
-4035	Oracle Web Services Manager
-4036	Oracle Application Express 4.0 with Ext JS
-4037	Oracle Enterprise Manager Grid Control 11g R1
-4038	Oracle BI Publisher 11g
-4039	Oracle Primavera Contract Management
-4040	Oracle CRM On Demand Administration Essentials
-4041	Joomla! E-Commerce with VirtueMart
-4042	Drupal 6 Performance Tips
-4043	jQuery 1.3 with PHP
-4044	jQuery 1.4 Reference Guide
-4045	JIRA 4 Essentials
-4046	JIRA Development Cookbook
-4047	Apache Solr 3 Enterprise Search Server
-4048	Apache OfBiz Cookbook
-4049	WordPress MU 2.8
-4050	WordPress 3 For Business Bloggers
-4051	Service Oriented Java Business Integration
-4052	SOA Governance
-4053	Software Testing using Visual Studio 2010
-4054	R Graph Cookbook
-4055	Python Geospatial Development
-4056	SAP BusinessObjects Dashboards 4.0 Cookbook
-4057	SAP ABAP Advanced Cookbook
-4058	PHP and MongoDB Web Development
-4059	Nmap 6: Network Exploration and Security Auditing Cookbook
-4060	Arch Linux Environment Setup How-to
-4061	Magento Mobile How-to
-4062	Apache MyFaces 1.2 Web Application Development
-4063	Railo 3
-4064	Adobe Story Starter
-4065	PhoneGap Social App Development
-4066	Oracle Database and PowerShell How-to
-4067	Wireshark Starter
-4068	Varnish Cache How-to
-4069	GIMP Starter
-4070	Firebug Starter
-4071	Lift Web Applications How-to
-4072	Burp Suite Starter
-4073	Sublime Text Starter
-4074	Instant Autodesk Revit 2013 Customization with .NET How-to [Instant]
-4075	MinGW Starter
-4076	Netcat Starter
-4077	RaphaelJS Starter
-4078	Oracle Solaris 11: First Look
-4079	Apache Solr 4 Cookbook
-4080	Hadoop MapReduce Cookbook
-4081	Creating Concrete5 Themes
-4082	Mastering Redmine
-4083	Aptana Studio Beginner's Guide
-4084	Nagios Core Administration Cookbook
-4085	JasperReports 3.5 for Java Developers
-4086	JasperReports 3.6 Development Cookbook
-4087	Microsoft Dynamics NAV 2009 Programming Cookbook
-4088	Microsoft Dynamics AX 2009 Administration
-4089	Microsoft SQL Azure: Enterprise Application Development
-4090	Microsoft Data Protection Manager 2010
-4091	Microsoft SharePoint 2010 and Windows PowerShell 2.0
-4092	Microsoft SQL Server 2008 R2 Administration Cookbook
-4093	Microsoft SQL Server 2008 High Availability
-4094	Oracle SOA Suite 11g R1 Developer's Guide
-4095	Oracle APEX 4.0 Cookbook
-4096	IBM Lotus Notes and Domino 8.5.1
-4097	IBM Rational ClearCase 7.0
-4098	Away3D 3.6 Essentials
-4099	Flash Game Development by Example
-4100	Mastering SQL Queries for SAP Business One
-4101	Apache Axis2 Web Services, 2nd Edition
-4102	NumPy 1.5
-4103	Node Cookbook
-4104	EJB 3.1 Cookbook
-4105	Mastering phpMyAdmin 3.3.x for Effective MySQL Management
-4106	Core Data iOS Essentials
-4107	BlackBerry Enterprise Server 5 Implementation Guide
-4108	Science Teaching with Moodle 2.0
-4109	Moodle Security
-4110	Using CiviCRM
-4111	NetBeans IDE 7 Cookbook
-4112	Zenoss Core 3.x Network and System Monitoring
-4113	VMware ThinApp 4.7 Essentials
-4114	Ext JS 3.0 Cookbook
-4115	NHibernate 3.0 Cookbook
-4116	Python Text Processing with NLTK 2.0 Cookbook
-4117	Statistical Analysis with R
-4118	Moodle 2 for Teaching 4-9 Year Olds
-4119	Panda3D 1.6 Game Engine
-4120	Professional Plone 4 Development
-4121	SilverStripe 2.4: Module Extension, Themes, and Widgets
-4122	OpenLayers 2.10
-4123	FreeRADIUS
-4124	BackTrack 4: Assuring Security by Penetration Testing
-4125	Alfresco 3 Web Services
-4126	Do more with SOA Integration: Best of Packt
-4127	Irrlicht 1.7 Realtime 3D Engine: Beginner's Guide
-4128	Moodle as a Curriculum and Information Management System
-4129	Mastering Joomla! 1.5 Extension and Framework Development, 2nd Edition
-4130	OpenCV 2 Computer Vision Application Programming Cookbook
-4131	Sage: Beginner's Guide
-4132	Appcelerator Titanium Smartphone App Development Cookbook
-4133	Linux Shell Scripting Cookbook
-4134	Force.com Tips and Tricks
-4135	Munin Plugin Starter
-4136	Galleria How-to
-4137	Ember.js Application Development How-to
-4138	Microsoft Forefront UAG Mobile Configuration Starter
-4139	InnoDB
-4140	PhoneGap 2.x Mobile Application Development
-4141	Grome Terrain Modeling with Ogre3D, UDK, and Unity3D
-4142	Raspberry Pi Home Automation with Arduino
-4143	Hadoop Real-World Solutions Cookbook
-4144	LWUIT 1.1 for Java ME Developers
-4145	Apache CXF Web Service Development
-4146	Microsoft SharePoint 2010 Administration Cookbook
-4147	Flash Multiplayer Virtual Worlds
-4148	Magento 1.4 Development Cookbook
-4149	Oracle Siebel CRM 8 Installation and Management
-4150	Firebug 1.5: Editing, Debugging, and Monitoring Web Pages
-4151	Facebook Graph API Development with Flash
-4152	OGRE 3D 1.7 Application Development Cookbook
-4153	Microsoft System Center Virtual Machine Manager 2012 Cookbook
-4154	Microsoft System Center 2012 Endpoint Protection Cookbook
-4155	Visual Studio 2010 Best Practices
-4156	Processing 2: Creative Programming Cookbook
-4157	HTML5 Boilerplate Web Development
-4158	BMC Control-M 7
-4159	CryENGINE 3 Game Development
-4160	Final Cut Pro X Cookbook
-4161	jQuery Mobile Cookbook
-4162	KnockoutJS Starter
-4163	Twitter Bootstrap Web Development How-To
-4164	Citrix Access Gateway VPX 5.04 Essentials
-4165	Windows Server 2012 Hyper-V
-4166	Developing Mobile Games with Moai SDK
-4167	Sass and Compass for Designers
-4168	Unity 4.x Cookbook
-4169	Responsive Web Design by Example
-4170	HTML5 Enterprise Application Development
-4171	Creating Templates with Artisteer
-4172	Programming ArcGIS 10.1 with Python Cookbook
-4173	Boost.Asio C++ Network Programming
-4174	Socket.IO Real-time Web Application Development
-4175	Unity 4.x Game AI Programming
-4176	Clojure Data Analysis Cookbook
-4177	Hadoop: Beginner's Guide
-4178	Mastering Nginx
-4179	Implementing Microsoft Dynamics NAV 2013
-4180	Building Dashboards with Microsoft Dynamics GP 2013 and Excel 2013
-4181	Getting Started with Oracle Event Processing 11g
-4182	Salesforce CRM Admin Cookbook
-4183	Mastering UDK Game Development
-4184	jQuery Hotshot
-4185	Android Native Development Kit Cookbook
-4186	PlayStation Mobile Development Cookbook
-4187	WordPress Theme Development, 3rd Edition
-4188	Getting Started with NoSQL
-4189	Hibernate Search by Example
-4190	ZeroMQ
-4191	Google Visualization API Essentials
-4192	Mastering Windows 8 C++ App Development
-4193	Building Impressive Presentations with impress.js
-4194	HTML5 Game Development with ImpactJS
-4195	Using Node.js for UI Testing
-4196	Magento PHP Developer's Guide
-4197	Joomla! 3 Beginner's Guide
-4198	CentOS 6 Linux Server Cookbook
-4199	Oracle E-Business Suite R12 Integration and OA Framework Development and Extension Cookbook
-4200	Oracle Enterprise Manager 12c Administration Cookbook
-4201	Windows Phone 7.5 Application Development with F#
-4202	Implementing Microsoft Dynamics AX 2012 with Sure Step 2012
-4203	The Professional ScrumMaster's Handbook
-4204	JIRA 5.2 Essentials
-4205	Learning Play! Framework 2
-4206	Creating Mobile Apps with Sencha Touch 2
-4207	Learning Pixelmator
-4208	Arquillian Testing Guide
-4209	AndEngine for Android Game Development Cookbook
-4210	Gray Hat Hacking, 3rd Edition
-4211	Hacking Exposed Web Applications, 3rd Edition
-4212	Hacking Exposed Linux, 3rd Edition
-4213	HTML & CSS: The Complete Reference, 5th Edition
-4214	Plug-In PHP: 100 Power Solutions
-4215	SQL: A Beginner's Guide, 3rd Edition
-4216	Jump Start JavaScript
-4217	Microsoft SQL Server 2012 High-Performance T-SQL Using Window Functions
-4218	Understanding IPv6, 3rd Edition
-4219	Microsoft Access 2010 VBA Programming Inside Out
-4220	Building Web Applications with SVG
-4221	Start Here! Fundamentals of Microsoft .NET Programming
-4222	Using Microsoft InfoPath 2010 with Microsoft SharePoint 2010 Step by Step
-4223	Working with Microsoft FAST Search Server 2010 for SharePoint
-4224	CompTIA A+ Training Kit (Exam 220-801 and Exam 220-802)
-4225	Exam N10-005: CompTIA Network+ Training Kit
-4226	Inside Windows Debugging
-4227	Architecting Mobile Solutions for the Enterprise
-4228	Windows Phone 7 Development Internals
-4229	Windows PowerShell 3.0 Step by Step
-4230	Microsoft SQL Server 2012 Pocket Consultant
-4231	Windows 8 Inside Out
-4232	Microsoft SQL Server 2012 Step by Step
-4233	Start Here! Learn the Kinect API
-4234	Windows 8 Step by Step
-4235	Windows 8 Plain & Simple
-4236	Microsoft ADO.NET Entity Framework Step by Step
-4237	C++ AMP
-4238	Introducing Microsoft SQL Server 2012
-4239	Microsoft SQL Server 2012 Integration Services
-4240	Windows Internals, Part 2, 6th Edition
-4241	JavaScript Step by Step, 3rd Edition
-4242	Training Kit (Exam 70-462): Administering Microsoft SQL Server 2012 Databases
-4243	Implementing a Data Warehouse with Microsoft SQL Server 2012
-4244	Exam 70-463: Implementing a Data Warehouse with Microsoft SQL Server 2012
-4245	.Net Framework 4.5 Expert Programming Cookbook
-4246	Advanced Windows Debugging
-4247	Algorithmics, 3rd Edition
-4248	Android Studio Application Development
-4249	Android Wireless Application Development, 2nd Edition
-4250	Android Wireless Application Development, 3rd Edition
-4251	Apache Cookbook, 2nd Edition
-4252	BlackBerry Development Fundamentals
-4253	Bootstrap
-4254	Build Your Own Database Driven Web Site Using PHP & MySQL, 4th Edition
-4255	Build Your Own Web Site, 2nd Edition
-4256	Build Your Own Website The Right Way Using HTML & CSS, 3rd Edition
-4257	Build Your Own Wicked Wordpress Themes
-4258	Building Probabilistic Graphical Models with Python
-4259	C# 4.0 How-To
-4260	Cisco ASA, 2nd Edition
-4261	Cisco Firewalls
-4262	Cisco Unified Contact Center Enterprise (UCCE)
-4263	Clean Code
-4264	CLR via C# (prePress), 4th Edition
-4265	CLR via C#, 4th Edition
-4266	Cocoa Programming Developer's Handbook
-4267	MATLAB Programming for Numerical Analysis
-4268	MATLAB Differential Equations
-4269	MATLAB Linear Algebra
-4270	MATLAB Control Systems Engineering
-4271	The InfoSec Handbook
-4272	Computer Vision Metrics
-4273	Android Application Development for the Intel Platform
-4274	Optimizing HPC Applications with Intel Cluster Tools
-4275	Platform Embedded Security Technology Revealed
-4276	GUI Design for Android Apps
-4277	Concurrent Programming on Windows
-4278	Configuring Cisco Unified Communications Manager and Unity Connection, 2nd Edition
-4279	Data Science for Business
-4280	Designing Forms for Microsoft Office InfoPath and Forms Services 2007
-4281	Development with the Force.com Platform, 2nd Edition
-4282	Direct3D Rendering Cookbook
-4283	eCommerce in the Cloud
-4284	Effective C#, 2nd Edition
-4285	Effective Java, 2nd Edition
-4286	Essential C# 4.0, 3rd Edition
-4287	Essential Facebook Development
-4288	Essential LINQ
-4289	Exam 77-418: MOS 2013 Study Guide for Microsoft Word
-4290	Exam 77-424: MOS 2013 Study Guide for Microsoft Access
-4291	Exam Ref 70-410: Installing and Configuring Windows Server 2012
-4292	Exam Ref 70-417: Upgrading Your Skills to MCSA Windows Server 2012
-4293	Exploratory Software Testing
-4294	F# for C# Developers
-4295	FileMaker Pro 13: The Missing Manual
-4296	Object-Oriented Programming with PHP5
-4297	PHP Web Scraping
-4298	Linux Thin Client Networks Design and Deployment
-4299	Metasploit Penetration Testing Cookbook
-4300	VMware Workstation - No Experience Necessary
-4301	Magento, 2nd Edition
-4302	3D Game Development with Microsoft Silverlight 3
-4303	Reporting with Microsoft SQL Server 2012
-4304	Blender Compositing and Post Processing
-4305	Delphi Cookbook
-4306	Graph Databases
-4307	Inside Microsoft Dynamics AX 2012
-4308	Installing and Configuring Windows Server 2012
-4309	Implementing SugarCRM
-4310	Building a Home Security System with BeagleBone
-4311	Securing Hadoop
-4312	Clojure High Performance Programming
-4313	Learning Nessus for Penetration Testing
-4314	Learning Storm
-4315	Mastering Machine Learning with scikit-learn
-4316	Mastering Web Application Development with Express
-4317	Minitab Cookbook
-4318	Three.js Essentials
-4319	Introducing Windows 8
-4320	Java EE 6 Pocket Guide
-4321	Java EE 7 Essentials
-4322	Digital Video Concepts, Methods, and Metrics
-4323	Pro Office 365 Development, 2nd Edition
-4324	Beginning Power BI with Excel 2013
-4325	Financial Modeling for Business Owners and Entrepreneurs
-4326	Better Business Decisions from Data
-4327	Foundations of Python Network Programming, 3rd Edition
-4328	Learn C++ for Game Development
-4329	Practical Node.js
-4330	Pro TypeScript
-4331	Pro JavaScript Development
 4332	jQuery: Novice to Ninja
 4333	Jump Start Responsive Web Design
 4334	Language Implementation Patterns
@@ -4771,3 +4340,238 @@
 4369	Hands-On Programming with R
 4370	Think Stats, 2nd Edition
 4371	Java in a Nutshell, 6th Edition
+4372	Microsoft Access 2010 Step by Step
+4373	Microsoft .NET Framework 3.5 - ADO.NET Application Development
+4374	Microinteractions
+4375	Microsoft Access 2013 Inside Out
+4376	Microsoft Access 2013 Plain & Simple
+4377	Microsoft Access 2013 Step By Step
+4378	Microsoft ASP.NET and AJAX
+4379	Beginning iPhone Development with Swift
+4380	Android Fragments
+4381	Using Kindle Fire HD
+4382	SAP ABAP
+4383	Advanced Excel Essentials
+4384	Spring Recipes, 3rd Edition
+4385	The Definitive Guide to SUSE Linux Enterprise Server 12
+4386	Pro Python System Administration, 2nd Edition
+4387	C++ Game Development Primer
+4388	Beginning C++
+4389	Microsoft Excel 2010 Step by Step
+4390	Microsoft Dynamics CRM 4 Integration Unleashed
+4391	Microsoft Excel 2013 Inside Out
+4392	Microsoft Excel 2013 Plain & Simple
+4393	Microsoft Excel 2013 Step by Step
+4394	Microsoft Office Access 2003 Step by Step
+4395	Microsoft Office Excel 2003 Programming Inside Out
+4396	Microsoft Project 2013 Step by Step
+4397	Microsoft Project 2010 Inside Out
+4398	Microsoft Outlook 2010 Inside Out
+4399	Microsoft Outlook 2013 Plain & Simple
+4400	Microsoft Outlook 2013 Step by Step
+4401	Microsoft PowerPoint 2013 Step by Step
+4402	Microsoft SharePoint 2013 Developer Reference
+4403	Microsoft Windows Registry Guide, 2nd Edition
+4404	Microsoft Windows Scripting Self-Paced Learning Guide
+4405	Microsoft Windows Scripting with WMI
+4406	Microsoft Windows Server 2003 Administrators Companion, 2nd Edition
+4407	Microsoft Windows Small Business Server 2003
+4408	Microsoft Windows XP Professional, 3rd Edition
+4409	Microsoft Word 2013 Plain & Simple
+4410	Microsoft Word 2013 Step by Step
+4411	Microsoft Visual C# 2008 Step by Step
+4412	Microsoft Visual C# 2010 Step by Step
+4413	Microsoft Visual C# 2012 Step by Step
+4414	Microsoft Windows PowerShell Step By Step
+4415	Microsoft Visio 2013 Step By Step
+4416	Microsoft SharePoint 2013 Inside Out
+4417	Microsoft SharePoint 2013: Designing and Architecting Solutions
+4418	Microsoft SharePoint 2013: Planning for Adoption and Governance
+4419	iOS 7 in Action
+4420	Windows Phone 8 in Action
+4421	The Art of Unit Testing, 2nd Edition
+4422	The Mikado Method
+4423	The Joy of Clojure, 2nd Edition
+4424	Solr in Action
+4425	Linked Data
+4426	Practical Data Science with R
+4427	Kanban in Action
+4428	Java 8 in Action
+4429	Mining the Social Web
+4430	NX-OS and Cisco Nexus Switching
+4431	MySQL, 4th Edition
+4432	Mule in Action, 2nd Edition
+4433	MOS 2013 Study Guide for Microsoft PowerPoint
+4434	MOS Study Guide for Microsoft Office 365
+4435	MOS 2013 Study Guide for Microsoft Outlook
+4436	MOS 2013 Study Guide for Microsoft Excel Expert
+4437	Mongoose for Application Development
+4438	Model-Based Development: Applications
+4439	MongoDB Applied Design Patterns
+4440	The LEGO MINDSTORMS EV3 Laboratory
+4441	Ruby Under a Microscope
+4442	Super Scratch Programming Adventure, 2nd Edition
+4443	Learn to Program with Scratch
+4444	Penetration Testing
+4445	Perl One-Liners
+4446	The Modern Web
+4447	The Practice of Network Security Monitoring
+4448	The Book of F#
+4449	The Principles of Object-Oriented JavaScript
+4450	Oracle Advanced PL/SQL Developer Professional Guide
+4451	OpenCL Programming Guide
+4452	OpenGL SuperBible, 5th Edition
+4453	Practical Data Analysis
+4454	Practical Database Programming with Visual Basic.NET, 2nd Edition
+4455	PHP & MySQL: Novice to Ninja, 5th Edition
+4456	PHP and MySQL Web Development, 4th Edition
+4457	Programming in Python 3, 2nd Edition
+4458	Programming Windows 8 Apps with HTML, CSS, and JavaScript
+4459	Programming Windows 8 Apps with HTML, CSS, and JavaScript, 2nd Preview
+4460	Programming Windows, 6th Edition
+4461	Programming with the Kinect for Windows Software Development Kit
+4462	Programming Microsoft SQL Server 2012
+4463	MATLAB Matrix Algebra
+4464	MATLAB Optimization Techniques
+4465	Running Mainframe z on Distributed Platforms
+4466	Expert Oracle Database Architecture, 3rd Edition
+4467	Juniper QFX5100 Series
+4468	Lightweight Django
+4469	Python 3 Text Processing with NLTK 3 Cookbook
+4470	Practical Data Science Cookbook
+4471	GED Test For Dummies, 3rd Edition
+4472	Beginning Programming with Python For Dummies
+4473	The Social Media MBA Guide to ROI
+4474	Startup Mixology
+4475	Building Cross-Platform Apps using Titanium, Alloy, and Appcelerator Cloud Services
+4476	Mobile Clouds
+4477	Adventures in Minecraft
+4478	Data Structures and Algorithms in Java, 6th Edition
+4479	Data Mining Algorithms
+4480	Understanding Bitcoin
+4481	Algorithm Design and Applications
+4482	Mathematical Game Theory and Applications
+4483	Encyclopedia of Automotive Engineering
+4484	Machine Learning
+4485	Principles of Communications, 7th Edition
+4486	Probability, 2nd Edition
+4487	Data-Driven Healthcare
+4488	Data Fluency
+4489	Lean Auditing
+4490	Mathematical Structures for Computer Graphics
+4491	Software Evolution and Maintenance
+4492	Data Center Handbook
+4493	Windows Phone 8 in Action
+4494	Windows Server 2012 Inside Out
+4495	Windows Server 2012 Pocket Consultant
+4496	Windows Server 2008 Inside Out
+4497	Windows Presentation Foundation Unleashed
+4498	Windows Vista Inside Out
+4499	JSF 2.0 Cookbook
+4500	LaTeX: Beginner's Guide
+4501	Marketing Automation with Eloqua
+4502	Scaling Big Data with Hadoop and Solr
+4503	Learning SciPy for Numerical and Scientific Computing
+4504	Mastering ElasticSearch
+4505	Mastering Ninject for Dependency Injection
+4506	Building Minecraft Server Modifications
+4507	Mastering Python Regular Expressions
+4508	Cassandra Design Patterns
+4509	Host Your Web Site In The Cloud
+4510	Build Mobile Websites and Apps for Smart Devices
+4511	Build Your Own ASP.NET 4 Web Site Using C# & VB, 4th Edition
+4513	Rails Deep Dive
+4514	Git Fundamentals
+4515	Jump Start Bootstrap
+4516	Jump Start HTML5
+4517	Jump Start PHP
+4518	AngularJS: Novice to Ninja
+4519	Pro Git, 2nd Edition
+4520	Pro ASP.NET SignalR
+4521	tmux Taster
+4522	4G: Deployment Strategies and Operational Implications
+4523	Create Web Charts with jqPlot
+4524	Create Web Charts with D3
+4525	Scripting in Java
+4526	JavaServer Faces: Introduction by Example
+4527	MongoDB Basics
+4528	Pro Vim
+4529	Sams Teach Yourself Foursquare in 10 Minutes
+4530	Sams Teach Yourself Android Application Development in 24 Hours, 2nd Edition
+4531	Sams Teach Yourself ASP.NET 4 in 24 Hours
+4532	Sams Teach Yourself C++ in 24 Hours, 5th Edition
+4533	Sams Teach Yourself C++ in One Hour a Day, 7th Edition
+4534	Sams Teach Yourself Core Data for Mac and iOS in 24 Hours, 2nd Edition
+4535	Sams Teach Yourself Dreamweaver CS5 in 24 Hours
+4536	Ruby on Rails Tutorial, 2nd Edition
+4537	Ruby and MongoDB Web Development
+4538	Python Web Development with Django
+4539	Sams Teach Yourself iPhone Application Development in 24 Hours, 2nd Edition
+4540	Sams Teach Yourself Xcode 4 in 24 Hours
+4541	Sams Teach Yourself the Twitter API in 24 Hours
+4542	Sams Teach Yourself SQL in 24 Hours, 5th Edition
+4543	Sams Teach Yourself SAP in 24 Hours, 4th Edition
+4544	Sams Teach Yourself iOS 5 Application Development in 24 Hours, 3rd Edition
+4545	Sams Teach Yourself HTML5 Mobile Application Development in 24 Hours
+4546	Sams Teach Yourself HTML, CSS, and JavaScript All in One
+4547	Sams Teach Yourself HTML and CSS in 24 Hours, 8th Edition
+4548	Sams Teach Yourself Google SketchUp 8 in 10 Minutes
+4549	Sams Teach Yourself Google AdWords in 10 Minutes
+4550	Sams Teach Yourself Microsoft Expression Web 4 in 24 Hours, 2nd Edition
+4551	Sams Teach Yourself Microsoft Dynamics Crm 2011 in 24 Hours
+4552	Sams Teach Yourself Mac OS X Lion in 10 Minutes
+4553	Sams Teach Yourself jQuery Mobile in 24 Hours
+4554	Sams Teach Yourself Java in 24 Hours, 6th Edition
+4555	Sams Teach Yourself Java 6 in 21 Days, 5th Edition
+4556	Beginning PHP and MySQL, 4th Edition
+4557	iOS 7 in Action
+4558	The Mikado Method
+4559	Solr in Action
+4560	Practical Data Science with R
+4561	Kanban in Action
+4562	Git: Version Control for Everyone
+4563	Apache Kafka
+4564	Liferay in Action
+4565	Scala for Java Developers
+4566	Building Probabilistic Graphical Models with Python
+4567	The PHP Anthology, Volume 1
+4568	The PHP Anthology, Volume 2
+4569	Supplier Relationship Management
+4570	Introducing Maven
+4571	Practical Software Development Techniques
+4572	Modern X86 Assembly Language Programming
+4573	Thinking in LINQ
+4574	Foundation ActionScript 3, 2nd Edition
+4575	The Four Intelligences of the Business Mind
+4576	Beginning iOS Media App Development
+4577	Experimenting with AVR Microcontrollers
+4578	Raspberry Pi Hardware Reference
+4580	WordPress Theme Design
+4581	Creating your MySQL Database
+4582	Microsoft Silverlight 4 Business Application Development
+4583	Microsoft Silverlight 5: Building Rich Enterprise Dashboards
+4584	Extending Microsoft Dynamics AX 2012 Cookbook
+4585	Hyper-V Server Virtualization Starter
+4586	Desire2Learn for Higher Education Cookbook
+4587	GNS3 Network Simulation Guide
+4588	Getting Started with LLVM Core Libraries
+4589	Bioinformatics with R Cookbook
+4590	System Center 2012 Configuration Manager (SCCM) Unleashed
+4591	System Center Operations Manager (OpsMgr) 2007 R2 Unleashed
+4592	Team Collaboration
+4593	Test iOS Apps with UI Automation
+4594	Succeeding with Agile
+4595	Start Here! Learn HTML5
+4596	Start Here! Learn Microsoft Visual Basic 2012
+4597	Software Build Systems
+4598	Software Error Detection through Testing and Analysis
+4599	Introduction to Android Application Development, 4th Edition
+4600	The Android Developer's Cookbook, 2nd Edition
+4601	C Primer Plus, 6th Edition
+4602	Programming in Objective-C, 6th Edition
+4603	jQuery and JavaScript Phrasebook
+4604	Python in Practice
+4605	Development with the Force.com Platform, 3rd Edition
+4606	Practical Object-Oriented Design in Ruby
+4607	Practical Cassandra
+4608	Apache Cordova 3 Programming
