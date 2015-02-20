@@ -1,33 +1,30 @@
 #ifndef __LOG_HPP__
 #define __LOG_HPP__
 /* Usage:
- * 1. include "log.hpp"
- * 2. call loginit() in the very beginning
- * 3. LOG(trace/debug/info/warning/error/fatal)<< "log message";
+ * 1.  include "log.hpp"
+ * 2a. LOG(loglevel_int, "log message");
+ * 2b. LOG_TAG("tagname");
  */
-#include <string>
 #ifdef DEBUGLOG
-	#include <boost/log/trivial.hpp>
-	#define LOG(x) BOOST_LOG_TRIVIAL(x)
+	#define LOG(nlvl, msg) BOOST_LOG_SEV((ConfigLogger::getLogger()), nlvl) << (msg)
+	#define LOG_TAG(tag_name) BOOST_LOG_NAMED_SCOPE(tag_name)
 #else /* DEBUGLOG */
-	#include <ostream>
-	#ifdef LOG_DEFINE_VAR
-		std::ostream _NullLog_(0);
-	#else /* LOG_DEFINE_VAR */
-		extern std::ostream _NullLog_;
-	#endif /* LOG_DEFINE_VAR */
-	#define LOG(x) _NullLog_
+	#define LOG(nlvl, msg)
+	#define LOG_TAG(tag_name)
 #endif /* DEBUGLOG */
 
-enum E_LOGLEVEL
+#ifdef DEBUGLOG
+#include <string>
+#include <boost/log/common.hpp>
+class ConfigLogger
 {
-	LEVEL_TRACE,
-	LEVEL_DEBUG,
-	LEVEL_INFO,
-	LEVEL_WARNING,
-	LEVEL_ERROR,
-	LEVEL_FATAL
+	public:
+		static boost::log::sources::severity_logger_mt< >& getLogger();
+		static void configTemplate();
+	private:
+		static void _init();
+		static const std::string s_config;
 };
+#endif /* DEBUGLOG */
 
-void loginit(E_LOGLEVEL eloglevel=LEVEL_TRACE, std::string filename="", bool console=true);
 #endif

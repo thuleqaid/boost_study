@@ -1,13 +1,23 @@
 #include "log.hpp"
-
-int main(int argc, char **argv)
+#include "argvutils.hpp"
+int main(int argc, char* argv[])
 {
-	loginit(LEVEL_TRACE);
-	LOG(trace)<< "trace message";
-	LOG(debug)<< "debug message";
-	LOG(info)<< "info message";
-	LOG(warning)<< "warning message";
-	LOG(error)<< "error message";
-	LOG(fatal)<< "fatal message";
+	ArgvUtils au = simple_argv(argc, argv);
+	if (!au) {
+		return 1;
+	}
+
+	/* ToDo: use arguments */
+	LOG_TAG("tag1");
+	LOG(4, "use argument");
+	if (au->getBoolOption("bo")) {
+		LOG_TAG("tag2");
+		LOG(4, "bo");
+	}
+	LOG(4, au->getIntegerOption("io", -1));
+	LOG_TAG("tag3");
+	LOG(4, au->getTextOption("so", "nothing"));
+
 	return 0;
 }
+

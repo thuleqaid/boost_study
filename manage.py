@@ -6,13 +6,11 @@ import re
 
 def parse_args():
 	parser=argparse.ArgumentParser(description='CXX project maker')
-	parser.add_argument('--nolog',action='store_true',dest='boostlog',help='new project without Boost.log')
 	parser.add_argument('--notest',action='store_true',dest='boosttest',help='new project without Boost.test')
 	parser.add_argument('projname',help='[ExistingPath/]ProjectName')
 	args=parser.parse_args()
 	outdict={}
 	outdict['path'],outdict['name']=os.path.split(os.path.abspath(args.projname))
-	outdict['log']=args.boostlog
 	outdict['test']=args.boosttest
 	return outdict
 
@@ -28,16 +26,12 @@ def projmaker(info):
 	if os.path.isdir(dir_newproj):
 		print("Error: dir[%s] already exists"%(dir_newproj,))
 		return
-	shutil.copytree(dir_template,dir_newproj,ignore=make_ignorefunc(dir_template,info['log'],info['test']))
+	shutil.copytree(dir_template,dir_newproj,ignore=make_ignorefunc(dir_template,info['test']))
 	modify_proj(info)
 
-def make_ignorefunc(basedir,flag_log,flag_test):
-	loglist=('include/log.hpp','src/log.cpp')
+def make_ignorefunc(basedir,flag_test):
 	testlist=('unittest',)
 	ignorelist=[]
-	if flag_log:
-		for item in loglist:
-			ignorelist.append(os.path.join(basedir,item))
 	if flag_test:
 		for item in testlist:
 			ignorelist.append(os.path.join(basedir,item))
@@ -59,9 +53,6 @@ def modify_proj(info):
 	if not info['test']:
 		cmakefile=os.path.join(info['path'],info['name'],'unittest','CMakeLists.txt')
 		modify_cmake_projname(cmakefile,info['name'])
-	if info['log']:
-		cmakefile=os.path.join(info['path'],info['name'],'entry','main.cpp')
-		modify_entry(cmakefile)
 
 def modify_cmake_projname(cmakefile,projname):
 	pat=re.compile(r'projname')
@@ -72,16 +63,6 @@ def modify_cmake_projname(cmakefile,projname):
 	for line in lines:
 		line=pat.sub(projname,line)
 		fout.write(line)
-	fout.close()
-
-def modify_entry(entryfile):
-	fin=open(entryfile,'r')
-	lines=fin.readlines()
-	fin.close()
-	fout=open(entryfile,'w')
-	for line in lines:
-		if 'log' not in line.lower():
-			fout.write(line)
 	fout.close()
 
 if __name__ == '__main__':

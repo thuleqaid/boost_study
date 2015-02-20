@@ -16,7 +16,7 @@ if(BOOST)
 	if(BOOSTLOG)
 		# Setting for Boost.log Library
 		add_definitions(-DDEBUGLOG)
-		link_libraries(boost_log boost_date_time boost_filesystem boost_system boost_thread)
+		link_libraries(boost_log boost_log_setup boost_date_time boost_filesystem boost_system boost_thread)
 	endif(BOOSTLOG)
 	if(BOOSTTEST)
 		# Setting for Boost.test Library

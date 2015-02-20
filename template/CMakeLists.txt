@@ -13,6 +13,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 option(GDB "switch for debug information for GDB" ON)
 option(BOOST "switch for Boost library" ON)
 option(BOOSTLOG "switch for Boost.log library" ON)
+option(BOOSTPO "switch for Boost.program_options library" ON)
 ## [Stop]set options here
 set(ROOT_DIR ".")
 include("${ROOT_DIR}/boost.cmake" OPTIONAL)
