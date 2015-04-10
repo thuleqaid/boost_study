@@ -3,6 +3,7 @@
 " mkdir temp
 " git clone http://github.com/gmarik/vundle.git bundle/vundle
 set nocompatible
+colorscheme darkblue
 
 set enc=utf-8
 set fileencodings=utf-8,cp936,sjis
@@ -43,9 +44,9 @@ set ai
 set si
 set nowrap
 
-if has("autocmd")
-    autocmd FileType python,javascript set expandtab
-endif
+"if has("autocmd")
+    "autocmd FileType python,javascript,php set expandtab
+"endif
 map <F5> "+y
 map <F6> "+p
 
@@ -146,6 +147,17 @@ Bundle 'bling/vim-airline'
 "multiple cursors
 Bundle 'terryma/vim-multiple-cursors'
 
+"AutoComplPop
+Bundle 'AutoComplPop'
+
+"OmniCppComplete
+Bundle 'OmniCppComplete'
+set tags+=~/work/cpp47.tag
+set tags+=~/work/boost.tag
+
+hi PmenuSel ctermbg=green
+hi PmenuSel guibg=green
+
 nmap <Leader>wl :NERDTreeToggle<CR>
 nmap <Leader>wr :TagbarToggle<CR>
 nmap <Leader>wa :NERDTree<CR>:TagbarOpen<CR>
@@ -212,14 +224,14 @@ function! s:genTag(name)
     "exec '!cscope -Rbkq'
     exec '!cscope -Rbc'
     ""set tags
-    exec ':set tags=' . dir  . 'tags'
+    exec ':set tags+=' . dir  . 'tags'
     exec ':cs add ' . dir . 'cscope.out'
 endfunction
 function! s:setTag(name)
     let dir=s:inputDir(a:name)
     "exec ':chdir '. dir
     if filereadable(dir.'tags')
-        exec ':set tags=' . dir  . 'tags'
+        exec ':set tags+=' . dir  . 'tags'
     else
         echo 'Not found: '. dir . 'tags'
     endif

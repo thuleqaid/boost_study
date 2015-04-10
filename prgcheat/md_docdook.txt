@@ -1,0 +1,60 @@
+标题
+	#Title-Level-1
+	##Title-Level-2
+	###Title-Level-3
+	...
+	######Title-Level-6
+行内修饰
+	斜体
+		*text*
+		<emphasis>text</emphasis>
+	粗体
+		**text**
+		<emphasis role="bold">text</emphasis>
+	粗斜体
+		***text***
+	删除线
+		~~text~~
+	上下标
+		<superscript>,<subscript>
+列表
+	有序列表
+		1. item
+		<orderedlist><listitem>item</listitem></orderedlist>
+	无序列表
+		-/*/+ item
+		<itemizedlist><listitem>item</listitem></itemizedlist>
+表格
+	|col-header|col-header  |col-header |
+	|----------|:----------:|----------:|
+	|left-align|center-align|right-algin|
+	|left-align|center-align|right-algin|
+	<table>
+		<title>xxx</title>
+		<tgroup cols="n">
+			<colspec colnum='i' colname='name-i'/>
+			<thead>
+				<row>
+					<entry namest='name-i' nameend='name-j' align='align method'>xxx</entry>
+				</row>
+			</thead>
+			<tfoot>
+				<row>
+					<entry namest='name-i' nameend='name-j' align='align method'>xxx</entry>
+				</row>
+			</tfoot>
+			<tbody>
+				<row>
+					<entry namest='name-i' nameend='name-j' align='align method' morerows='cols' valign='align method'>xxx</entry>
+				</row>
+			</tbody>
+		</tgroup>
+	</table>
+链接
+	[text](url)
+	[text](url "title")
+	<link xlink:href="url">text</link>
+	<link linkend="xmlid">text</link>   <para id="xmlid">...</para>
+图片
+	![alt-text](image-url)
+	[![alt-text](image-url)](url)
