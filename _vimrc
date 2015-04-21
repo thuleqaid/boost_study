@@ -50,6 +50,7 @@ set nowrap
 map <F5> "+y
 map <F6> "+p
 
+set rtp+=~/.vim/vimfiles/
 filetype off                  " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -98,21 +99,11 @@ Bundle 'Tagbar'
 "JavaScript-syntax
 Bundle 'JavaScript-syntax'
 
-"WordPress
-Bundle 'VimRepress'
-
-""vim-pad
-"Bundle 'vim-pad'
-"let g:pad_dir = '~/.vim/note'
-
 "markdown
 Bundle 'godlygeek/tabular'
 Bundle 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_initial_foldlevel=1
-
-"Detect file encoding
-Bundle 'FencView.vim'
 
 "Git
 ""Bundle 'fugitive.vim'
