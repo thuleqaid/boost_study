@@ -51,6 +51,10 @@ map <F5> "+y
 map <F6> "+p
 
 set rtp+=~/.vim/vimfiles/
+if has("autocmd")
+    autocmd BufRead * ModifyTagAutoExpandTab
+endif
+
 filetype off                  " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
