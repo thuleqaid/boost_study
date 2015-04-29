@@ -87,7 +87,7 @@ more information.
     Plugin 'tpope/vim-fugitive'
     " plugin from http://vim-scripts.org/vim/scripts.html
     Plugin 'L9'
-    " plugin not on GitHub
+    " Git plugin not hosted on GitHub
     Plugin 'git://git.wincent.com/command-t.git'
     " git repos on your local machine (i.e. when working on your own plugin)
     Plugin 'file:///home/gmarik/path/to/plugin'
@@ -139,7 +139,7 @@ follow on the same line as the command. Example:
 >
   Plugin 'git_URI'
 
-The `Bundle` command can optionally take a second argument after the URI. It
+The `Plugin` command can optionally take a second argument after the URI. It
 has to be a dictionary, separated from the URI by a comma. Each key-value pair
 in the dictionary is a configuration option.
 
@@ -244,8 +244,16 @@ PluginInstall allows installation of plugins by name:
 >
   :PluginInstall unite.vim
 
-Installs and activates unite.vim. You can use Tab to auto-complete known
-script names. Note that the installation just described isn't permanent. To
+Installs and activates unite.vim.
+
+PluginInstall also allows installation of several plugins separated by space.
+>
+  :PluginInstall tpope/vim-surround tpope/vim-fugitive
+
+Installs both tpope/vim-surround and tpope/vim-fugitive from GitHub.
+
+You can use Tab to auto-complete known script names.
+Note that the installation just described isn't permanent. To
 finish, you must put `Plugin 'unite.vim'` at the appropriate place in your
 `.vimrc` to tell Vundle to load the plugin at startup.
 
@@ -262,6 +270,12 @@ or >
 Installs or updates the configured plugins. Press 'u' after updates complete
 to see the change log of all updated bundles. Press 'l' (lowercase 'L') to
 see the log of commands if any errors occurred.
+
+To update specific plugins, write their names separated by space:
+>
+  :PluginInstall! vim-surround vim-fugitive
+or >
+  :PluginUpdate vim-surround vim-fugitive
 
 3.5 SEARCHING PLUGINS ~
                                       *vundle-plugins-search* *:PluginSearch*

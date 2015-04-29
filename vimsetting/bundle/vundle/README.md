@@ -20,7 +20,7 @@
 
 [Vundle] is undergoing an [interface change], please stay up to date to get latest changes.
 
-[![Gitter-chat](https://badges.gitter.im/gmarik/Vundle.vim.png)](https://gitter.im/gmarik/Vundle.vim) for discussion and support.
+[![Gitter-chat](https://badges.gitter.im/gmarik/Vundle.vim.svg)](https://gitter.im/gmarik/Vundle.vim) for discussion and support.
 
 ![Vundle-installer](http://i.imgur.com/Rueh7Cc.png)
 
@@ -33,6 +33,8 @@
 
    If you are using Windows, go directly to [Windows setup]. If you run into any issues, please consult the [FAQ].
    See [Tips] for some advanced configurations.
+
+   Using non-POSIX shells, such as the popular Fish shell, requires additional setup. Please check the [FAQ].
 
 2. Set up [Vundle]:
 
@@ -61,7 +63,7 @@
    Plugin 'tpope/vim-fugitive'
    " plugin from http://vim-scripts.org/vim/scripts.html
    Plugin 'L9'
-   " plugin not on GitHub
+   " Git plugin not hosted on GitHub
    Plugin 'git://git.wincent.com/command-t.git'
    " git repos on your local machine (i.e. when working on your own plugin)
    Plugin 'file:///home/gmarik/path/to/plugin'
@@ -78,10 +80,10 @@
    "filetype plugin on
    "
    " Brief help
-   " :PluginList          - list configured plugins
-   " :PluginInstall(!)    - install (update) plugins
-   " :PluginSearch(!) foo - search (or refresh cache first) for foo
-   " :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
+   " :PluginList       - lists configured plugins
+   " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+   " :PluginSearch foo - searches for foo; append `!` to refresh local cache
+   " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
    "
    " see :h vundle for more details or wiki for FAQ
    " Put your non-Plugin stuff after this line
@@ -149,10 +151,10 @@ see [Vundle contributors](https://github.com/gmarik/Vundle.vim/graphs/contributo
 [help tags]:http://vimdoc.sourceforge.net/htmldoc/helphelp.html#:helptags
 [runtime path]:http://vimdoc.sourceforge.net/htmldoc/options.html#%27runtimepath%27
 
-[configure]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L126-L233
-[install]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L234-L254
-[update]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L255-L265
-[search]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L266-L295
-[clean]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L303-L318
-[interactive mode]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L319-L360
-[interface change]:https://github.com/gmarik/Vundle.vim/blob/master/doc/vundle.txt#L372-L396
+[configure]:https://github.com/gmarik/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L126-L233
+[install]:https://github.com/gmarik/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L234-L254
+[update]:https://github.com/gmarik/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L255-L265
+[search]:https://github.com/gmarik/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L266-L295
+[clean]:https://github.com/gmarik/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L303-L318
+[interactive mode]:https://github.com/gmarik/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L319-L360
+[interface change]:https://github.com/gmarik/Vundle.vim/blob/v0.10.2/doc/vundle.txt#L372-L396

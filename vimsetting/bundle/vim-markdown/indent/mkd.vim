@@ -3,14 +3,14 @@ let b:did_indent = 1
 
 setlocal indentexpr=GetMkdIndent()
 setlocal nolisp
-setlocal nosmartindent
 setlocal autoindent
 
 " Only define the function once
 if exists("*GetMkdIndent") | finish | endif
 
 function! s:is_li_start(line)
-    return a:line =~ '^\s*[\*+-]'
+    return a:line !~ '^ *\([*-]\)\%( *\1\)\{2}\%( \|\1\)*$' &&
+      \    a:line =~ '^\s*[*+-] \+'
 endfunction
 
 function! s:is_blank_line(line)

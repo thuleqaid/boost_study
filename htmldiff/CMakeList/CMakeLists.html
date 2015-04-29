@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>diff</title>
+<meta name="Generator" content="Vim/7.4">
+<meta name="plugin-version" content="vim7.4_v1">
+<meta name="settings" content="number_lines,whole_filler,use_css,no_foldcolumn,expand_tabs,line_ids,prevent_copy=">
+<meta name="colorscheme" content="darkblue">
+<style type="text/css">
+<!--
+pre { font-family: monospace; color: #ffffff; background-color: #808080; }
+body { font-family: monospace; color: #ffffff; background-color: #808080; }
+* { font-size: 1em; }
+.Type { color: #00ff00; }
+.Statement { color: #ffff00; }
+.LineNr { color: #00ff00; }
+.Comment { color: #ff6060; }
+.Constant { color: #ff40ff; }
+.Identifier { color: #00ffff; }
+.DiffAdd { background-color: #8080ff; padding-bottom: 1px; }
+.DiffChange { background-color: #ff40ff; padding-bottom: 1px; }
+.DiffDelete { color: #8080ff; background-color: #00ffff; padding-bottom: 1px; font-weight: bold; }
+.DiffText { background-color: #ff6060; padding-bottom: 1px; font-weight: bold; }
+-->
+<!--
+table { table-layout: fixed; }
+html, body, table, tbody { width: 100%; margin: 0; padding: 0; }
+th, td { width: 50.0%; }
+td div { overflow: auto; }
+-->
+</style>
+<script type='text/javascript'>
+<!--
+
+/* function to open any folds containing a jumped-to line before jumping to it */
+function JumpToLine()
+{
+  var lineNum;
+  lineNum = window.location.hash;
+  lineNum = lineNum.substr(1); /* strip off '#' */
+
+  if (lineNum.indexOf('L') == -1) {
+    lineNum = 'L'+lineNum;
+  }
+  if (lineNum.indexOf('W') == -1) {
+    lineNum = 'W1'+lineNum;
+  }
+  lineElem = document.getElementById(lineNum);
+  /* Always jump to new location even if the line was hidden inside a fold, or
+   * we corrected the raw number to a line ID.
+   */
+  if (lineElem) {
+    lineElem.scrollIntoView(true);
+  }
+  return true;
+}
+if ('onhashchange' in window) {
+  window.onhashchange = JumpToLine;
+}
+
+-->
+</script>
+</head>
+<body onload='JumpToLine();'>
+<table border='1' width='100%' id='vimCodeElement'>
+<tr>
+<th>/home/thuleqaid/work/github/boost_study/demo-xml/CMakeLists.txt</th>
+<th>/home/thuleqaid/work/github/boost_study/template/CMakeLists.txt</th>
+</tr><tr>
+<td valign="top"><div>
+<pre>
+<span id="W1L1" class="LineNr"> 1 </span><span class="Statement">cmake_minimum_required</span><span class="Identifier">(VERSION 2.8)</span>
+<span id="W1L2" class="LineNr"> 2 </span><span class="Statement DiffChange">project</span><span class="Identifier DiffChange">(</span><span class="Identifier DiffText">demo-xml</span><span class="Identifier DiffChange"> CXX)</span><span class="DiffChange">                                                                                                                                                                        </span>
+<span id="W1L3" class="LineNr"> 3 </span><span class="Comment"># check os</span>
+<span id="W1L4" class="LineNr"> 4 </span><span class="Statement">if</span><span class="Identifier">(</span>WIN32<span class="Identifier">)</span>
+<span id="W1L5" class="LineNr"> 5 </span>    <span class="Statement">add_definitions</span><span class="Identifier">(-DWIN32)</span>
+<span id="W1L6" class="LineNr"> 6 </span><span class="Statement">else</span><span class="Identifier">()</span>
+<span id="W1L7" class="LineNr"> 7 </span>    <span class="Statement">add_definitions</span><span class="Identifier">(-DUNIX)</span>
+<span id="W1L8" class="LineNr"> 8 </span><span class="Statement">endif</span><span class="Identifier">()</span>
+<span id="W1L9" class="LineNr"> 9 </span><span class="Comment"># Setting for Complie</span>
+<span id="W1L10" class="LineNr">10 </span><span class="Statement">set</span><span class="Identifier">(CMAKE_CXX_COMPILER </span><span class="Constant">&quot;/usr/bin/g++&quot;</span><span class="Identifier">)</span>
+<span id="W1L11" class="LineNr">11 </span><span class="Statement">set</span><span class="Identifier">(CMAKE_CXX_FLAGS </span><span class="Constant">&quot;</span><span class="Type">${CMAKE_CXX_FLAGS}</span><span class="Constant"> -std=c++11 -Wall&quot;</span><span class="Identifier">)</span>
+<span id="W1L12" class="LineNr">12 </span><span class="Comment">## [Start]set options here</span>
+<span id="W1L13" class="LineNr">13 </span><span class="Statement">option</span><span class="Identifier">(GDB </span><span class="Constant">&quot;switch for debug information for GDB&quot;</span><span class="Identifier"> </span><span class="Statement">ON</span><span class="Identifier">)</span>
+<span id="W1L14" class="LineNr">14 </span><span class="Statement">option</span><span class="Identifier">(BOOST </span><span class="Constant">&quot;switch for Boost library&quot;</span><span class="Identifier"> </span><span class="Statement">ON</span><span class="Identifier">)</span>
+<span id="W1L15" class="LineNr">15 </span><span class="Statement">option</span><span class="Identifier">(BOOSTLOG </span><span class="Constant">&quot;switch for Boost.log library&quot;</span><span class="Identifier"> </span><span class="Statement">ON</span><span class="Identifier">)</span>
+<span class="LineNr">   </span><span class="DiffDelete">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span id="W1L16" class="LineNr">16 </span><span class="Comment">## [Stop]set options here</span>
+<span id="W1L17" class="LineNr">17 </span><span class="Statement">set</span><span class="Identifier">(ROOT_DIR </span><span class="Constant">&quot;.&quot;</span><span class="Identifier">)</span>
+<span id="W1L18" class="LineNr">18 </span><span class="Statement">include</span><span class="Identifier">(</span><span class="Constant">&quot;</span><span class="Type">${ROOT_DIR}</span><span class="Constant">/boost.cmake&quot;</span><span class="Identifier"> OPTIONAL)</span>
+<span id="W1L19" class="LineNr">19 </span><span class="Statement">include</span><span class="Identifier">(</span><span class="Constant">&quot;</span><span class="Type">${ROOT_DIR}</span><span class="Constant">/main.cmake&quot;</span><span class="Identifier">)</span>
+<span id="W1L20" class="LineNr">20 </span><span class="Comment"># Setting for Link</span>
+<span id="W1L21" class="LineNr">21 </span><span class="Statement">add_executable</span><span class="Identifier">(</span><span class="Type">${PROJECT_NAME}</span><span class="Identifier"> </span><span class="Type">${SOURCE}</span><span class="Identifier"> </span><span class="Type">${ENTRY}</span><span class="Identifier">)</span>
+<span id="W1L22" class="LineNr">22 </span><span class="Statement">set</span><span class="Identifier">(EXECUTABLE_OUTPUT_PATH </span><span class="Constant">&quot;</span><span class="Type">${CMAKE_CURRENT_SOURCE_DIR}</span><span class="Constant">/</span><span class="Type">${ROOT_DIR}</span><span class="Constant">/bin&quot;</span><span class="Identifier">)</span>
+</pre>
+</div></td>
+<td valign="top"><div>
+<pre>
+<span id="W2L1" class="LineNr"> 1 </span><span class="Statement">cmake_minimum_required</span><span class="Identifier">(VERSION 2.8)</span>
+<span id="W2L2" class="LineNr"> 2 </span><span class="Statement DiffChange">project</span><span class="Identifier DiffChange">(</span><span class="Identifier DiffText">projname</span><span class="Identifier DiffChange"> CXX)</span><span class="DiffChange">                                                                                                                                                                        </span>
+<span id="W2L3" class="LineNr"> 3 </span><span class="Comment"># check os</span>
+<span id="W2L4" class="LineNr"> 4 </span><span class="Statement">if</span><span class="Identifier">(</span>WIN32<span class="Identifier">)</span>
+<span id="W2L5" class="LineNr"> 5 </span>    <span class="Statement">add_definitions</span><span class="Identifier">(-DWIN32)</span>
+<span id="W2L6" class="LineNr"> 6 </span><span class="Statement">else</span><span class="Identifier">()</span>
+<span id="W2L7" class="LineNr"> 7 </span>    <span class="Statement">add_definitions</span><span class="Identifier">(-DUNIX)</span>
+<span id="W2L8" class="LineNr"> 8 </span><span class="Statement">endif</span><span class="Identifier">()</span>
+<span id="W2L9" class="LineNr"> 9 </span><span class="Comment"># Setting for Complie</span>
+<span id="W2L10" class="LineNr">10 </span><span class="Statement">set</span><span class="Identifier">(CMAKE_CXX_COMPILER </span><span class="Constant">&quot;/usr/bin/g++&quot;</span><span class="Identifier">)</span>
+<span id="W2L11" class="LineNr">11 </span><span class="Statement">set</span><span class="Identifier">(CMAKE_CXX_FLAGS </span><span class="Constant">&quot;</span><span class="Type">${CMAKE_CXX_FLAGS}</span><span class="Constant"> -std=c++11 -Wall&quot;</span><span class="Identifier">)</span>
+<span id="W2L12" class="LineNr">12 </span><span class="Comment">## [Start]set options here</span>
+<span id="W2L13" class="LineNr">13 </span><span class="Statement">option</span><span class="Identifier">(GDB </span><span class="Constant">&quot;switch for debug information for GDB&quot;</span><span class="Identifier"> </span><span class="Statement">ON</span><span class="Identifier">)</span>
+<span id="W2L14" class="LineNr">14 </span><span class="Statement">option</span><span class="Identifier">(BOOST </span><span class="Constant">&quot;switch for Boost library&quot;</span><span class="Identifier"> </span><span class="Statement">ON</span><span class="Identifier">)</span>
+<span id="W2L15" class="LineNr">15 </span><span class="Statement">option</span><span class="Identifier">(BOOSTLOG </span><span class="Constant">&quot;switch for Boost.log library&quot;</span><span class="Identifier"> </span><span class="Statement">ON</span><span class="Identifier">)</span>
+<span id="W2L16" class="LineNr">16 </span><span class="Statement DiffAdd">option</span><span class="Identifier DiffAdd">(BOOSTPO </span><span class="Constant DiffAdd">&quot;switch for Boost.program_options library&quot;</span><span class="Identifier DiffAdd"> </span><span class="Statement DiffAdd">ON</span><span class="Identifier DiffAdd">)</span><span class="DiffAdd">                                                                                                                                </span>
+<span id="W2L17" class="LineNr">17 </span><span class="Comment">## [Stop]set options here</span>
+<span id="W2L18" class="LineNr">18 </span><span class="Statement">set</span><span class="Identifier">(ROOT_DIR </span><span class="Constant">&quot;.&quot;</span><span class="Identifier">)</span>
+<span id="W2L19" class="LineNr">19 </span><span class="Statement">include</span><span class="Identifier">(</span><span class="Constant">&quot;</span><span class="Type">${ROOT_DIR}</span><span class="Constant">/boost.cmake&quot;</span><span class="Identifier"> OPTIONAL)</span>
+<span id="W2L20" class="LineNr">20 </span><span class="Statement">include</span><span class="Identifier">(</span><span class="Constant">&quot;</span><span class="Type">${ROOT_DIR}</span><span class="Constant">/main.cmake&quot;</span><span class="Identifier">)</span>
+<span id="W2L21" class="LineNr">21 </span><span class="Comment"># Setting for Link</span>
+<span id="W2L22" class="LineNr">22 </span><span class="Statement">add_executable</span><span class="Identifier">(</span><span class="Type">${PROJECT_NAME}</span><span class="Identifier"> </span><span class="Type">${SOURCE}</span><span class="Identifier"> </span><span class="Type">${ENTRY}</span><span class="Identifier">)</span>
+<span id="W2L23" class="LineNr">23 </span><span class="Statement">set</span><span class="Identifier">(EXECUTABLE_OUTPUT_PATH </span><span class="Constant">&quot;</span><span class="Type">${CMAKE_CURRENT_SOURCE_DIR}</span><span class="Constant">/</span><span class="Type">${ROOT_DIR}</span><span class="Constant">/bin&quot;</span><span class="Identifier">)</span>
+</pre>
+</div></td>
+</tr>
+</table>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->
+

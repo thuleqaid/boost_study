@@ -1,9 +1,11 @@
 " Name    : ModifyTag
 " Object  : add modify history for c/c++ source
 " Author  : thuleqaid@163.com
-" Date    : 2015/04/23
-" Version : v1.0
+" Date    : 2015/04/29
+" Version : v1.1
 " ChangeLog
+" v1.1 2015/04/29
+"   add s:Diff2Html() to generate diff-files in html format (slow)
 " v1.0 2015/04/23
 "   make settings available to .vimrc
 " v0.9 2015/04/23
@@ -71,6 +73,7 @@ let g:mt_tag_key2 = get(g:, 'mt_tag_key2', '') "optional
 let g:mt_tag_key3 = get(g:, 'mt_tag_key3', '') "optional
 let g:mt_tag_allowr = get(g:, 'mt_tag_allowr', 1) "0: without reason line, 1: with reason line
 let g:mt_tag_reason = get(g:, 'mt_tag_reason', 'default modify reason') "default modify-reason
+let g:mt_tag_diffall = get(g:, 'mt_tag_diffall', 1) "show both match lines and mismatch lines
 " Paramater II
 " this part should be unique for every people
 let g:mt_tag_user   = get(g:, 'mt_tag_user', 'anonymous')
@@ -103,6 +106,7 @@ command! -n=+ -bar ModifyTagStaticCheck :call s:StaticCheck(<f-args>)
 command! -n=+ -bar ModifyTagListStaticCheck :call s:ListStaticCheck(<f-args>)
 command! -n=0 -bar ModifyTagFilterStaticCheck :call s:FilterStaticCheck()
 command! -n=0 -bar ModifyTagAutoExpandTab :call s:AutoExpandTab()
+command! -n=+ -bar ModifyTagDiff2Html :call s:Diff2Html(<f-args>)
 " key-binding
 nmap <Leader>ta :ModifyTagAddSource<CR>
 vmap <Leader>tc :ModifyTagChgSource<CR>
@@ -122,6 +126,25 @@ nmap <Leader>tL :ModifyTagStaticCheck 1 1<CR>
 nmap <Leader>tZ :ModifyTagStaticCheck 1 0<CR>
 nmap <Leader>tf :ModifyTagFilterStaticCheck<CR>
 
+function! s:Diff2Html(oldfile, newfile, outfile)
+	silent! exe 'e ' . a:newfile
+	silent! exe 'diffthis'
+	silent! exe 'vsplit ' . a:oldfile
+	silent! exe 'diffthis'
+	if g:mt_tag_diffall > 0
+		silent! exe 'normal zR'
+	endif
+	silent! exe 'TOhtml'
+	silent! exe 'only'
+	silent! exe 'buf Diff.html'
+	call s:createPath(a:outfile)
+	silent! exe 'w ' . a:outfile
+	silent! exe 'bd ' . a:oldfile
+	silent! exe 'bd ' . a:oldfile . '.html'
+	silent! exe 'bd ' . a:newfile
+	silent! exe 'bd ' . a:newfile . '.html'
+	silent! exe 'bd! Diff.html'
+endfunction
 function! s:AutoExpandTab()
 	let l:leadingTab = search("^\t","n")
 	let l:leadingSpace = search("^ \\{2,\\}","n")
@@ -997,5 +1020,11 @@ function! s:ListStaticCheck(loopcheck, outnr)
 	for l:linetext in l:outlines
 		call append('$', l:curfile . "\t" . l:linetext)
 	endfor
+endfunction
+function! s:createPath(filename)
+	let l:filepath = fnamemodify(a:filename, ':p:h')
+	if !isdirectory(l:filepath)
+		call mkdir(l:filepath, 'p')
+	endif
 endfunction
 

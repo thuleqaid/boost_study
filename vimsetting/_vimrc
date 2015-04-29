@@ -58,6 +58,7 @@ let g:mt_tag_key2 = 'Key Level 2'
 let g:mt_tag_key3 = 'Key Level 3'
 let g:mt_tag_allowr = 1
 let g:mt_tag_reason = 'default modify reason'
+let g:mt_tag_diffall = 0
 "" developer info
 let g:mt_tag_user   = 'thuleqaid'
 let g:mt_tag_vigrep = 1
@@ -72,69 +73,69 @@ endif
 
 filetype off                  " required!
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call vundle#begin()
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 "Surround
-Bundle 'surround.vim'
+Plugin 'surround.vim'
 
 "VisIncr
-Bundle 'VisIncr'
+Plugin 'VisIncr'
 
 "snipMate
-Bundle 'snipMate'
+Plugin 'snipMate'
 
 "Calendar
-Bundle 'calendar.vim'
+Plugin 'calendar.vim'
 
 "Undo-Tree
-Bundle 'mbbill/undotree'
+Plugin 'mbbill/undotree'
 if has("persistent_undo")
     set undodir=~/.vim/temp
     set undofile
 endif
 
 "Multiple Highlight
-Bundle 'Mark--Karkat'
+Plugin 'Mark--Karkat'
 let g:mwAutoSaveMarks = 0
 
 " MiniBufExplorer
-Bundle 'minibufexpl.vim'
+Plugin 'minibufexpl.vim'
 let g:miniBufExplMapWindowNavVim=1
 set hidden
 
 "NERDCommenter
-Bundle 'The-NERD-Commenter'
+Plugin 'The-NERD-Commenter'
 
 "NERDTree
-Bundle 'The-NERD-tree'
+Plugin 'The-NERD-tree'
 
 "Tagbar TagList's replacement
-Bundle 'Tagbar'
+Plugin 'Tagbar'
 "let g:tagbar_left = 1
 
 "JavaScript-syntax
-Bundle 'JavaScript-syntax'
+Plugin 'JavaScript-syntax'
 
 "markdown
-Bundle 'godlygeek/tabular'
-Bundle 'plasticboy/vim-markdown'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_initial_foldlevel=1
 
 "Git
 ""Bundle 'fugitive.vim'
-Bundle 'motemen/git-vim'
+Plugin 'motemen/git-vim'
 "" show branch name in the status line
 "set laststatus=2
 "set statusline=%{GitBranch()}
-Bundle 'airblade/vim-gitgutter'
+Plugin 'airblade/vim-gitgutter'
 let g:gitgutter_max_signs = 9999
 
 "Syntax check
-Bundle 'Syntastic'
+Plugin 'Syntastic'
 ""C
 let g:syntastic_c_check_header=1
 let g:syntastic_c_auto_refresh_includes=1
@@ -150,30 +151,34 @@ let g:syntastic_cpp_compiler='g++'
 ""python
 
 "EasyMotion
-Bundle 'EasyMotion'
+Plugin 'EasyMotion'
 
 "Status bar
-Bundle 'bling/vim-airline'
+Plugin 'bling/vim-airline'
 
 "multiple cursors
-Bundle 'terryma/vim-multiple-cursors'
+Plugin 'terryma/vim-multiple-cursors'
 
 "AutoComplPop
-Bundle 'AutoComplPop'
+Plugin 'AutoComplPop'
 
 "OmniCppComplete
-Bundle 'OmniCppComplete'
+Plugin 'OmniCppComplete'
 set tags+=~/work/cpp47.tag
 set tags+=~/work/boost.tag
 
 hi PmenuSel ctermbg=green
 hi PmenuSel guibg=green
 
+"VOom
+Plugin 'VOom'
+
 nmap <Leader>wl :NERDTreeToggle<CR>
 nmap <Leader>wr :TagbarToggle<CR>
 nmap <Leader>wa :NERDTree<CR>:TagbarOpen<CR>
 nmap <Leader>wc :NERDTreeClose<CR>:TagbarClose<CR>
 
+call vundle#end()
 filetype plugin indent on     " required!
 "
 " Brief help
