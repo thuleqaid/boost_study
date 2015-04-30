@@ -70,9 +70,6 @@ let g:mt_tag_co     = ''
 if has("autocmd")
     autocmd BufRead * ModifyTagAutoExpandTab
 endif
-" vimide.vim
-""let g:vimide_showmenu = 1
-""let g:vimide_prjlist = '~/.vim/vimide_prj.list'
 
 filetype off                  " required!
 set rtp+=~/.vim/bundle/vundle/
@@ -175,11 +172,6 @@ hi PmenuSel guibg=green
 
 "VOom
 Plugin 'VOom'
-
-nmap <Leader>wl :NERDTreeToggle<CR>
-nmap <Leader>wr :TagbarToggle<CR>
-nmap <Leader>wa :NERDTree<CR>:TagbarOpen<CR>
-nmap <Leader>wc :NERDTreeClose<CR>:TagbarClose<CR>
 
 call vundle#end()
 filetype plugin indent on     " required!

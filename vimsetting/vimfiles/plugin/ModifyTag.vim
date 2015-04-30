@@ -1,9 +1,11 @@
 " Name    : ModifyTag
 " Object  : add modify history for c/c++ source
 " Author  : thuleqaid@163.com
-" Date    : 2015/04/29
-" Version : v1.1
+" Date    : 2015/04/30
+" Version : v1.2
 " ChangeLog
+" v1.2 2015/04/30
+"   allow selecting added code to add add-tag later
 " v1.1 2015/04/29
 "   add s:Diff2Html() to generate diff-files in html format (slow)
 " v1.0 2015/04/23
@@ -109,6 +111,7 @@ command! -n=0 -bar ModifyTagAutoExpandTab :call s:AutoExpandTab()
 command! -n=+ -bar ModifyTagDiff2Html :call s:Diff2Html(<f-args>)
 " key-binding
 nmap <Leader>ta :ModifyTagAddSource<CR>
+vmap <Leader>ta :ModifyTagAddSource<CR>
 vmap <Leader>tc :ModifyTagChgSource<CR>
 vmap <Leader>td :ModifyTagDelSource<CR>
 nmap <Leader>tu :ModifyTagUpdateLines<CR>
@@ -612,9 +615,14 @@ function! s:ModifyTag(type, startlineno, endlineno)
 	endif
 	" middle part
 	if a:type == 'add'
-		" add an empty line
-		call append(l:curlineno, '')
-		let l:curlineno += 1
+		if a:endlineno - a:startlineno > 0
+			" multilines are selected
+			let l:curlineno = l:curlineno + a:endlineno - a:startlineno + 1
+		else
+			" add an empty line
+			call append(l:curlineno, '')
+			let l:curlineno += 1
+		endif
 		let l:poslineno = l:curlineno
 	elseif a:type == 'chg'
 		" skip select lines

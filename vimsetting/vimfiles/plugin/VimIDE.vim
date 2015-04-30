@@ -8,17 +8,28 @@ command! -n=? -complete=dir -bar VideSetTag :call s:setTag('<args>')
 command! -n=0 -bar VideUpdateTag :call s:updateTag()
 command! -n=0 -bar VideListTag :call s:listProjects()
 command! -n=1 -bar VideSelectTag :call s:setTagByIdx(<args>)
+command! -n=0 -bar VideDisconnectTag :call s:unsetTag()
 
-nmap <C-\>z :VideSetTag 
+nmap <Leader>wl :NERDTreeToggle<CR>
+nmap <Leader>wr :TagbarToggle<CR>
+nmap <Leader>wa :NERDTree<CR>:TagbarOpen<CR>
+nmap <Leader>wc :NERDTreeClose<CR>:TagbarClose<CR>
+
+nmap <Leader>vl :VideListTag<CR>
+nmap <Leader>vu :VideUpdateTag<CR>
+nmap <Leader>vd :VideDisconnectTag<CR>
+
+nmap <C-\>y :VideSelectTag 
+nmap <C-\>Y :VideSetTag 
 nmap <C-\>Z :VideGenerateTag 
-nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>	
-nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>	
-nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>	
-nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>	
-nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>	
-nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>	
+nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
 nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>	
+nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 nmap <C-\>S :cs find s 
 nmap <C-\>G :cs find g 
 nmap <C-\>C :cs find c 
@@ -29,8 +40,12 @@ nmap <C-\>I :cs find i
 nmap <C-\>D :cs find d 
 
 if g:vimide_showmenu > 0
-    exe 'menu VimIDE.Generate\ Tags\.\.\.<tab><C-\\>Z		<C-\>Z'
-    exe 'menu VimIDE.Set\ Tags\.\.\.<tab><C-\\>Z		<C-\>z'
+    exe 'menu VimIDE.List\ Tags<tab>\\vl		<Leader>vl'
+    exe 'menu VimIDE.Select\ Tag\.\.\.<tab><C-\\>y		<C-\>y'
+    exe 'menu VimIDE.Disconnect\ Tag<tab>\\vd		<Leader>vd'
+    exe 'menu VimIDE.Update\ Tag<tab>\\vu		<Leader>vu'
+    exe 'menu VimIDE.Generate\ Tag\.\.\.<tab><C-\\>Z		<C-\>Z'
+    exe 'menu VimIDE.Set\ Tag\.\.\.<tab><C-\\>Y		<C-\>Y'
     exe 'menu VimIDE.-SEP1-		<Nop>'
     exe 'menu VimIDE.Files\ Browser<tab>\\wl		<Leader>wl'
     exe 'menu VimIDE.Symbols\ Browser<tab>\\wr		<Leader>wr'
@@ -161,7 +176,18 @@ function! s:appendPrjList(prjname, prjroot)
     call s:savePrjList()
 endfunction
 function! s:setTagByIdx(idx)
+    if len(s:prjlist) < 1
+        call s:loadPrjList()
+    endif
     if a:idx < len(s:prjlist)
         call s:setTag(s:prjlist[a:idx][1])
+    endif
+endfunction
+function! s:unsetTag()
+    if len(s:currenttag) > 0
+        let l:tagfile = globpath(s:currenttag, 'tags')
+        silent! exe 'cs kill -1'
+        exe ':set tags-=' . l:tagfile
+        let s:currenttag = ''
     endif
 endfunction
