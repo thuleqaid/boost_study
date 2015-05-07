@@ -1,9 +1,14 @@
 " Name    : ModifyTag
 " Object  : add modify history for c/c++ source
 " Author  : thuleqaid@163.com
-" Date    : 2015/04/30
-" Version : v1.2
+" Date    : 2015/05/07
+" Version : v1.4
 " ChangeLog
+" v1.4 2015/05/07
+"   modify s:RemoveTag() to get different output form by setting g:mt_tag_rmode
+"   modify s:constructReasonLine() to allow user to select one reason from a predefined list(g:mt_tag_rlist)
+" v1.3 2015/05/06
+"   add s:RemoveTag()
 " v1.2 2015/04/30
 "   allow selecting added code to add add-tag later
 " v1.1 2015/04/29
@@ -56,8 +61,24 @@
 " 1. use <Leader>tu to update lines of modified code in the current file
 " 2. use <Leader>tm to count selected lines
 " CodeReview Command :
-" 1. use <Leader>to to approve selected lines
+" 1a. use <Leader>to to approve selected lines
+" 1b. use <Leader>tO to approve selected lines(the whole modify section must be selected)
 " 2. use <Leader>tn to approve selected lines
+" Difference between <Leader>to and <Leader>tO
+" 1. select a part of modify section
+"    <Leader>to: work(for a change block, split into one delete block and one add block first)
+"    <Leader>tO: not work
+" 2. result
+"    <Original Source>    | <Leader>to           | <Leader>tO(rmode:0)  | <Leader>tO(rmode:1)  | <Leader>tO(rmode:2)  | <Leader>tO(rmode:3)  |
+"    /* tag_start */      |                      |                      |                      |                      |                      |
+"    /* keyword line */   |                      |                      |                      |                      |                      |
+"    /* reason line */    |                      |                      | /* reason line */    | /* reason line sta */| /* reason line sta */|
+"    #if 0                |                      | #if 0                | #if 0                | #if 0                |                      |
+"      old source         |                      |   old source         |   old source         |   old source         |                      |
+"    #else                |                      | #else                | #else                | #else                |                      |
+"      new source         |   new source         |   new source         |   new source         |   new source         |   new source         |
+"    #endif               |                      | #endif               | #endif               | #endif               |                      |
+"    /* tag_end */        |                      |                      |                      | /* reason line end */| /* reason line end */|
 " Static Check command
 " 1. use <Leader>tt to list all changes in the current directory
 " 2. use <Leader>tl/tl to list loop/divide statements in the modified files
@@ -74,7 +95,8 @@ let g:mt_tag_key1 = get(g:, 'mt_tag_key1', 'tag_key_1') "must
 let g:mt_tag_key2 = get(g:, 'mt_tag_key2', '') "optional
 let g:mt_tag_key3 = get(g:, 'mt_tag_key3', '') "optional
 let g:mt_tag_allowr = get(g:, 'mt_tag_allowr', 1) "0: without reason line, 1: with reason line
-let g:mt_tag_reason = get(g:, 'mt_tag_reason', 'default modify reason') "default modify-reason
+let g:mt_tag_rlist  = get(g:, 'mt_tag_rlist', ['No.1', 'No.2']) "predefined reason list
+let g:mt_tag_rmode  = get(g:, 'mt_tag_rmode', 2) "Used in <Leader>tO; 0: remove reason line, 1: hold reason line, 2: simplify modify-tag with reason
 let g:mt_tag_diffall = get(g:, 'mt_tag_diffall', 1) "show both match lines and mismatch lines
 " Paramater II
 " this part should be unique for every people
@@ -101,6 +123,7 @@ command! -n=0 -rang -bar ModifyTagDelSource :call s:ModifyTag('del',<line1>,<lin
 command! -n=0 -bar ModifyTagSumLines :call s:SumModifiedLines()
 command! -n=0 -bar ModifyTagTerminalCmd :call s:SearchCurrentDirectory()
 command! -n=0 -rang -bar ModifyTagOKChanges :<line1>,<line2>call s:ApproveChanges()
+command! -n=0 -rang -bar ModifyTagOKWithoutTag :<line1>,<line2>call s:RemoveTag()
 command! -n=0 -rang -bar ModifyTagNGChanges :<line1>,<line2>call s:DenyChanges()
 command! -n=0 -bar ModifyTagUpdateLinesBatch :call s:CalculateModifiedLinesBatch()
 command! -n=0 -bar ModifyTagUpdateLinesAndClose :call s:CalculateModifiedLinesAndClose()
@@ -120,6 +143,7 @@ nmap <Leader>ts :ModifyTagSumLines<CR>
 nmap <Leader>tt :ModifyTagTerminalCmd<CR>
 nmap <Leader>to :ModifyTagOKChanges<CR>
 vmap <Leader>to :ModifyTagOKChanges<CR>
+vmap <Leader>tO :ModifyTagOKWithoutTag<CR>
 nmap <Leader>tn :ModifyTagNGChanges<CR>
 vmap <Leader>tn :ModifyTagNGChanges<CR>
 nmap <Leader>tb :ModifyTagUpdateLinesBatch<CR>
@@ -234,6 +258,75 @@ function! s:CalculateModifiedLinesAndClose()
 	call s:CalculateModifiedLines()
 	silent! exe "write"
 	silent! exe "bdelete"
+endfunction
+function! s:RemoveTag() range
+	let l:pos = s:tellPos(a:firstline, a:lastline)
+	let l:i   = len(l:pos) - 5
+	if g:mt_tag_allowr > 0
+		let l:headlines = 3
+		let l:rmode     = g:mt_tag_rmode
+	else
+		let l:headlines = 2
+		let l:rmode     = 0
+	endif
+	while l:i >= 0
+		let l:type  = l:pos[l:i]
+		let l:line1 = l:pos[l:i+1]
+		let l:line2 = l:pos[l:i+2]
+		let l:line3 = l:pos[l:i+3]
+		let l:line4 = l:pos[l:i+4]
+		let l:i     = l:i - 5
+		if (l:line1 + 2 + g:mt_tag_allowr >= l:line3) && (l:line4 + 1 >= l:line2)
+			" full modify section must be selected
+			if l:rmode == 0
+				" remove reason line
+				silent exe 'normal ' . l:line2 . 'Gdd' . l:line1 . 'G' . l:headlines . 'dd'
+			elseif l:rmode == 1
+				" hold reason line
+				silent exe 'normal ' . l:line2 . 'Gdd' . l:line1 . 'G2dd'
+			elseif l:rmode == 2
+				" hold reason line and append reason line at the end of section
+				let l:reason0 = getline(l:line1 + 2)
+				let l:reason1 = strpart(l:reason0, 0, len(l:reason0) - len(g:mt_cmt_end))
+				if l:type == 'add'
+					let l:reason2 = l:reason1 . '-ADD-END' . g:mt_cmt_end
+					let l:reason1 = l:reason1 . '-ADD-BEGIN' . g:mt_cmt_end
+				elseif l:type == 'chg'
+					let l:reason2 = l:reason1 . '-MODIFY-END' . g:mt_cmt_end
+					let l:reason1 = l:reason1 . '-MODIFY-BEGIN' . g:mt_cmt_end
+				elseif l:type == 'del'
+					let l:reason2 = l:reason1 . '-DELETE-END' . g:mt_cmt_end
+					let l:reason1 = l:reason1 . '-DELETE-BEGIN' . g:mt_cmt_end
+				endif
+				call setline(l:line1 + 2, l:reason1)
+				call setline(l:line2, l:reason2)
+				silent exe 'normal ' . l:line1 . 'G2dd'
+			elseif l:rmode == 3
+				" hold reason line ,append reason line at the end of section, remove invalid code
+				let l:reason0 = getline(l:line1 + 2)
+				let l:reason1 = strpart(l:reason0, 0, len(l:reason0) - len(g:mt_cmt_end))
+				if l:type == 'add'
+					let l:reason2 = l:reason1 . '-ADD-END' . g:mt_cmt_end
+					let l:reason1 = l:reason1 . '-ADD-BEGIN' . g:mt_cmt_end
+					call setline(l:line1 + 2, l:reason1)
+					call setline(l:line2, l:reason2)
+					silent exe 'normal ' . l:line1 . 'G2dd'
+				elseif l:type == 'chg'
+					let l:reason2 = l:reason1 . '-MODIFY-END' . g:mt_cmt_end
+					let l:reason1 = l:reason1 . '-MODIFY-BEGIN' . g:mt_cmt_end
+					call cursor(l:line1+3, 1)
+					let l:midline = searchpair('#if','#else','#endif')
+					if (l:midline > l:line1 + 3) && (l:midline < l:line2 - 1)
+						call setline(l:midline, l:reason1)
+						call setline(l:line2 - 1, l:reason2)
+						silent exe 'normal ' . l:line2 . 'Gdd' . l:line1 . 'G' . (l:midline - l:line1) . 'dd'
+					endif
+				elseif l:type == 'del'
+					silent exe 'normal ' . l:line1 . 'G' . (l:line2 - l:line1 + 1) . 'dd'
+				endif
+			endif
+		endif
+	endwhile
 endfunction
 function! s:ApproveChanges() range
 	let l:pos = s:tellPos(a:firstline, a:lastline)
@@ -506,7 +599,18 @@ function! s:constructKeywordLine(type)
 	return l:output
 endfunction
 function! s:constructReasonLine()
-	let l:msg    = input("Reason: ", g:mt_tag_reason)
+	let l:choices = copy(g:mt_tag_rlist)
+	call map(l:choices, '(v:key + 1) . ". " . v:val')
+	call insert(l:choices, 'Choose Reason:')
+	let l:choice = inputlist(l:choices)
+	if (l:choice < 1) || (l:choice > len(g:mt_tag_rlist))
+		let l:msg = ''
+		while l:msg =~ '^\s*$'
+			let l:msg    = input('Input Reason: ', '')
+		endwhile
+	else
+		let l:msg    = g:mt_tag_rlist[l:choice - 1]
+	endif
 	let l:output = g:mt_cmt_start . l:msg . g:mt_cmt_end
 	return l:output
 endfunction
