@@ -57,14 +57,15 @@ let g:mt_tag_key1 = 'Key Level 1'
 let g:mt_tag_key2 = 'Key Level 2'
 let g:mt_tag_key3 = 'Key Level 3'
 let g:mt_tag_allowr = 1
-let g:mt_tag_reason = 'default modify reason'
+let g:mt_tag_rlist  = ['Reason 1', 'Reason 2', 'Reason 3']
+let g:mt_tag_rmode  = 3
 let g:mt_tag_diffall = 0
 "" developer info
 let g:mt_tag_user   = 'thuleqaid'
 let g:mt_tag_vigrep = 1
 "" format setting
 let g:mt_tag_timef  = "%Y/%m/%d"
-let g:mt_tag_mode   = 1
+let g:mt_tag_mode   = 0
 let g:mt_tag_co     = ''
 "" enable auto-expandtab
 if has("autocmd")
@@ -155,12 +156,14 @@ Plugin 'EasyMotion'
 
 "Status bar
 Plugin 'bling/vim-airline'
+"let g:airline#extensions#tagbar#enabled = 0
 
 "multiple cursors
 Plugin 'terryma/vim-multiple-cursors'
 
 "AutoComplPop
 Plugin 'AutoComplPop'
+"let g:acp_behaviorPythonOmniLength = -1
 
 "OmniCppComplete
 Plugin 'OmniCppComplete'
