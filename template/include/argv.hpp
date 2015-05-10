@@ -90,7 +90,9 @@ class Argv
 		ParseStatus m_status;
 		std::vector< std::pair<std::shared_ptr<boost::program_options::options_description>,bool> > m_options;
 		int m_curidx;
+#ifdef BOOST_PO
 		boost::program_options::variables_map m_varmap;
+#endif
 		std::vector<std::string> m_optseti;
 		std::vector<std::string> m_optsetd;
 		std::vector<std::string> m_optsett;

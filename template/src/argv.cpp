@@ -4,18 +4,21 @@ Argv::Argv(const std::string& defaultdesc,bool helpopt,const std::string& helpde
 	:m_status(PARSE_INIT)
 	,m_curidx(0)
 {
+#ifdef BOOST_PO
 	std::shared_ptr<boost::program_options::options_description> unnamed(new boost::program_options::options_description(defaultdesc));
 	m_options.push_back(std::make_pair(unnamed,true));
 	if (helpopt)
 	{
 		addBoolOption("help,h",helpdesc);
 	}
+#endif
 }
 Argv::~Argv()
 {
 }
 bool Argv::parse(int argc,char* argv[])
 {
+#ifdef BOOST_PO
 	boost::program_options::options_description desc;
 	for (auto &item: m_options)
 	{
@@ -59,12 +62,17 @@ bool Argv::parse(int argc,char* argv[])
 		m_status=PARSE_NG;
 	}
 	return (PARSE_OK==m_status);
+#else
+	return true;
+#endif
 }
 void Argv::startGroup(const std::string& groupdesc,bool visible)
 {
+#ifdef BOOST_PO
 	std::shared_ptr<boost::program_options::options_description> named(new boost::program_options::options_description(groupdesc));
 	m_options.push_back(std::make_pair(named,visible));
 	m_curidx=m_options.size()-1;
+#endif
 }
 void Argv::stopGroup()
 {
@@ -72,6 +80,7 @@ void Argv::stopGroup()
 }
 bool Argv::showHelp(std::ostream& os, bool force)
 {
+#ifdef BOOST_PO
 	if (force || getBoolOption("help") || (PARSE_NG==m_status))
 	{
 		boost::program_options::options_description desc;
@@ -84,54 +93,68 @@ bool Argv::showHelp(std::ostream& os, bool force)
 		os<<desc;
 		return true;
 	}
+#endif
 	return false;
 }
 Argv& Argv::addBoolOption(const std::string& optname,const std::string& optdesc)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),optdesc.c_str());
+#endif
 	return *this;
 }
 bool Argv::getBoolOption(const std::string& optname)
 {
+#ifdef BOOST_PO
 	if (PARSE_OK==m_status) {
 		if (m_varmap.count(optname)>0) {
 			return true;
 		}
 	}
+#endif
 	return false;
 }
 Argv& Argv::addIntegerOption(const std::string& optname,const std::string& optdesc)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<long>(),optdesc.c_str());
 	addRecordI(optname);
+#endif
 	return *this;
 }
 Argv& Argv::addIntegerOptionD(const std::string& optname,const std::string& optdesc,long defvalue)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<long>()->default_value(defvalue),optdesc.c_str());
 	addRecordI(optname);
+#endif
 	return *this;
 }
 Argv& Argv::addIntegerOptionI(const std::string& optname,const std::string& optdesc,long impvalue)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<long>()->implicit_value(impvalue),optdesc.c_str());
 	addRecordI(optname);
+#endif
 	return *this;
 }
 Argv& Argv::addIntegerOptionDI(const std::string& optname,const std::string& optdesc,long defvalue,long impvalue)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<long>()->default_value(defvalue)->implicit_value(impvalue),optdesc.c_str());
 	addRecordI(optname);
+#endif
 	return *this;
 }
 long Argv::getIntegerOption(const std::string& optname,long defaultvalue)
 {
 	long ret=defaultvalue;
+#ifdef BOOST_PO
 	if (validRecordI(optname)) {
 		if (PARSE_OK==m_status) {
 			if (m_varmap.count(optname)>0) {
@@ -139,39 +162,49 @@ long Argv::getIntegerOption(const std::string& optname,long defaultvalue)
 			}
 		}
 	}
+#endif
 	return ret;
 }
 Argv& Argv::addDecimalOption(const std::string& optname,const std::string& optdesc)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<double>(),optdesc.c_str());
 	addRecordD(optname);
+#endif
 	return *this;
 }
 Argv& Argv::addDecimalOptionD(const std::string& optname,const std::string& optdesc,double defvalue)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<double>()->default_value(defvalue),optdesc.c_str());
 	addRecordD(optname);
+#endif
 	return *this;
 }
 Argv& Argv::addDecimalOptionI(const std::string& optname,const std::string& optdesc,double impvalue)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<double>()->implicit_value(impvalue),optdesc.c_str());
 	addRecordD(optname);
+#endif
 	return *this;
 }
 Argv& Argv::addDecimalOptionDI(const std::string& optname,const std::string& optdesc,double defvalue,double impvalue)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<double>()->default_value(defvalue)->implicit_value(impvalue),optdesc.c_str());
 	addRecordD(optname);
+#endif
 	return *this;
 }
 double Argv::getDecimalOption(const std::string& optname,double defaultvalue)
 {
 	double ret=defaultvalue;
+#ifdef BOOST_PO
 	if (validRecordD(optname)) {
 		if (PARSE_OK==m_status) {
 			if (m_varmap.count(optname)>0) {
@@ -179,38 +212,48 @@ double Argv::getDecimalOption(const std::string& optname,double defaultvalue)
 			}
 		}
 	}
+#endif
 	return ret;
 }
 Argv& Argv::addTextOption(const std::string& optname,const std::string& optdesc)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<std::string>(),optdesc.c_str());
 	addRecordT(optname);
+#endif
 	return *this;
 }
 Argv& Argv::addTextOptionD(const std::string& optname,const std::string& optdesc,const std::string& defvalue)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<std::string>()->default_value(defvalue),optdesc.c_str());
 	addRecordT(optname);
+#endif
 	return *this;
 }
 Argv& Argv::addTextOptionI(const std::string& optname,const std::string& optdesc,const std::string& impvalue)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<std::string>()->implicit_value(impvalue),optdesc.c_str());
 	addRecordT(optname);
+#endif
 	return *this;
 }
 Argv& Argv::addTextOptionDI(const std::string& optname,const std::string& optdesc,const std::string& defvalue,const std::string& impvalue)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<std::string>()->default_value(defvalue)->implicit_value(impvalue),optdesc.c_str());
 	addRecordT(optname);
+#endif
 	return *this;
 }
 std::string Argv::getTextOption(const std::string& optname,const std::string& defaultvalue)
 {
+#ifdef BOOST_PO
 	if (validRecordT(optname)) {
 		if (PARSE_OK==m_status) {
 			if (m_varmap.count(optname)>0) {
@@ -218,18 +261,22 @@ std::string Argv::getTextOption(const std::string& optname,const std::string& de
 			}
 		}
 	}
+#endif
 	return defaultvalue;
 }
 Argv& Argv::addVarTextOption(const std::string& optname,const std::string& optdesc)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value< std::vector<std::string> >(),optdesc.c_str());
 	addRecordV(optname);
+#endif
 	return *this;
 }
 std::vector<std::string> Argv::getVarTextOption(const std::string& optname)
 {
 	std::vector<std::string> ret;
+#ifdef BOOST_PO
 	if (validRecordV(optname)) {
 		if (PARSE_OK==m_status) {
 			if (m_varmap.count(optname)>0) {
@@ -237,13 +284,16 @@ std::vector<std::string> Argv::getVarTextOption(const std::string& optname)
 			}
 		}
 	}
+#endif
 	return ret;
 }
 Argv& Argv::addFileOption(const std::string& optname,const std::string& optdesc)
 {
+#ifdef BOOST_PO
 	auto opts=m_options[m_curidx].first;
 	opts->add_options()(optname.c_str(),boost::program_options::value<std::string>(),optdesc.c_str());
 	addRecordF(optname);
+#endif
 	return *this;
 }
 void Argv::addRecord(const std::string& optname,std::vector<std::string>& collection)
@@ -265,6 +315,7 @@ bool Argv::validRecord(const std::string& optname,std::vector<std::string>& coll
 }
 Argv& Argv::setOptionPostion(const std::string& optname,int pos)
 {
+#ifdef BOOST_PO
 	auto cpos=optname.find(',');
 	std::string name;
 	if (std::string::npos == cpos)
@@ -275,6 +326,7 @@ Argv& Argv::setOptionPostion(const std::string& optname,int pos)
 	{
 		m_optpos.push_back(std::make_pair(optname.substr(0,cpos),pos));
 	}
+#endif
 	return *this;
 }
 bool Argv::validOption(const std::string& optname)

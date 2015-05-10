@@ -4,6 +4,7 @@ project(test_projname CXX)
 set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 ## [Start]set options here
+option(GDB "switch for debug information for GDB" ON)
 option(BOOST "switch for Boost library" ON)
 option(BOOSTTEST "switch for Boost.test library" ON)
 ## [Stop]set options here

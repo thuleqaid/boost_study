@@ -17,6 +17,7 @@ if(BOOST)
 		# Setting for Boost.log Library
 		add_definitions(-DDEBUGLOG)
 		link_libraries(boost_log boost_log_setup boost_date_time boost_filesystem boost_system boost_thread)
+		link_libraries(pthread)
 	endif(BOOSTLOG)
 	if(BOOSTTEST)
 		# Setting for Boost.test Library
@@ -25,9 +26,11 @@ if(BOOST)
 	if(BOOSTTHREAD)
 		# Setting for Boost.thread Library
 		link_libraries(boost_thread boost_system boost_chrono boost_date_time)
+		link_libraries(pthread)
 	endif(BOOSTTHREAD)
 	if(BOOSTPO)
 		# Setting for Boost.program_options Library
+		add_definitions(-DBOOST_PO)
 		link_libraries(boost_program_options)
 	endif(BOOSTPO)
 	if(BOOSTFILESYSTEM)

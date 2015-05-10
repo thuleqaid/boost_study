@@ -7,6 +7,11 @@
 " 1. use <Leader>ml to load document
 " 2. edit markdown file(index.md)
 " 3. use <Leader>ms to save document in formal path
+" Sequence Grammar
+"   title : message
+"   participant actor
+"   note [left of/right of/over] actor : message
+"   actor [-/--] [>/>>] actor : message
 
 let g:editormd_path = get(g:, 'editormd_path', '~/editor.md')
 let s:loaded_path = ''
