@@ -1,3 +1,23 @@
+" Name    : VimIDE
+" Object  : c/c++ IDE with project management
+" Author  : thuleqaid@163.com
+" Date    : 2015/06/27
+" Version : v0.2
+" ChangeLog
+" v0.2 2015/06/27
+"   modify s:listProjects() to allow choose from list
+"   add s:cleanProjects()
+" v0.1 2015/04/30
+"   basic cscope setting
+"   VimIDE menu
+"   generate tag files inside Vim
+"   project list
+" Dependencies
+"   VimPlugin:NERDTree
+"   VimPlugin:Tagbar
+"   Utility:cscope
+"   Utility:ctags
+
 let g:vimide_showmenu = get(g:, 'vimide_showmenu', 1)
 let g:vimide_prjlist = get(g:, 'vimide_prjlist', '~/.vim/vimide_prj.list')
 let s:prjlist = []
@@ -7,8 +27,10 @@ command! -n=? -complete=dir -bar VideGenerateTag :call s:genTag('<args>')
 command! -n=? -complete=dir -bar VideSetTag :call s:setTag('<args>')
 command! -n=0 -bar VideUpdateTag :call s:updateTag()
 command! -n=0 -bar VideListTag :call s:listProjects()
-command! -n=1 -bar VideSelectTag :call s:setTagByIdx(<args>)
+command! -n=1 -bar VideSelectTag :call s:setTagByIdx(<args> - 1)
 command! -n=0 -bar VideDisconnectTag :call s:unsetTag()
+command! -n=0 -bar VideCleanTag :call s:cleanProjects(1)
+command! -n=0 -bar VideRepairTag :call s:cleanProjects(2)
 
 nmap <Leader>wl :NERDTreeToggle<CR>
 nmap <Leader>wr :TagbarToggle<CR>
@@ -18,6 +40,8 @@ nmap <Leader>wc :NERDTreeClose<CR>:TagbarClose<CR>
 nmap <Leader>vl :VideListTag<CR>
 nmap <Leader>vu :VideUpdateTag<CR>
 nmap <Leader>vd :VideDisconnectTag<CR>
+nmap <Leader>vc :VideCleanTag<CR>
+nmap <Leader>vr :VideRepairTag<CR>
 
 nmap <C-\>y :VideSelectTag 
 nmap <C-\>Y :VideSetTag 
@@ -41,17 +65,20 @@ nmap <C-\>D :cs find d
 
 if g:vimide_showmenu > 0
     exe 'menu VimIDE.List\ Tags<tab>\\vl		<Leader>vl'
+    exe 'menu VimIDE.Repair\ Tags<tab>\\vr		<Leader>vr'
+    exe 'menu VimIDE.Clean\ Tags<tab>\\vc		<Leader>vc'
+    exe 'menu VimIDE.-SEP1-		<Nop>'
+    exe 'menu VimIDE.Generate\ Tag\.\.\.<tab><C-\\>Z		<C-\>Z'
     exe 'menu VimIDE.Select\ Tag\.\.\.<tab><C-\\>y		<C-\>y'
+    exe 'menu VimIDE.Set\ Tag\.\.\.<tab><C-\\>Y		<C-\>Y'
     exe 'menu VimIDE.Disconnect\ Tag<tab>\\vd		<Leader>vd'
     exe 'menu VimIDE.Update\ Tag<tab>\\vu		<Leader>vu'
-    exe 'menu VimIDE.Generate\ Tag\.\.\.<tab><C-\\>Z		<C-\>Z'
-    exe 'menu VimIDE.Set\ Tag\.\.\.<tab><C-\\>Y		<C-\>Y'
-    exe 'menu VimIDE.-SEP1-		<Nop>'
+    exe 'menu VimIDE.-SEP2-		<Nop>'
     exe 'menu VimIDE.Files\ Browser<tab>\\wl		<Leader>wl'
     exe 'menu VimIDE.Symbols\ Browser<tab>\\wr		<Leader>wr'
     exe 'menu VimIDE.Show\ All<tab>\\wa		<Leader>wa'
     exe 'menu VimIDE.Hide\ All<tab>\\wc		<Leader>wc'
-    exe 'menu VimIDE.-SEP2-		<Nop>'
+    exe 'menu VimIDE.-SEP3-		<Nop>'
     exe 'menu VimIDE.Symbol.Current<tab><C-\\>s		<C-\>s'
     exe 'menu VimIDE.Symbol.Specified\.\.\.<tab><C-\\>S		<C-\>S'
     exe 'menu VimIDE.Definition.Current<tab><C-\\>g		<C-\>g'
@@ -68,7 +95,7 @@ if g:vimide_showmenu > 0
     exe 'menu VimIDE.File.Specified\.\.\.<tab><C-\\>F		<C-\>F'
     exe 'menu VimIDE.Including.Current<tab><C-\\>i		<C-\>i'
     exe 'menu VimIDE.Including.Specified\.\.\.<tab><C-\\>I		<C-\>I'
-    exe 'menu VimIDE.-SEP3-		<Nop>'
+    exe 'menu VimIDE.-SEP4-		<Nop>'
     exe 'menu VimIDE.Result.Open<tab>:cw		:cw<CR>'
     exe 'menu VimIDE.Result.Close<tab>:ccl		:ccl<CR>'
 endif
@@ -129,13 +156,48 @@ function! s:listProjects()
     if len(s:prjlist) < 1
         call s:loadPrjList()
     endif
-    let l:i = 0
-    let l:outstr = ''
-    while l:i < len(s:prjlist)
-        let l:outstr = l:outstr . l:i . ":\t" . join(s:prjlist[l:i], "\t") . "\n"
-        let l:i = l:i + 1
+    let l:items = copy(s:prjlist)
+    call map(l:items, 'join(v:val,"\t")')
+    let l:curidx = s:currentTagIdx()
+    let l:newidx = s:ListAndSelect('Project List:', l:items, l:curidx)
+    if (l:newidx >= 0) && (l:newidx != l:curidx)
+        call s:setTagByIdx(l:newidx)
+    endif
+endfunction
+function! s:cleanProjects(action)
+    if len(s:prjlist) < 1
+        call s:loadPrjList()
+    endif
+    let l:rmcnt = 0
+    let l:i = len(s:prjlist) - 1
+    while l:i >= 0
+        if isdirectory(s:prjlist[l:i][1])
+            " source directory exists
+            let l:tagfile = globpath(s:prjlist[l:i][1], 'tags')
+            let l:cscopefile = globpath(s:prjlist[l:i][1], 'cscope.out')
+            if (len(l:tagfile) < 1) || (len(l:cscopefile) < 1)
+                " tag file(s) missed
+                if a:action == 1
+                    call remove(s:prjlist, l:i)
+                    let l:rmcnt = l:rmcnt + 1
+                elseif a:action == 2
+                    if len(s:currenttag) <= 0
+                        " generate tag files
+                        exe ':chdir '. s:prjlist[l:i][1]
+                        exe '!ctags -R'
+                        exe '!cscope -Rbcu'
+                    endif
+                endif
+            endif
+        else
+            call remove(s:prjlist, l:i)
+            let l:rmcnt = l:rmcnt + 1
+        endif
+        let l:i = l:i - 1
     endwhile
-    echo l:outstr
+    if l:rmcnt > 0
+        call s:savePrjList()
+    endif
 endfunction
 function! s:loadPrjList()
     let l:fullname = fnamemodify(g:vimide_prjlist, ':p')
@@ -179,7 +241,7 @@ function! s:setTagByIdx(idx)
     if len(s:prjlist) < 1
         call s:loadPrjList()
     endif
-    if a:idx < len(s:prjlist)
+    if (a:idx >= 0) && (a:idx < len(s:prjlist))
         call s:setTag(s:prjlist[a:idx][1])
     endif
 endfunction
@@ -190,4 +252,43 @@ function! s:unsetTag()
         exe ':set tags-=' . l:tagfile
         let s:currenttag = ''
     endif
+endfunction
+function! s:currentTagIdx()
+    if len(s:currenttag) <= 0
+        " no tag in connection
+        return -1
+    endif
+    if len(s:prjlist) < 1
+        call s:loadPrjList()
+    endif
+    if len(s:prjlist) < 1
+        " no item in project list
+        return -1
+    endif
+    let l:i = 0
+    while l:i < len(s:prjlist)
+        if s:prjlist[l:i][1] == s:currenttag
+            return l:i
+        endif
+        let l:i = l:i + 1
+    endwhile
+    " connected tag is not in the project list
+    return -1
+endfunction
+function! s:ListAndSelect(title, itemlist, markindex)
+    let l:choices = copy(a:itemlist)
+    " generate choice-list
+    call map(l:choices, '"  " . (v:key + 1) . ". " . v:val')
+    " insert '*' at the start of selected item
+    if (a:markindex >= 0) && (a:markindex < len(a:itemlist))
+        let l:choices[a:markindex] = '*' . l:choices[a:markindex][1:]
+    endif
+    " set list title
+    call insert(l:choices, a:title)
+    " ask for user choice
+    let l:choice = inputlist(l:choices)
+    if (l:choice < 1) || (l:choice > len(a:itemlist))
+        let l:choice = 0
+    endif
+    return l:choice - 1
 endfunction

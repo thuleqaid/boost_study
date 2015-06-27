@@ -3,6 +3,8 @@
 " mkdir temp
 " git clone http://github.com/gmarik/vundle.git bundle/vundle
 set nocompatible
+set cryptmethod=blowfish
+set backspace=indent,eol,start
 colorscheme darkblue
 
 set enc=utf-8
@@ -71,6 +73,9 @@ let g:mt_tag_co     = ''
 if has("autocmd")
     autocmd BufRead * ModifyTagAutoExpandTab
 endif
+
+let g:guifontlist = ['Monospace',]
+exe 'set guifont=' . g:guifontlist[0]
 
 filetype off                  " required!
 set rtp+=~/.vim/bundle/vundle/
@@ -156,7 +161,7 @@ Plugin 'EasyMotion'
 
 "Status bar
 Plugin 'bling/vim-airline'
-"let g:airline#extensions#tagbar#enabled = 0
+let g:airline#extensions#tagbar#enabled = 0
 
 "multiple cursors
 Plugin 'terryma/vim-multiple-cursors'

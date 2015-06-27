@@ -1,9 +1,12 @@
 " Name    : GuiFont
 " Object  : Switch guifont quickly
 " Author  : thuleqaid@163.com
-" Date    : 2015/06/10
-" Version : v0.1
+" Date    : 2015/06/27
+" Version : v0.2
 " ChangeLog
+" v0.2 2015/06/27
+"   add s:ListAndSelect()
+"   modify s:ListGuifont() to allow choose from list
 " v0.1 2015/06/10
 "   add s:SumModifiedLines()
 "   add s:GenerateCommand()
@@ -17,7 +20,7 @@
 " 2. set guifont in the .vimrc
 "   example:
 "   let g:guifontlist = ['Fixedsys:h12:cGB2312', 'MS_Gothic:h12:cSHIFTJIS', '楷体:h12:cGB2312']
-"   set guifont=Fixedsys:h12:cGB2312
+"   exe 'set guifont=' . g:guifontlist[0]
 " FontName :
 " 1. :set guifont=*
 " 2. choose a font by gui
@@ -30,7 +33,7 @@ let g:guifontlist = get(g:, 'guifontlist', ['Fixedsys:h12:cGB2312', 'MS_Gothic:h
 command! -n=0 -bar GuiFontListList :call s:ListGuifont()
 command! -n=0 -bar GuiFontListNext :call s:SwitchGuifont(1, 1)
 command! -n=0 -bar GuiFontListPrev :call s:SwitchGuifont(1, -1)
-command! -n=0 -count -bar GuiFontListSet :call s:SwitchGuifont(2, <count>)
+command! -n=0 -count -bar GuiFontListSet :call s:SwitchGuifont(2, <count>-<line1>)
 
 nmap <Leader>fl :GuiFontListList<CR>
 nmap <Leader>fn :GuiFontListNext<CR>
@@ -39,29 +42,24 @@ nmap <Leader>fs :GuiFontListSet<CR>
 
 " functions
 function! s:ListGuifont()
-	let l:i = 0
-	let l:outstr = ''
 	let l:curidx = s:curfontidx()
-	while l:i < len(g:guifontlist)
-		if l:i == l:curidx
-			let l:outstr = l:outstr . '* ' . l:i . ":\t" . g:guifontlist[l:i] . "\n"
-		else
-			let l:outstr = l:outstr . '  ' . l:i . ":\t" . g:guifontlist[l:i] . "\n"
-		endif
-		let l:i = l:i + 1
-	endwhile
-	echo l:outstr
+	let l:newidx = s:ListAndSelect('Font List:', g:guifontlist, l:curidx)
+	if (l:newidx >= 0) && (l:newidx != l:curidx)
+		silent! exe 'set guifont=' . g:guifontlist[l:newidx]
+	endif
 endfunction
 function! s:SwitchGuifont(type, val)
-	echo a:type a:val
 	if a:type == 1
 		" 相对index
-		let l:curidx = s:curfontidx()
+		let l:curidx = s:curfontidx() + a:val
 	elseif a:type == 2
 		" 绝对index
-		let l:curidx = 0
+		if a:val > 0
+			let l:curidx = a:val
+		else
+			let l:curidx = 0
+		endif
 	endif
-	let l:curidx = l:curidx + a:val
 	let l:nextidx = s:modulus(l:curidx, len(g:guifontlist))
 	" g:guifontlist为空时，s:modulus返回0
 	if l:nextidx < len(g:guifontlist)
@@ -80,3 +78,20 @@ function! s:curfontidx()
 	return l:curidx
 endfunction
 
+function! s:ListAndSelect(title, itemlist, markindex)
+	let l:choices = copy(a:itemlist)
+	" generate choice-list
+	call map(l:choices, '"  " . (v:key + 1) . ". " . v:val')
+	" insert '*' at the start of selected item
+	if (a:markindex >= 0) && (a:markindex < len(a:itemlist))
+		let l:choices[a:markindex] = '*' . l:choices[a:markindex][1:]
+	endif
+	" set list title
+	call insert(l:choices, a:title)
+	" ask for user choice
+	let l:choice = inputlist(l:choices)
+	if (l:choice < 1) || (l:choice > len(a:itemlist))
+		let l:choice = 0
+	endif
+	return l:choice - 1
+endfunction
