@@ -204,7 +204,6 @@ function! s:FilterStaticCheck()
 			call extend(l:linerange[l:fname], [l:item.lnum - 1, l:item.lnum - 1 + l:pos])
 		endif
 	endfor
-	echo l:linerange
 	let l:pos = 1
 	while l:pos <= line('$')
 		let l:linetext = getline(l:pos)

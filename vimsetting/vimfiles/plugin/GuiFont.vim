@@ -27,7 +27,7 @@
 " 3. :echo &guifont
 
 " Parameter
-let g:guifontlist = get(g:, 'guifontlist', ['Fixedsys:h12:cGB2312', 'MS_Gothic:h12:cSHIFTJIS'])
+let g:guifontlist = get(g:, 'guifontlist', ['',])
 
 " Key bindings
 command! -n=0 -bar GuiFontListList :call s:ListGuifont()
