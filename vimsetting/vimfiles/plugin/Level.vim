@@ -1,7 +1,10 @@
 let s:mark0  = '    '
-let s:mark1  = '┣━'
-let s:mark2  = '┃  '
-let s:mark3  = '┗━'
+"let s:mark1  = '┣━'
+let s:mark1  = '' . nr2char(43463) . nr2char(43429)
+"let s:mark2  = '┃  '
+let s:mark2  = '' . nr2char(43431) . '  '
+"let s:mark3  = '┗━'
+let s:mark3  = '' . nr2char(43451) . nr2char(43429)
 let s:indent = '	'
 
 function! LvlDraw() range
