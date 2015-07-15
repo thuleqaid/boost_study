@@ -1,13 +1,21 @@
+" define command
+command! -n=0 -rang=% -bar LvlDraw :<line1>,<line2>call s:LvlDraw()
+
 let s:mark0  = '    '
-"let s:mark1  = '┣━'
-let s:mark1  = '' . nr2char(43463) . nr2char(43429)
-"let s:mark2  = '┃  '
-let s:mark2  = '' . nr2char(43431) . '  '
-"let s:mark3  = '┗━'
-let s:mark3  = '' . nr2char(43451) . nr2char(43429)
+if &encoding == 'utf-8'
+	" utf-8
+	let s:mark1  = '┣━'
+	let s:mark2  = '┃  '
+	let s:mark3  = '┗━'
+else
+	" cp936
+	let s:mark1  = iconv("\xe2\x94\xa3\xe2\x94\x81", "utf-8", &enc)
+	let s:mark2  = iconv("\xe2\x94\x83", "utf-8", &enc) . '  '
+	let s:mark3  = iconv("\xe2\x94\x97\xe2\x94\x81", "utf-8", &enc)
+endif
 let s:indent = '	'
 
-function! LvlDraw() range
+function! s:LvlDraw() range
 	let l:levels = s:calcLevels(a:firstline, a:lastline)
 	let l:indent = len(s:indent)
 	let l:i      = a:firstline

@@ -1,33 +1,183 @@
 let g:ly_paipan_mode = get(g:, 'ly_paipan_mode', 0) " 0:六爻, 1:梅花
 let g:ly_visible_all = get(g:, 'ly_visible_all', 0) " 只用于六爻排盘方式 0:只显示宫卦中的伏神和变卦中的动爻, 1:显示宫卦和变卦中所有的爻
+
+" define command
+command! -n=0 -bar LyNew :call s:InsertDateTime()
+command! -n=0 -bar LyPan :call s:ParseDateTime()
+command! -n=0 -bar LyMode :call s:SetPaiPanMode()
+
 let s:paipanmethod = ['LiuYao', 'MeiHua']
 let s:setupmethod = ['Coin Head', 'Coin Tail', 'Gua Code', 'Three Numbers']
 let s:setupexample = ['CH:000000', 'CT:000000', 'GC:11123456', 'TN:111,222,333']
-let s:txtTG = ['甲',           '乙',           '丙',           '丁',           '戊',           '己',           '庚',           '辛',           '壬',           '癸']
-let s:txtDZ = ['子',           '丑',           '寅',           '卯',           '辰',           '巳',           '午',           '未',           '申',           '酉',           '戌',           '亥']
-let s:txtYao = ['━━  ━━', '━━━━━']
-let s:txtLS = ['青龙',                          '朱雀',                          '勾陈',                          '滕蛇',                          '白虎',                          '玄武']
-let s:txtLQ = ['兄',           '父',           '官',           '财',           '孙']
-let s:txtGua = ['坤',           '艮',           '坎',           '巽',           '震',           '离',           '兑',           '乾']
-let s:txtGuaType = ['宫',           '正',           '互',           '变',           '错',           '综']
-let s:txtExtra = ['年',           '月',           '日',           '时',           '空',           '世',           '应',           '动',           '伏']
-let s:txt64Gua = [ "坤"   , "剥" , "比"   , "观"   , "豫"   , "晋"   , "萃"   , "否"   ,
-                 \ "谦"   , "艮" , "蹇"   , "渐"   , "小过" , "旅"   , "咸"   , "遯"   ,
-                 \ "师"   , "蒙" , "坎"   , "涣"   , "解"   , "未济" , "困"   , "讼"   ,
-                 \ "升"   , "蛊" , "井"   , "巽"   , "恒"   , "鼎"   , "大过" , "姤"   ,
-                 \ "复"   , "颐" , "屯"   , "益"   , "震"   , "噬嗑" , "随"   , "无妄" ,
-                 \ "明夷" , "贲" , "既济" , "家人" , "丰"   , "离"   , "革"   , "同人" ,
-                 \ "临"   , "损" , "节"   , "中孚" , "归妹" , "睽"   , "兑"   , "履"   ,
-                 \ "泰"   , "大畜" , "需" , "小畜" , "大壮" , "大有" , "夬"   , "乾"   ]
-let s:txtGuaXiang = ["地","山","水","风","雷","火","泽","天"]
-"let s:txtTG = [nr2char(48343), nr2char(53970), nr2char(45563), nr2char(46753), nr2char(52972), nr2char(48314), nr2char(47357), nr2char(53441), nr2char(51401), nr2char(47599)]
-"let s:txtDZ = [nr2char(55251), nr2char(46067), nr2char(54010), nr2char(50094), nr2char(46013), nr2char(52168), nr2char(52967), nr2char(52916), nr2char(51690), nr2char(54223), nr2char(53479), nr2char(47781)]
-"let s:txtYao = [repeat(nr2char(43429), 2) . '  ' . repeat(nr2char(43429), 2), repeat(nr2char(43429), 5)]
-"let s:txtLS = [nr2char(51168) . nr2char(49658), nr2char(55020) . nr2char(51384), nr2char(47540) . nr2char(46018), nr2char(60408) . nr2char(51679), nr2char(45271) . nr2char(48034), nr2char(53502) . nr2char(52964)]
-"let s:txtLQ = [nr2char(53462), nr2char(47288), nr2char(47577), nr2char(45766), nr2char(52207)]
-"let s:txtGua = [nr2char(49316), nr2char(62686), nr2char(49074), nr2char(55779), nr2char(54768), nr2char(49387), nr2char(46802), nr2char(51116)]
-"let s:txtGuaType = [nr2char(47532), nr2char(54781), nr2char(48037), nr2char(45540), nr2char(46317), nr2char(55259)]
-"let s:txtExtra = [nr2char(50410), nr2char(54466), nr2char(51413), nr2char(51889), nr2char(49109), nr2char(51904), nr2char(54182), nr2char(46767), nr2char(47100)]
+let s:txtYao = ['----  ----', '----------']
+if &encoding == 'utf-8'
+    " utf-8
+    let s:txtTG       = ['甲'    , '乙'   , '丙'   , '丁'   , '戊'   , '己'    , '庚'   , '辛'     , '壬'                 , '癸']
+    let s:txtDZ       = ['子'    , '丑'   , '寅'   , '卯'   , '辰'   , '巳'    , '午'   , '未'     , '申'                 , '酉'  , '戌' , '亥']
+    let s:txtLS       = ['青龙'  , '朱雀' , '勾陈' , '滕蛇' , '白虎' , '玄武']
+    let s:txtLQ       = ['兄'    , '父'   , '官'   , '财'   , '孙']
+    let s:txtGua      = ['坤'    , '艮'   , '坎'   , '巽'   , '震'   , '离'    , '兑'   , '乾']
+    let s:txtGuaType  = ['宫'    , '正'   , '互'   , '变'   , '错'   , '综']
+    let s:txtExtra    = ['年'    , '月'   , '日'   , '时'   , '空'   , '世'    , '应'   , '动'     , '伏'           '为']
+    let s:txt64Gua    = [ '坤'   , '剥'   , '比'   , '观'   , '豫'   , '晋'    , '萃'   , '否'     ,
+                        \ '谦'   , '艮'   , '蹇'   , '渐'   , '小过' , '旅'    , '咸'   , '遯'     ,
+                        \ '师'   , '蒙'   , '坎'   , '涣'   , '解'   , '未济'  , '困'   , '讼'     ,
+                        \ '升'   , '蛊'   , '井'   , '巽'   , '恒'   , '鼎'    , '大过' , '姤'     ,
+                        \ '复'   , '颐'   , '屯'   , '益'   , '震'   , '噬嗑'  , '随'   , '无妄'   ,
+                        \ '明夷' , '贲'   , '既济' , '家人' , '丰'   , '离'    , '革'   , '同人'   ,
+                        \ '临'   , '损'   , '节'   , '中孚' , '归妹' , '睽'    , '兑'   , '履'     ,
+                        \ '泰'   , '大畜' , '需'   , '小畜' , '大壮' , '大有'  , '夬'   , '乾'   ]
+    let s:txtGuaXiang = ['地'    , '山'   , '水'   , '风'   , '雷'   , '火'    , '泽'   , '天']
+else
+    " cp936
+    let s:txtTG = [
+                  \ iconv("\xe7\x94\xb2", "utf-8", &enc),
+                  \ iconv("\xe4\xb9\x99", "utf-8", &enc),
+                  \ iconv("\xe4\xb8\x99", "utf-8", &enc),
+                  \ iconv("\xe4\xb8\x81", "utf-8", &enc),
+                  \ iconv("\xe6\x88\x8a", "utf-8", &enc),
+                  \ iconv("\xe5\xb7\xb1", "utf-8", &enc),
+                  \ iconv("\xe5\xba\x9a", "utf-8", &enc),
+                  \ iconv("\xe8\xbe\x9b", "utf-8", &enc),
+                  \ iconv("\xe5\xa3\xac", "utf-8", &enc),
+                  \ iconv("\xe7\x99\xb8", "utf-8", &enc),
+                  \ ]
+    let s:txtDZ = [
+                  \ iconv("\xe5\xad\x90", "utf-8", &enc),
+                  \ iconv("\xe4\xb8\x91", "utf-8", &enc),
+                  \ iconv("\xe5\xaf\x85", "utf-8", &enc),
+                  \ iconv("\xe5\x8d\xaf", "utf-8", &enc),
+                  \ iconv("\xe8\xbe\xb0", "utf-8", &enc),
+                  \ iconv("\xe5\xb7\xb3", "utf-8", &enc),
+                  \ iconv("\xe5\x8d\x88", "utf-8", &enc),
+                  \ iconv("\xe6\x9c\xaa", "utf-8", &enc),
+                  \ iconv("\xe7\x94\xb3", "utf-8", &enc),
+                  \ iconv("\xe9\x85\x89", "utf-8", &enc),
+                  \ iconv("\xe6\x88\x8c", "utf-8", &enc),
+                  \ iconv("\xe4\xba\xa5", "utf-8", &enc),
+                  \ ]
+    let s:txtLS = [
+                  \ iconv("\xe9\x9d\x92\xe9\xbe\x99", "utf-8", &enc),
+                  \ iconv("\xe6\x9c\xb1\xe9\x9b\x80", "utf-8", &enc),
+                  \ iconv("\xe5\x8b\xbe\xe9\x99\x88", "utf-8", &enc),
+                  \ iconv("\xe6\xbb\x95\xe8\x9b\x87", "utf-8", &enc),
+                  \ iconv("\xe7\x99\xbd\xe8\x99\x8e", "utf-8", &enc),
+                  \ iconv("\xe7\x8e\x84\xe6\xad\xa6", "utf-8", &enc),
+                  \ ]
+    let s:txtLQ = [
+                  \ iconv("\xe5\x85\x84", "utf-8", &enc),
+                  \ iconv("\xe7\x88\xb6", "utf-8", &enc),
+                  \ iconv("\xe5\xae\x98", "utf-8", &enc),
+                  \ iconv("\xe8\xb4\xa2", "utf-8", &enc),
+                  \ iconv("\xe5\xad\x99", "utf-8", &enc),
+                  \ ]
+    let s:txtGua = [
+                   \ iconv("\xe5\x9d\xa4", "utf-8", &enc),
+                   \ iconv("\xe8\x89\xae", "utf-8", &enc),
+                   \ iconv("\xe5\x9d\x8e", "utf-8", &enc),
+                   \ iconv("\xe5\xb7\xbd", "utf-8", &enc),
+                   \ iconv("\xe9\x9c\x87", "utf-8", &enc),
+                   \ iconv("\xe7\xa6\xbb", "utf-8", &enc),
+                   \ iconv("\xe5\x85\x91", "utf-8", &enc),
+                   \ iconv("\xe4\xb9\xbe", "utf-8", &enc),
+                   \ ]
+    let s:txtGuaType = [
+                       \ iconv("\xe5\xae\xab", "utf-8", &enc),
+                       \ iconv("\xe6\xad\xa3", "utf-8", &enc),
+                       \ iconv("\xe4\xba\x92", "utf-8", &enc),
+                       \ iconv("\xe5\x8f\x98", "utf-8", &enc),
+                       \ iconv("\xe9\x94\x99", "utf-8", &enc),
+                       \ iconv("\xe7\xbb\xbc", "utf-8", &enc),
+                       \ ]
+    let s:txtExtra = [
+                     \ iconv("\xe5\xb9\xb4", "utf-8", &enc),
+                     \ iconv("\xe6\x9c\x88", "utf-8", &enc),
+                     \ iconv("\xe6\x97\xa5", "utf-8", &enc),
+                     \ iconv("\xe6\x97\xb6", "utf-8", &enc),
+                     \ iconv("\xe7\xa9\xba", "utf-8", &enc),
+                     \ iconv("\xe4\xb8\x96", "utf-8", &enc),
+                     \ iconv("\xe5\xba\x94", "utf-8", &enc),
+                     \ iconv("\xe5\x8a\xa8", "utf-8", &enc),
+                     \ iconv("\xe4\xbc\x8f", "utf-8", &enc),
+                     \ iconv("\xe4\xb8\xba", "utf-8", &enc),
+                     \ ]
+    let s:txt64Gua = [
+                     \ iconv("\xe5\x9d\xa4", "utf-8", &enc),
+                     \ iconv("\xe5\x89\xa5", "utf-8", &enc),
+                     \ iconv("\xe6\xaf\x94", "utf-8", &enc),
+                     \ iconv("\xe8\xa7\x82", "utf-8", &enc),
+                     \ iconv("\xe8\xb1\xab", "utf-8", &enc),
+                     \ iconv("\xe6\x99\x8b", "utf-8", &enc),
+                     \ iconv("\xe8\x90\x83", "utf-8", &enc),
+                     \ iconv("\xe5\x90\xa6", "utf-8", &enc),
+                     \ iconv("\xe8\xb0\xa6", "utf-8", &enc),
+                     \ iconv("\xe8\x89\xae", "utf-8", &enc),
+                     \ iconv("\xe8\xb9\x87", "utf-8", &enc),
+                     \ iconv("\xe6\xb8\x90", "utf-8", &enc),
+                     \ iconv("\xe5\xb0\x8f\xe8\xbf\x87", "utf-8", &enc),
+                     \ iconv("\xe6\x97\x85", "utf-8", &enc),
+                     \ iconv("\xe5\x92\xb8", "utf-8", &enc),
+                     \ iconv("\xe9\x81\xaf", "utf-8", &enc),
+                     \ iconv("\xe5\xb8\x88", "utf-8", &enc),
+                     \ iconv("\xe8\x92\x99", "utf-8", &enc),
+                     \ iconv("\xe5\x9d\x8e", "utf-8", &enc),
+                     \ iconv("\xe6\xb6\xa3", "utf-8", &enc),
+                     \ iconv("\xe8\xa7\xa3", "utf-8", &enc),
+                     \ iconv("\xe6\x9c\xaa\xe6\xb5\x8e", "utf-8", &enc),
+                     \ iconv("\xe5\x9b\xb0", "utf-8", &enc),
+                     \ iconv("\xe8\xae\xbc", "utf-8", &enc),
+                     \ iconv("\xe5\x8d\x87", "utf-8", &enc),
+                     \ iconv("\xe8\x9b\x8a", "utf-8", &enc),
+                     \ iconv("\xe4\xba\x95", "utf-8", &enc),
+                     \ iconv("\xe5\xb7\xbd", "utf-8", &enc),
+                     \ iconv("\xe6\x81\x92", "utf-8", &enc),
+                     \ iconv("\xe9\xbc\x8e", "utf-8", &enc),
+                     \ iconv("\xe5\xa4\xa7\xe8\xbf\x87", "utf-8", &enc),
+                     \ iconv("\xe5\xa7\xa4", "utf-8", &enc),
+                     \ iconv("\xe5\xa4\x8d", "utf-8", &enc),
+                     \ iconv("\xe9\xa2\x90", "utf-8", &enc),
+                     \ iconv("\xe5\xb1\xaf", "utf-8", &enc),
+                     \ iconv("\xe7\x9b\x8a", "utf-8", &enc),
+                     \ iconv("\xe9\x9c\x87", "utf-8", &enc),
+                     \ iconv("\xe5\x99\xac\xe5\x97\x91", "utf-8", &enc),
+                     \ iconv("\xe9\x9a\x8f", "utf-8", &enc),
+                     \ iconv("\xe6\x97\xa0\xe5\xa6\x84", "utf-8", &enc),
+                     \ iconv("\xe6\x98\x8e\xe5\xa4\xb7", "utf-8", &enc),
+                     \ iconv("\xe8\xb4\xb2", "utf-8", &enc),
+                     \ iconv("\xe6\x97\xa2\xe6\xb5\x8e", "utf-8", &enc),
+                     \ iconv("\xe5\xae\xb6\xe4\xba\xba", "utf-8", &enc),
+                     \ iconv("\xe4\xb8\xb0", "utf-8", &enc),
+                     \ iconv("\xe7\xa6\xbb", "utf-8", &enc),
+                     \ iconv("\xe9\x9d\xa9", "utf-8", &enc),
+                     \ iconv("\xe5\x90\x8c\xe4\xba\xba", "utf-8", &enc),
+                     \ iconv("\xe4\xb8\xb4", "utf-8", &enc),
+                     \ iconv("\xe6\x8d\x9f", "utf-8", &enc),
+                     \ iconv("\xe8\x8a\x82", "utf-8", &enc),
+                     \ iconv("\xe4\xb8\xad\xe5\xad\x9a", "utf-8", &enc),
+                     \ iconv("\xe5\xbd\x92\xe5\xa6\xb9", "utf-8", &enc),
+                     \ iconv("\xe7\x9d\xbd", "utf-8", &enc),
+                     \ iconv("\xe5\x85\x91", "utf-8", &enc),
+                     \ iconv("\xe5\xb1\xa5", "utf-8", &enc),
+                     \ iconv("\xe6\xb3\xb0", "utf-8", &enc),
+                     \ iconv("\xe5\xa4\xa7\xe7\x95\x9c", "utf-8", &enc),
+                     \ iconv("\xe9\x9c\x80", "utf-8", &enc),
+                     \ iconv("\xe5\xb0\x8f\xe7\x95\x9c", "utf-8", &enc),
+                     \ iconv("\xe5\xa4\xa7\xe5\xa3\xae", "utf-8", &enc),
+                     \ iconv("\xe5\xa4\xa7\xe6\x9c\x89", "utf-8", &enc),
+                     \ iconv("\xe5\xa4\xac", "utf-8", &enc),
+                     \ iconv("\xe4\xb9\xbe", "utf-8", &enc),
+                     \ ]
+    let s:txtGuaXiang = [
+                        \ iconv("\xe5\x9c\xb0", "utf-8", &enc),
+                        \ iconv("\xe5\xb1\xb1", "utf-8", &enc),
+                        \ iconv("\xe6\xb0\xb4", "utf-8", &enc),
+                        \ iconv("\xe9\xa3\x8e", "utf-8", &enc),
+                        \ iconv("\xe9\x9b\xb7", "utf-8", &enc),
+                        \ iconv("\xe7\x81\xab", "utf-8", &enc),
+                        \ iconv("\xe6\xb3\xbd", "utf-8", &enc),
+                        \ iconv("\xe5\xa4\xa9", "utf-8", &enc),
+                        \ ]
+endif
 let s:wxGua = [3, 3, 0, 1, 1, 2, 4, 4] " 土，土，水，木，木，火，金，金
 let s:wxDZ  = [0, 3, 1, 1, 3, 2, 2, 3, 4, 4, 3, 0]
 let s:baseGZ = [[10, 12,  2,  4,  6,  8],
@@ -140,13 +290,6 @@ let s:ChineseSolarDB = {
                        \ '2049' : ['0104221851','0119154124','0203095336','0218054232','0305034308','0320042846','0404081430','0419151334','0505011245','0520140355','0605050350','0620214726','0706150857','0722083629','0807005807','0822154732','0907040544','0922134246','1007200512','1022232522','1106233835','1121211929','1206164649','1221105220'],
                        \ '2050' : ['0105040804','0119213400','0203154400','0218113518','0305093254','0320101946','0404140321','0419210217','0505070200','0520195050','0605105449','0621033301','0706210155','0722142129','0807065237','0822213252','0907100053','0922192846','1008020023','1023051159','1107053347','1122030625','1206224154','1221163850'],
                        \}
-" define command
-command! -n=0 -bar LYNew :call s:InsertDateTime()
-command! -n=0 -bar LYParse :call s:ParseDateTime()
-command! -n=0 -bar LYSet :call s:SetPaiPanMode()
-"" key-binding
-"nmap <Leader>yi :LiuYaoInsertDateTime<CR>
-"nmap <Leader>yp :LiuYaoParseDateTime<CR>
 
 function! s:SetPaiPanMode()
     let l:mode = s:ListAndSelect('PaiPan Mode List:', s:paipanmethod, g:ly_paipan_mode)
@@ -440,6 +583,11 @@ function! s:calcGuaStr(guas, day)
     for l:i in range(l:typelen)
         if l:guacol[l:i] > 0
             let l:tmptxt = s:txtGuaType[l:i]
+            if l:guainfo[l:i][0] % 9 == 0
+                let l:tmptxt = l:tmptxt . s:txtGuaXiang[l:guainfo[l:i][0] / 8] . s:txtExtra[9] . s:txt64Gua[l:guainfo[l:i][0]]
+            else
+                let l:tmptxt = l:tmptxt . s:txtGuaXiang[l:guainfo[l:i][0] % 8] . s:txtGuaXiang[l:guainfo[l:i][0] / 8] . s:txt64Gua[l:guainfo[l:i][0]]
+            endif
             let l:yaostr[l:yaolen] = strpart(l:yaostr[l:yaolen], 0, l:guacol[l:i]) . l:tmptxt . strpart(l:yaostr[l:yaolen], l:guacol[l:i] + len(l:tmptxt))
         endif
     endfor
