@@ -12,20 +12,20 @@ let s:setupexample = ['CH:000000', 'CT:000000', 'GC:11123456', 'TN:111,222,333']
 let s:txtYao = ['----  ----', '----------']
 if &encoding == 'utf-8'
     " utf-8
-    let s:txtTG       = ['甲'    , '乙'   , '丙'   , '丁'   , '戊'   , '己'    , '庚'   , '辛'     , '壬'                 , '癸']
-    let s:txtDZ       = ['子'    , '丑'   , '寅'   , '卯'   , '辰'   , '巳'    , '午'   , '未'     , '申'                 , '酉'  , '戌' , '亥']
+    let s:txtTG       = ['甲'    , '乙'   , '丙'   , '丁'   , '戊'   , '己'    , '庚'   , '辛'   , '壬' , '癸']
+    let s:txtDZ       = ['子'    , '丑'   , '寅'   , '卯'   , '辰'   , '巳'    , '午'   , '未'   , '申' , '酉'  , '戌' , '亥']
     let s:txtLS       = ['青龙'  , '朱雀' , '勾陈' , '滕蛇' , '白虎' , '玄武']
     let s:txtLQ       = ['兄'    , '父'   , '官'   , '财'   , '孙']
     let s:txtGua      = ['坤'    , '艮'   , '坎'   , '巽'   , '震'   , '离'    , '兑'   , '乾']
     let s:txtGuaType  = ['宫'    , '正'   , '互'   , '变'   , '错'   , '综']
-    let s:txtExtra    = ['年'    , '月'   , '日'   , '时'   , '空'   , '世'    , '应'   , '动'     , '伏'           '为']
-    let s:txt64Gua    = [ '坤'   , '剥'   , '比'   , '观'   , '豫'   , '晋'    , '萃'   , '否'     ,
-                        \ '谦'   , '艮'   , '蹇'   , '渐'   , '小过' , '旅'    , '咸'   , '遯'     ,
-                        \ '师'   , '蒙'   , '坎'   , '涣'   , '解'   , '未济'  , '困'   , '讼'     ,
-                        \ '升'   , '蛊'   , '井'   , '巽'   , '恒'   , '鼎'    , '大过' , '姤'     ,
-                        \ '复'   , '颐'   , '屯'   , '益'   , '震'   , '噬嗑'  , '随'   , '无妄'   ,
-                        \ '明夷' , '贲'   , '既济' , '家人' , '丰'   , '离'    , '革'   , '同人'   ,
-                        \ '临'   , '损'   , '节'   , '中孚' , '归妹' , '睽'    , '兑'   , '履'     ,
+    let s:txtExtra    = ['年'    , '月'   , '日'   , '时'   , '空'   , '世'    , '应'   , '动'   , '伏' , '为']
+    let s:txt64Gua    = [ '坤'   , '剥'   , '比'   , '观'   , '豫'   , '晋'    , '萃'   , '否'   ,
+                        \ '谦'   , '艮'   , '蹇'   , '渐'   , '小过' , '旅'    , '咸'   , '遯'   ,
+                        \ '师'   , '蒙'   , '坎'   , '涣'   , '解'   , '未济'  , '困'   , '讼'   ,
+                        \ '升'   , '蛊'   , '井'   , '巽'   , '恒'   , '鼎'    , '大过' , '姤'   ,
+                        \ '复'   , '颐'   , '屯'   , '益'   , '震'   , '噬嗑'  , '随'   , '无妄' ,
+                        \ '明夷' , '贲'   , '既济' , '家人' , '丰'   , '离'    , '革'   , '同人' ,
+                        \ '临'   , '损'   , '节'   , '中孚' , '归妹' , '睽'    , '兑'   , '履'   ,
                         \ '泰'   , '大畜' , '需'   , '小畜' , '大壮' , '大有'  , '夬'   , '乾'   ]
     let s:txtGuaXiang = ['地'    , '山'   , '水'   , '风'   , '雷'   , '火'    , '泽'   , '天']
 else
@@ -417,26 +417,28 @@ function! s:calcGuaStr(guas, day)
     let l:typelen = len(s:txtGuaType)
     let l:yaostr  = repeat(['',], l:yaolen + 1)
     let l:day     = s:myModulo(a:day - 1, 10)
+    " 记录各类型卦爻的起始列（一个汉字占2列，对于不同的编码所占的字节数可能为2也可能为3）
     let l:guacol  = repeat([0,], l:typelen)
+    " 记录各类型卦信息（卦名，宫卦，世爻位置）
     let l:guainfo = []
     let l:base    = s:calcBase(a:guas[0])
     let l:basewx  = s:wxGua[l:base[0] % 8]
-    " 宫卦
+    " 宫卦信息
     call add(l:guainfo, [l:base[0], l:base[0] % 8, 6])
-    " 正卦
+    " 正卦信息
     call add(l:guainfo, [a:guas[0], l:base[0] % 8, l:base[1]])
-    " 互卦
+    " 互卦信息
     let l:guahu   = and(a:guas[0], 14) / 2 + and(a:guas[0], 28) * 2
     let l:base    = s:calcBase(l:guahu)
     call add(l:guainfo, [l:guahu, l:base[0] % 8, l:base[1]])
-    " 变卦
+    " 变卦信息
     let l:base    = s:calcBase(a:guas[1])
     call add(l:guainfo, [a:guas[1], l:base[0] % 8, l:base[1]])
-    " 错卦
+    " 错卦信息
     let l:guacuo  = xor(a:guas[0], 63)
     let l:base    = s:calcBase(l:guacuo)
     call add(l:guainfo, [l:guacuo, l:base[0] % 8, l:base[1]])
-    " 综卦
+    " 综卦信息
     let l:guazong = and(a:guas[0], 1) * 32 + and(a:guas[0], 2) * 8 + and(a:guas[0], 4) * 2 + and(a:guas[0], 8) / 2 + and(a:guas[0], 16) / 8 + and(a:guas[0], 32) / 32
     let l:base    = s:calcBase(l:guazong)
     call add(l:guainfo, [l:guazong, l:base[0] % 8, l:base[1]])
@@ -499,7 +501,7 @@ function! s:calcGuaStr(guas, day)
             call add(l:lq0[l:yaolq], l:i)
             let l:gongpos1 = strlen(l:yaostr[i])
             let l:yaostr[i] = l:yaostr[i] . '  '
-            let l:guacol[0] = strlen(l:yaostr[i])
+            let l:guacol[0] = strwidth(l:yaostr[i])
             let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua0 % 2] . s:txtDZ[l:yaoz] . s:txtLQ[l:yaolq]
             let l:gongpos2 = strlen(l:yaostr[i])
             " 正卦
@@ -512,10 +514,10 @@ function! s:calcGuaStr(guas, day)
             elseif (l:yaolen - l:i == l:guainfo[1][2] + 3) || (l:yaolen - l:i == l:guainfo[1][2] - 3)
                 let l:txtsy = s:txtExtra[6] " 应
             else
-                let l:txtsy = '  '
+                let l:txtsy = repeat(' ', strwidth(s:txtExtra[6]))
             endif
             let l:yaostr[i] = l:yaostr[i] . '  '
-            let l:guacol[1] = strlen(l:yaostr[i])
+            let l:guacol[1] = strwidth(l:yaostr[i])
             let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua1 % 2] . l:txtsy . s:txtDZ[l:yaoz] . s:txtLQ[l:yaolq]
             " 互卦
             if g:ly_paipan_mode == 1
@@ -524,7 +526,7 @@ function! s:calcGuaStr(guas, day)
                 let l:yaoz  = s:myModulo(s:baseGZ[l:gua02][l:i] - 1, 12)
                 let l:yaolq = s:myModulo(l:basewx - s:wxDZ[l:yaoz], l:wxlen)
                 let l:yaostr[i] = l:yaostr[i] . '  '
-                let l:guacol[2] = strlen(l:yaostr[i])
+                let l:guacol[2] = strwidth(l:yaostr[i])
                 let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua2 % 2] . l:txtsy . s:txtDZ[l:yaoz] . s:txtLQ[l:yaolq]
             endif
             " 变卦
@@ -535,19 +537,19 @@ function! s:calcGuaStr(guas, day)
                 elseif (l:yaolen - l:i == l:guainfo[3][2] + 3) || (l:yaolen - l:i == l:guainfo[3][2] - 3)
                     let l:txtsy = s:txtExtra[6] " 应
                 else
-                    let l:txtsy = '  '
+                    let l:txtsy = repeat(' ', strwidth(s:txtExtra[6]))
                 endif
                 if l:gua3 % 2 != l:gua1 % 2
                     let l:txtdj = s:txtExtra[7]
                 else
-                    let l:txtdj = '  '
+                    let l:txtdj = repeat(' ', strwidth(s:txtExtra[7]))
                 endif
                 let l:yaog  = s:myModulo(s:baseGZ[l:gua03][l:i] - 1, 10)
                 let l:yaoz  = s:myModulo(s:baseGZ[l:gua03][l:i] - 1, 12)
                 let l:yaolq = s:myModulo(l:basewx - s:wxDZ[l:yaoz], l:wxlen)
                 let l:lq1[l:yaolq] = 1
                 let l:yaostr[i] = l:yaostr[i] . '  ' . l:txtdj
-                let l:guacol[3] = strlen(l:yaostr[i])
+                let l:guacol[3] = strwidth(l:yaostr[i])
                 let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua3 % 2] . l:txtsy . s:txtDZ[l:yaoz] . s:txtLQ[l:yaolq]
             endif
             " 错卦
@@ -557,7 +559,7 @@ function! s:calcGuaStr(guas, day)
                 let l:yaoz  = s:myModulo(s:baseGZ[l:gua04][l:i] - 1, 12)
                 let l:yaolq = s:myModulo(l:basewx - s:wxDZ[l:yaoz], l:wxlen)
                 let l:yaostr[i] = l:yaostr[i] . '  '
-                let l:guacol[4] = strlen(l:yaostr[i])
+                let l:guacol[4] = strwidth(l:yaostr[i])
                 let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua4 % 2] . l:txtsy . s:txtDZ[l:yaoz] . s:txtLQ[l:yaolq]
             endif
             " 综卦
@@ -567,7 +569,7 @@ function! s:calcGuaStr(guas, day)
                 let l:yaoz  = s:myModulo(s:baseGZ[l:gua05][l:i] - 1, 12)
                 let l:yaolq = s:myModulo(l:basewx - s:wxDZ[l:yaoz], l:wxlen)
                 let l:yaostr[i] = l:yaostr[i] . '  '
-                let l:guacol[5] = strlen(l:yaostr[i])
+                let l:guacol[5] = strwidth(l:yaostr[i])
                 let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua5 % 2] . l:txtsy . s:txtDZ[l:yaoz] . s:txtLQ[l:yaolq]
             endif
             let l:gua0 = l:gua0 / 2
@@ -580,6 +582,7 @@ function! s:calcGuaStr(guas, day)
     endfor
     " 添加卦类型
     let l:yaostr[l:yaolen] = repeat(' ', max(l:guacol))
+    let l:widthdiff = 0
     for l:i in range(l:typelen)
         if l:guacol[l:i] > 0
             let l:tmptxt = s:txtGuaType[l:i]
@@ -588,7 +591,10 @@ function! s:calcGuaStr(guas, day)
             else
                 let l:tmptxt = l:tmptxt . s:txtGuaXiang[l:guainfo[l:i][0] % 8] . s:txtGuaXiang[l:guainfo[l:i][0] / 8] . s:txt64Gua[l:guainfo[l:i][0]]
             endif
-            let l:yaostr[l:yaolen] = strpart(l:yaostr[l:yaolen], 0, l:guacol[l:i]) . l:tmptxt . strpart(l:yaostr[l:yaolen], l:guacol[l:i] + len(l:tmptxt))
+            " l:guacol由列数转变为字节数
+            let l:guacol[l:i] = l:guacol[l:i] + l:widthdiff
+            let l:yaostr[l:yaolen] = strpart(l:yaostr[l:yaolen], 0, l:guacol[l:i]) . l:tmptxt . strpart(l:yaostr[l:yaolen], l:guacol[l:i] + strwidth(l:tmptxt))
+            let l:widthdiff = l:widthdiff + strlen(l:tmptxt) - strwidth(l:tmptxt)
         endif
     endfor
     " 添加伏神标记
@@ -596,7 +602,7 @@ function! s:calcGuaStr(guas, day)
         for l:j in range(l:wxlen)
             if l:lq1[l:j] > 0
                 for l:i in l:lq0[l:j]
-                    let l:yaostr[l:i] = strpart(l:yaostr[l:i], 0, l:gongpos2) . '  ' . strpart(l:yaostr[l:i], l:gongpos2)
+                    let l:yaostr[l:i] = strpart(l:yaostr[l:i], 0, l:gongpos2) . repeat(' ', strwidth(s:txtExtra[8])) . strpart(l:yaostr[l:i], l:gongpos2)
                 endfor
             else
                 for l:i in l:lq0[l:j]
@@ -604,25 +610,22 @@ function! s:calcGuaStr(guas, day)
                 endfor
             endif
         endfor
-        let l:yaostr[l:yaolen] = strpart(l:yaostr[l:yaolen], 0, l:gongpos2) . '  ' . strpart(l:yaostr[l:yaolen], l:gongpos2)
-        let l:gongpos2 = l:gongpos2 + 2
-        let l:guacol[1] = l:guacol[1] + 2
-        let l:guacol[2] = l:guacol[2] + 2
-        let l:guacol[3] = l:guacol[3] + 2
-        let l:guacol[4] = l:guacol[4] + 2
+        let l:yaostr[l:yaolen] = strpart(l:yaostr[l:yaolen], 0, l:gongpos2) . repeat(' ', strwidth(s:txtExtra[8])) . strpart(l:yaostr[l:yaolen], l:gongpos2)
+        let l:gongpos2 = l:gongpos2 + strlen(s:txtExtra[8])
     endif
     " 删除无用宫卦
     if (g:ly_paipan_mode == 0) && (g:ly_visible_all != 1)
         if index(l:lq1, 0) < 0
             " 无伏神
-            for l:i in range(l:yaolen + 1)
+            for l:i in range(l:yaolen)
                 let l:yaostr[l:i] = strpart(l:yaostr[l:i], 0, l:gongpos1) . strpart(l:yaostr[l:i], l:gongpos2)
             endfor
+            let l:yaostr[l:yaolen] = strpart(l:yaostr[l:yaolen], 0, l:guacol[0]) . strpart(l:yaostr[l:yaolen], l:guacol[1])
         else
             for l:j in range(l:wxlen)
                 if l:lq1[l:j] > 0
                     for l:i in l:lq0[l:j]
-                        let l:yaostr[l:i] = strpart(l:yaostr[l:i], 0, l:gongpos1) . repeat(' ', l:gongpos2 - l:gongpos1) . strpart(l:yaostr[l:i], l:gongpos2)
+                        let l:yaostr[l:i] = strpart(l:yaostr[l:i], 0, l:gongpos1) . repeat(' ', strwidth(strpart(l:yaostr[l:i], l:gongpos1, l:gongpos2 - l:gongpos1))) . strpart(l:yaostr[l:i], l:gongpos2)
                     endfor
                 endif
             endfor
