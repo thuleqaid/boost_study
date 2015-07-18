@@ -1,16 +1,16 @@
-" ¹«Àú×ª»»³ÉÖĞ¹úÑôÀúºÍÒõÀú£¨²é±í·¨£©
-" ¸ÉÖ§Ïà¹ØĞÅÏ¢µÄ×ª»»
+" å…¬å†è½¬æ¢æˆä¸­å›½é˜³å†å’Œé˜´å†ï¼ˆæŸ¥è¡¨æ³•ï¼‰
+" å¹²æ”¯ç›¸å…³ä¿¡æ¯çš„è½¬æ¢
 
 let s:wxTG  = [2, 2, 3, 3, 4, 4, 5, 5, 1, 1]
 let s:wxDZ  = [1, 4, 2, 2, 4, 3, 3, 4, 5, 5, 4, 1]
 if &encoding == 'utf-8'
     " utf-8
-    let s:txtTG       = ['¼×' , 'ÒÒ' , '±û' , '¶¡' , 'Îì'  , '¼º'  , '¸ı' , 'ĞÁ' , 'ÈÉ' , '¹ï']
-    let s:txtDZ       = ['×Ó' , '³ó' , 'Òú' , 'Ã®' , '³½'  , 'ËÈ'  , 'Îç' , 'Î´' , 'Éê' , 'ÓÏ'  , 'Ğç' , 'º¥']
-    let s:txtExtra    = ['Äê' , 'ÔÂ' , 'ÈÕ' , 'Ê±' , '¿Õ'  , 'Èò']
-    let s:txtNumber   = ['Ò»' , '¶ş' , 'Èı' , 'ËÄ' , 'Îå'  , 'Áù'  , 'Æß' , '°Ë' , '¾Å' , 'Ê®'  , 'Ø¥' , 'Ø¦'  , '³õ' , 'Õı' , '¶¬' , 'À°']
-    let s:txtCalLoop  = ['ÉÏ' , 'ÖĞ' , 'ÏÂ' , 'ÔË' , 'Ôª']
-    let s:txtWX       = ['Ë®' , 'Ä¾' , '»ğ' , 'ÍÁ' , '½ğ']
+    let s:txtTG       = ['ç”²' , 'ä¹™' , 'ä¸™' , 'ä¸' , 'æˆŠ'  , 'å·±'  , 'åºš' , 'è¾›' , 'å£¬' , 'ç™¸']
+    let s:txtDZ       = ['å­' , 'ä¸‘' , 'å¯…' , 'å¯' , 'è¾°'  , 'å·³'  , 'åˆ' , 'æœª' , 'ç”³' , 'é…‰'  , 'æˆŒ' , 'äº¥']
+    let s:txtExtra    = ['å¹´' , 'æœˆ' , 'æ—¥' , 'æ—¶' , 'ç©º'  , 'é—°']
+    let s:txtNumber   = ['ä¸€' , 'äºŒ' , 'ä¸‰' , 'å››' , 'äº”'  , 'å…­'  , 'ä¸ƒ' , 'å…«' , 'ä¹' , 'å'  , 'å»¿' , 'å…'  , 'åˆ' , 'æ­£' , 'å†¬' , 'è…Š']
+    let s:txtCalLoop  = ['ä¸Š' , 'ä¸­' , 'ä¸‹' , 'è¿' , 'å…ƒ']
+    let s:txtWX       = ['æ°´' , 'æœ¨' , 'ç«' , 'åœŸ' , 'é‡‘']
 else
     " cp936
     let s:txtTG = [
@@ -284,7 +284,7 @@ let s:ChineseLunarDB = {
                        \ '2049' : ['0', '20490202', '20490304', '20490402', '20490502', '20490531', '20490630', '20490730', '20490828', '20490927', '20491027', '20491125', '20491225', '20491225', '20500220'],
                        \ '2050' : ['0', '20500221', '20500323', '20500421', '20500521', '20500619', '20500719', '20500817', '20500916', '20501016', '20501114', '20501214', '20510113', '20510113', '20510312'],
                        \}
-" ÎÄ±¾×ª»»
+" æ–‡æœ¬è½¬æ¢
 function! CalTextTG(gz)
     " @param[in] gz:1~60
     let l:gz = CalModulo(a:gz - 1, 10)
@@ -305,7 +305,7 @@ function! CalTextWX(wx)
     let l:wx = CalModulo(a:wx - 1, 5)
     return s:txtWX[l:wx]
 endfunction
-" ¸ÉÖ§ÎåĞĞ
+" å¹²æ”¯äº”è¡Œ
 function! CalWxTG(gz)
     " @param[in] gz:1~60
     let l:gz = CalModulo(a:gz - 1, 10)
@@ -316,21 +316,21 @@ function! CalWxDZ(gz)
     let l:gz = CalModulo(a:gz - 1, 12)
     return s:wxDZ[l:gz]
 endfunction
-" ÇóÓà¼ÆËã
+" æ±‚ä½™è®¡ç®—
 function! CalModulo(a, b)
     " @retval 0 ~ (b-1)
     return (a:a % a:b + a:b) % a:b
 endfunction
-" ÑôÀúÏà¹Ø
+" é˜³å†ç›¸å…³
 function! CalChineseSolarDTStr(outfmt, datetime)
     " @param[in] outfmt:
-    "       %YG(Äê¸É),%YZ(ÄêÖ§),%YC(Äê×Ö),%YN(Äê¸ÉÖ§µÄ¿ÕÍöµØÖ§)
-    "       %MG(ÔÂ¸É),%MZ(ÔÂÖ§),%MC(ÔÂ×Ö),%MN(ÔÂ¸ÉÖ§µÄ¿ÕÍöµØÖ§)
-    "       %DG(ÈÕ¸É),%DZ(ÈÕÖ§),%DC(ÈÕ×Ö),%DN(ÈÕ¸ÉÖ§µÄ¿ÕÍöµØÖ§)
-    "       %HG(Ê±¸É),%HZ(Ê±Ö§),%HC(Ê±×Ö),%HN(Ê±¸ÉÖ§µÄ¿ÕÍöµØÖ§)
-    "       %L3(´óÔË£¬Ò»ÔË~¾ÅÔË£¬Ò»ÔË~ÈıÔËÎªÉÏÔª£¬ËÄÔË~ÁùÔËÎªÖĞÔª£¬ÆßÔË~¾ÅÔËÎªÏÂÔª)
-    "       %L9(´óÔË£¬ÉÏÔª~ÏÂÔª£¬Ò»ÔË~ÈıÔËÎªÉÏÔª£¬ËÄÔË~ÁùÔËÎªÖĞÔª£¬ÆßÔË~¾ÅÔËÎªÏÂÔª)
-    "       %NC(¿Õ×Ö)
+    "       %YG(å¹´å¹²),%YZ(å¹´æ”¯),%YC(å¹´å­—),%YN(å¹´å¹²æ”¯çš„ç©ºäº¡åœ°æ”¯)
+    "       %MG(æœˆå¹²),%MZ(æœˆæ”¯),%MC(æœˆå­—),%MN(æœˆå¹²æ”¯çš„ç©ºäº¡åœ°æ”¯)
+    "       %DG(æ—¥å¹²),%DZ(æ—¥æ”¯),%DC(æ—¥å­—),%DN(æ—¥å¹²æ”¯çš„ç©ºäº¡åœ°æ”¯)
+    "       %HG(æ—¶å¹²),%HZ(æ—¶æ”¯),%HC(æ—¶å­—),%HN(æ—¶å¹²æ”¯çš„ç©ºäº¡åœ°æ”¯)
+    "       %L3(å¤§è¿ï¼Œä¸€è¿~ä¹è¿ï¼Œä¸€è¿~ä¸‰è¿ä¸ºä¸Šå…ƒï¼Œå››è¿~å…­è¿ä¸ºä¸­å…ƒï¼Œä¸ƒè¿~ä¹è¿ä¸ºä¸‹å…ƒ)
+    "       %L9(å¤§è¿ï¼Œä¸Šå…ƒ~ä¸‹å…ƒï¼Œä¸€è¿~ä¸‰è¿ä¸ºä¸Šå…ƒï¼Œå››è¿~å…­è¿ä¸ºä¸­å…ƒï¼Œä¸ƒè¿~ä¹è¿ä¸ºä¸‹å…ƒ)
+    "       %NC(ç©ºå­—)
     " @param[in] datetime:return array of CalChineseSolarDT()
     " @retval datetime string
     let l:outstr = a:outfmt
@@ -410,16 +410,17 @@ function! s:calcTermIndex(datetime)
     endif
     return l:idx
 endfunction
-" ÒõÀúÏà¹Ø
+" é˜´å†ç›¸å…³
 function! CalChineseLunarDTStr(outfmt, datetime)
     " @param[in] outfmt:
-    "       %YT(Äê¸ÉÖ§),%YC(Äê×Ö),%YG(Äê¸É),%YZ(ÄêÖ§)
-    "       %MT(ÔÂÃû),%MC(ÔÂ×Ö)
-    "       %DT(ÈÕÃû),%DC(ÈÕ×Ö)
+    "       %YT(å¹´å¹²æ”¯),%YC(å¹´å­—),%YG(å¹´å¹²),%YZ(å¹´æ”¯)
+    "       %MT(æœˆå),%MC(æœˆå­—)
+    "       %DT(æ—¥å),%DC(æ—¥å­—)
+    "       %HZ(æ—¶æ”¯),%HC(æ—¶å­—)
     " @param[in] datetime:return array of CalChineseLunarDT()
     " @retval datetime string
     let l:outstr = a:outfmt
-    let l:datetag = ["%YC", "%MC", "%DC"]
+    let l:datetag = ["%YC", "%MC", "%DC", "%HC"]
     for l:i in range(len(l:datetag))
         if stridx(l:outstr, l:datetag[l:i]) >= 0
             let l:cstr = s:txtExtra[l:i]
@@ -427,15 +428,15 @@ function! CalChineseLunarDTStr(outfmt, datetime)
         endif
     endfor
     if stridx(l:outstr, "%Y") >= 0
-        let l:strg = CalTextTG(a:datetime[4])
-        let l:strz = CalTextDZ(a:datetime[4])
+        let l:strg = CalTextTG(a:datetime[5])
+        let l:strz = CalTextDZ(a:datetime[5])
         let l:strt = l:strg . l:strz
         let l:outstr = substitute(l:outstr, "%YT", l:strt, 'g')
         let l:outstr = substitute(l:outstr, "%YG", l:strg, 'g')
         let l:outstr = substitute(l:outstr, "%YZ", l:strz, 'g')
     endif
     if stridx(l:outstr, "%M") >= 0
-        if a:datetime[3] > 0
+        if a:datetime[4] > 0
             let l:strt = s:txtExtra[5]
         else
             let l:strt = ''
@@ -465,15 +466,20 @@ function! CalChineseLunarDTStr(outfmt, datetime)
         endif
         let l:outstr = substitute(l:outstr, "%DT", l:strt, 'g')
     endif
+    if stridx(l:outstr, "%H") >= 0
+        let l:strz = CalTextDZ(a:datetime[3])
+        let l:outstr = substitute(l:outstr, "%HZ", l:strz, 'g')
+    endif
     return l:outstr
 endfunction
 function! CalChineseLunarDT(date)
-    " @param[in] date:[year, month, day]
-    " @retval [year, month, day, isLeapMonth, year-gz]
+    " @param[in] date:[year, month, day, hour]
+    " @retval [year, month, day, hour-dz, isLeapMonth, year-gz] hour-dz:1~13,1æ—©å­æ—¶,13æ™šå­æ—¶
     let l:lunaryear  = a:date[0]
     let l:yeargz     = 0
     let l:lunarmonth = 0
     let l:lunarday   = 0
+    let l:lunarhour  = 0
     let l:leapflag   = 0
     let l:yearstr    = printf("%04d", l:lunaryear)
     let l:datestr    = printf("%04d%02d%02d", a:date[0], a:date[1], a:date[2])
@@ -513,15 +519,17 @@ function! CalChineseLunarDT(date)
             let l:lunarmonth = l:i
         endif
         let l:lunarday = s:calcDiffDays(l:datestr, s:ChineseLunarDB[l:yearstr][l:i])
+        let l:lunarhour  = (a:date[3] + 1) / 2 + 1
     endif
     if l:lunarday <= 0
         let l:lunaryear  = 0
         let l:lunarmonth = 0
         let l:lunarday   = 0
+        let l:lunarhour  = 0
         let l:leapflag   = 0
         let l:yeargz     = 0
     endif
-    return [l:lunaryear, l:lunarmonth, l:lunarday, l:leapflag, l:yeargz]
+    return [l:lunaryear, l:lunarmonth, l:lunarday, l:lunarhour, l:leapflag, l:yeargz]
 endfunction
 function! s:calcDiffDays(date1, date2)
     let l:year1  = str2nr(strpart(a:date1, 0, 4))
@@ -548,7 +556,7 @@ function! s:calcDiffDays(date1, date2)
     endif
     return l:diff
 endfunction
-" ¹²Í¨
+" å…±é€š
 function! s:calcDays(year, month, day)
     " @param[in] year
     " @param[in] year
