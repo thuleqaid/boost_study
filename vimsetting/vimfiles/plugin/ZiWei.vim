@@ -1,8 +1,19 @@
-let s:cellMinWidth  = 7
+" define command
+command! -n=0 -bar ZwNew :call s:ZiWeiNew()
+command! -n=0 -bar ZwPan :call s:ZiWeiPaiPan()
+
+let s:cellMinWidth  = 10
 let s:cellMinHeight = 8
 let s:cellCount     = 12
 let g:ZiWei_Cell_Width = get(g:, 'ZiWei_Cell_Width', s:cellMinWidth)
 let g:ZiWei_Cell_Height = get(g:, 'ZiWei_Cell_Height', s:cellMinHeight)
+let s:wxJUTable = [
+                  \ [2, 2, 6, 6, 3, 3, 5, 5, 4, 4, 6, 6],
+                  \ [6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 5, 5],
+                  \ [5, 5, 3, 3, 2, 2, 4, 4, 6, 6, 3, 3],
+                  \ [3, 3, 4, 4, 6, 6, 2, 2, 5, 5, 4, 4],
+                  \ [4, 4, 2, 2, 5, 5, 6, 6, 3, 3, 2, 2],
+                  \ ]
 let s:basicInfo = {
                   \ 'GENDER'  : 1,
                   \ 'NANNV'   : 1,
@@ -15,6 +26,22 @@ let s:basicInfo = {
                   \ 'SHEN'    : 1,
                   \ 'JU'      : 2,
                   \ }
+"" 命宫, 兄弟, 夫妻, 子女, 财帛, 疾厄, 迁移, 奴仆, 宫䘵, 田宅, 福德, 父母, 身
+let s:txtGong = [
+                \ iconv("\xe5\x91\xbd\xe5\xae\xab", "utf-8", &enc),
+                \ iconv("\xe5\x85\x84\xe5\xbc\x9f", "utf-8", &enc),
+                \ iconv("\xe5\xa4\xab\xe5\xa6\xbb", "utf-8", &enc),
+                \ iconv("\xe5\xad\x90\xe5\xa5\xb3", "utf-8", &enc),
+                \ iconv("\xe8\xb4\xa2\xe5\xb8\x9b", "utf-8", &enc),
+                \ iconv("\xe7\x96\xbe\xe5\x8e\x84", "utf-8", &enc),
+                \ iconv("\xe8\xbf\x81\xe7\xa7\xbb", "utf-8", &enc),
+                \ iconv("\xe5\xa5\xb4\xe4\xbb\x86", "utf-8", &enc),
+                \ iconv("\xe5\xae\xab\xe4\x98\xb5", "utf-8", &enc),
+                \ iconv("\xe7\x94\xb0\xe5\xae\x85", "utf-8", &enc),
+                \ iconv("\xe7\xa6\x8f\xe5\xbe\xb7", "utf-8", &enc),
+                \ iconv("\xe7\x88\xb6\xe6\xaf\x8d", "utf-8", &enc),
+                \ iconv("\xe8\xba\xab", "utf-8", &enc),
+                \ ]
 "" S1N01 = 紫微, S1N02 = 天机, S1N03 = 太阳, S1N04 = 武曲, S1N05 = 天同, S1N06 = 廉贞
 "" S1N11 = 天府, S1N12 = 太阴, S1N13 = 贪狼, S1N14 = 巨门, S1N15 = 天相, S1N16 = 天梁, S1N17 = 七杀, S1N18 = 破军
 "" S2N01 = 左辅, S2N02 = 右弼, S2N03 = 文晶, S2N04 = 文曲, S2N05 = 地空, S2N06 = 地劫, S2N07 = 天魁, S2N08 = 天钺
@@ -100,20 +127,28 @@ let s:starInfo = {
                  \ }
 let s:starCount = repeat([0, ], s:cellCount)
 
-"function! ZWPan(gender, year, month, day, hour)
-    "let l:lunarinfo = CalChineseLunarDT([a:year, a:month, a:day, a:hour])
-    "let s:basicInfo['GENDER']  = a:gender==1?1:2
-function! ZWPan()
-    let l:lunarinfo = CalChineseLunarDT([1983, 9, 2, 13])
-    let s:basicInfo['GENDER']  = 1
+function! s:ZiWeiNew()
+    let l:curdt = CalNow()
+    let l:txt = "{'NAME':'Anonymous', 'GENDER':'M', 'CLOCKTIME':'" . l:curdt . "', 'SOLARTIME':'" . l:curdt . "'}"
+    if len(getline('.')) > 0
+        call append(line('.'), l:txt)
+    else
+        call setline(line('.'), l:txt)
+    endif
+endfunction
+function! s:ZiWeiPaiPan()
+    let l:inputinfo = eval(getline('.'))
+    let l:lunarinfo = CalChineseLunarDT(CalParseDateTime(l:inputinfo['SOLARTIME']))
+    let s:basicInfo['GENDER']  = (l:inputinfo['GENDER']=='F')?2:1
     let s:basicInfo['NANNV' ]  = (l:lunarinfo[5] + s:basicInfo['GENDER']) % 2 + 1
     let s:basicInfo['BYEAR']   = l:lunarinfo[0]
-    let s:basicInfo['BMONTH']  = l:lunarinfo[1] + l:lunarinfo[4]>0?1:0
+    let s:basicInfo['BMONTH']  = l:lunarinfo[1] + ((l:lunarinfo[4]>0)?1:0)
     let s:basicInfo['BDAY']    = l:lunarinfo[2]
-    let s:basicInfo['BHOUR']   = l:lunarinfo[3]>s:cellCount?(l:lunarinfo[3] - s:cellCount):l:lunarinfo[3]
+    let s:basicInfo['BHOUR']   = (l:lunarinfo[3]>s:cellCount)?(l:lunarinfo[3] - s:cellCount):l:lunarinfo[3]
     let s:basicInfo['BYEARGZ'] = l:lunarinfo[5]
     let s:basicInfo['MING']    = CalModulo(s:basicInfo['BMONTH'] - 1 - (s:basicInfo['BHOUR'] - 1) + 2, s:cellCount) + 1
     let s:basicInfo['SHEN']    = CalModulo(s:basicInfo['BMONTH'] - 1 + s:basicInfo['BHOUR'] - 1 + 2, s:cellCount) + 1
+    let s:basicInfo['JU']      = s:wxJUTable[CalModulo(s:basicInfo['BYEARGZ'] - 1, 5)][s:basicInfo['MING'] - 1]
     let s:starCount = repeat([0, ], s:cellCount)
     for l:skey in sort(keys(s:starInfo))
         let l:tmpvalue = eval(s:starInfo[l:skey]['CALC'])
@@ -134,6 +169,26 @@ function! s:paipan()
         call add(l:zwpan, repeat(['',], l:height))
     endfor
     " 设置各宫文字列数组
+    " 单元格右下角的月干支
+    let l:rightcols = l:width - ((l:width - 20) / 2 + 6)
+    let l:monthgz   = CalModulo(s:basicInfo['BYEARGZ'] - 1, 5) * 12 + 3
+    for l:i in range(s:cellCount)
+        let l:zwpan[CalModulo(l:i + 2, s:cellCount)][l:height - 2] = CalTextTG(l:monthgz + l:i)
+        let l:zwpan[CalModulo(l:i + 2, s:cellCount)][l:height - 1] = repeat(' ', l:rightcols - 2) . CalTextDZ(l:monthgz + l:i)
+    endfor
+    " 单元格下方正中的12宫宫名及大运起始年龄
+    for l:i in range(s:cellCount)
+        let l:cellidx = CalModulo(s:basicInfo['MING'] - l:i - 1, s:cellCount) + 1
+        let l:startage = s:basicInfo['JU'] + l:i * 10
+        if l:cellidx == s:basicInfo['SHEN']
+            let l:gongname = s:txtGong[12] . strpart(s:txtGong[l:i], 0, strlen(s:txtGong[12]))
+        else
+            let l:gongname = s:txtGong[l:i]
+        endif
+        let l:gongname = '[' . l:gongname . ']' . printf("%d-", l:startage)
+        let l:zwpan[l:cellidx - 1][l:height - 1] = l:gongname . strpart(l:zwpan[l:cellidx - 1][l:height - 1], strwidth(l:gongname))
+    endfor
+    " 单元格左上角的星名
     for l:skey in sort(keys(s:starInfo))
         if s:starInfo[l:skey]['VISIBLE'] == 1
             let l:tmpvalue = s:starInfo[l:skey]['VALUE'] - 1

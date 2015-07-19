@@ -162,27 +162,27 @@ function! s:SetPaiPanMode()
     endif
 endfunction
 function! s:InsertDateTime()
-    let l:curdt = strftime("%Y-%m-%d %H:%M:%S")
+    let l:curdt = CalNow()
     let l:method = s:ListAndSelect('Method List:', s:setupmethod, -1)
     if l:method >= 0
         let l:coins = s:setupexample[l:method]
         if len(getline('.')) > 0
-            call append(line('.'), l:curdt . ' ' . l:coins)
+            call append(line('.'), "{'TIME':'" . l:curdt . "', 'COINS':'" . l:coins . "'}")
         else
-            call setline(line('.'), l:curdt . ' ' . l:coins)
+            call setline(line('.'), "{'TIME':'" . l:curdt . "', 'COINS':'" . l:coins . "'}")
         endif
     endif
 endfunction
 function! s:ParseDateTime()
     let l:curlineno = line('.')
-    let l:parts  = split(getline(l:curlineno), '[ \t]\+')
-    let l:datetime  = map(split(l:parts[0] . ' ' . l:parts[1], '[ \t:-]\+'), 'str2nr(v:val)')
+    let l:parts  = eval(getline(l:curlineno))
+    let l:datetime  = CalParseDateTime(l:parts['TIME'])
     let l:datenew = CalChineseSolarDT(l:datetime)
     if l:datenew[0] <= 0
         return
     endif
     let l:datestr = CalChineseSolarDTStr("%YG%YZ%YC %MG%MZ%MC %DG%DZ%DC %HG%HZ%HC %NC%DN", l:datenew)
-    let l:guas = s:calcGua(l:parts[2])
+    let l:guas = s:calcGua(l:parts['COINS'])
     if (l:guas[0] < 0) || (l:guas[1] < 0)
         return
     endif
