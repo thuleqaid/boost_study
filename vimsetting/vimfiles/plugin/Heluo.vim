@@ -396,23 +396,22 @@ function! s:outputResult(info)
         let l:filedata = readfile(l:txtPath)
         let l:outtxt = []
         "call add(l:outtxt, printf("%4d ~ %4d", a:info[0][2], a:info[0][3]))
-        "call add(l:outtxt, s:stripNo(l:filedata[a:info[0][0]*7]))
-        "call add(l:outtxt, s:stripNo(l:filedata[a:info[0][0]*7+a:info[0][1]]))
+        "call extend(l:outtxt, split(s:stripNo(l:filedata[a:info[0][0]*7]),':'))
+        "call extend(l:outtxt, split(s:stripNo(l:filedata[a:info[0][0]*7+a:info[0][1]]),':'))
         call add(l:outtxt, printf("%4d ~ %4d", a:info[1][2], a:info[1][3]))
-        call add(l:outtxt, s:stripNo(l:filedata[a:info[1][0]*7]))
-        call add(l:outtxt, s:stripNo(l:filedata[a:info[1][0]*7+a:info[1][1]]))
-        call add(l:outtxt, printf("%4d", a:info[2][2]))
-        call add(l:outtxt, s:stripNo(l:filedata[a:info[2][0]*7]))
-        call add(l:outtxt, s:stripNo(l:filedata[a:info[2][0]*7+a:info[2][1]]))
+        call extend(l:outtxt, split(s:stripNo(l:filedata[a:info[1][0]*7]),':'))
+        call extend(l:outtxt, split(s:stripNo(l:filedata[a:info[1][0]*7+a:info[1][1]]),':'))
+        call add(l:outtxt, printf("%4d  %s ~ %s", a:info[2][2], CalChineseSolarTermDT(a:info[2][2], 1), CalChineseSolarTermDT(a:info[2][2] + 1, 1)))
+        call extend(l:outtxt, split(s:stripNo(l:filedata[a:info[2][0]*7]),':'))
+        call extend(l:outtxt, split(s:stripNo(l:filedata[a:info[2][0]*7+a:info[2][1]]),':'))
         for l:i in range(12)
-            call add(l:outtxt, printf("%02d", a:info[3][l:i][2]))
-            call add(l:outtxt, s:stripNo(l:filedata[a:info[3][l:i][0]*7]))
-            call add(l:outtxt, s:stripNo(l:filedata[a:info[3][l:i][0]*7+a:info[3][l:i][1]]))
+            call add(l:outtxt, printf("%02d  %s ~ %s", a:info[3][l:i][2], CalChineseSolarTermDT(a:info[2][2], l:i * 2 + 1), CalChineseSolarTermDT(a:info[2][2], l:i * 2 + 3)))
+            call extend(l:outtxt, split(s:stripNo(l:filedata[a:info[3][l:i][0]*7]),':'))
+            call extend(l:outtxt, split(s:stripNo(l:filedata[a:info[3][l:i][0]*7+a:info[3][l:i][1]]),':'))
         endfor
         for l:i in range(len(l:outtxt))
             call append(l:curline + l:i, l:outtxt[l:i])
         endfor
-        silent exe string(l:curline + 1) . ',' . string(l:curline + len(l:outtxt)) . 's/://g'
     else
         call append(l:curline, string(a:info))
     endif

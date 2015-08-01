@@ -398,6 +398,26 @@ function! CalChineseSolarDT(datetime)
     endif
     return [l:year, l:month, l:day, l:hour, l:yun, l:termidx]
 endfunction
+function! CalChineseSolarTermDT(year, termidx)
+    let l:idx  = a:termidx % 24
+    let l:year = a:year + (a:termidx / 24)
+    while l:idx <=0
+        let l:idx = l:idx + 24
+        let l:year = l:year - 1
+    endwhile
+    while l:idx > 24
+        let l:idx = l:idx - 24
+        let l:year = l:year + 1
+    endwhile
+    let l:yearstr = printf("%04d", l:year)
+    if has_key(s:ChineseSolarDB, l:yearstr)
+        let l:dtstr = s:ChineseSolarDB[l:yearstr][l:idx - 1]
+        let l:rettxt = printf("%s-%s-%s %s:%s:%s", l:yearstr, strpart(l:dtstr, 0, 2), strpart(l:dtstr, 2, 2), strpart(l:dtstr, 4, 2), strpart(l:dtstr, 6, 2), strpart(l:dtstr, 8, 2))
+    else
+        let l:rettxt = ''
+    endif
+    return l:rettxt
+endfunction
 function! s:calcTermIndex(datetime)
     " @retval -3~-1:winter 0~5:spring  6~11:summer  12~17:autumn 18~21:winter 99:not in database
     let l:yearstr = printf("%04d", a:datetime[0])
