@@ -26,7 +26,7 @@ let s:basicInfo = {
                   \ 'SHEN'    : 1,
                   \ 'JU'      : 2,
                   \ }
-"" 命宫, 兄弟, 夫妻, 子女, 财帛, 疾厄, 迁移, 奴仆, 宫䘵, 田宅, 福德, 父母, 身
+"" 命宫, 兄弟, 夫妻, 子女, 财帛, 疾厄, 迁移, 奴仆, 宫禄, 田宅, 福德, 父母, 身
 let s:txtGong = [
                 \ iconv("\xe5\x91\xbd\xe5\xae\xab", "utf-8", &enc),
                 \ iconv("\xe5\x85\x84\xe5\xbc\x9f", "utf-8", &enc),
@@ -36,7 +36,7 @@ let s:txtGong = [
                 \ iconv("\xe7\x96\xbe\xe5\x8e\x84", "utf-8", &enc),
                 \ iconv("\xe8\xbf\x81\xe7\xa7\xbb", "utf-8", &enc),
                 \ iconv("\xe5\xa5\xb4\xe4\xbb\x86", "utf-8", &enc),
-                \ iconv("\xe5\xae\xab\xe4\x98\xb5", "utf-8", &enc),
+                \ iconv("\xe5\xae\xab\xe7\xa6\x84", "utf-8", &enc),
                 \ iconv("\xe7\x94\xb0\xe5\xae\x85", "utf-8", &enc),
                 \ iconv("\xe7\xa6\x8f\xe5\xbe\xb7", "utf-8", &enc),
                 \ iconv("\xe7\x88\xb6\xe6\xaf\x8d", "utf-8", &enc),
@@ -45,7 +45,7 @@ let s:txtGong = [
 "" S1N01 = 紫微, S1N02 = 天机, S1N03 = 太阳, S1N04 = 武曲, S1N05 = 天同, S1N06 = 廉贞
 "" S1N11 = 天府, S1N12 = 太阴, S1N13 = 贪狼, S1N14 = 巨门, S1N15 = 天相, S1N16 = 天梁, S1N17 = 七杀, S1N18 = 破军
 "" S2N01 = 左辅, S2N02 = 右弼, S2N03 = 文晶, S2N04 = 文曲, S2N05 = 地空, S2N06 = 地劫, S2N07 = 天魁, S2N08 = 天钺
-"" S2N10 = 䘵存, S2N11 = 擎羊, S2N12 = 陀罗, S2N13 = 火星, S2N14 = 铃星
+"" S2N10 = 禄存, S2N11 = 擎羊, S2N12 = 陀罗, S2N13 = 火星, S2N14 = 铃星
 let s:starInfo = {
                  \ 'S1N01' : {
                  \             'NAME'    : [iconv("\xe7\xb4\xab", "utf-8", &enc),iconv("\xe5\xbe\xae", "utf-8", &enc),],
