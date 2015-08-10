@@ -1,5 +1,4 @@
 " define command
-command! -n=0 -bar ZwNew :call s:ZiWeiNew()
 command! -n=0 -bar ZwPan :call s:ZiWeiPaiPan()
 
 let s:cellMinWidth  = 10
@@ -26,7 +25,7 @@ let s:basicInfo = {
                   \ 'SHEN'    : 1,
                   \ 'JU'      : 2,
                   \ }
-"" 命宫, 兄弟, 夫妻, 子女, 财帛, 疾厄, 迁移, 奴仆, 宫禄, 田宅, 福德, 父母, 身
+"" 命宫, 兄弟, 夫妻, 子女, 财帛, 疾厄, 迁移, 奴仆, 官禄, 田宅, 福德, 父母, 身
 let s:txtGong = [
                 \ iconv("\xe5\x91\xbd\xe5\xae\xab", "utf-8", &enc),
                 \ iconv("\xe5\x85\x84\xe5\xbc\x9f", "utf-8", &enc),
@@ -36,15 +35,32 @@ let s:txtGong = [
                 \ iconv("\xe7\x96\xbe\xe5\x8e\x84", "utf-8", &enc),
                 \ iconv("\xe8\xbf\x81\xe7\xa7\xbb", "utf-8", &enc),
                 \ iconv("\xe5\xa5\xb4\xe4\xbb\x86", "utf-8", &enc),
-                \ iconv("\xe5\xae\xab\xe7\xa6\x84", "utf-8", &enc),
+                \ iconv("\xe5\xae\x98\xe7\xa6\x84", "utf-8", &enc),
                 \ iconv("\xe7\x94\xb0\xe5\xae\x85", "utf-8", &enc),
                 \ iconv("\xe7\xa6\x8f\xe5\xbe\xb7", "utf-8", &enc),
                 \ iconv("\xe7\x88\xb6\xe6\xaf\x8d", "utf-8", &enc),
                 \ iconv("\xe8\xba\xab", "utf-8", &enc),
                 \ ]
+"" 四化：禄权科忌
+let s:fourChange = {
+                \ 'PARAM': 60,
+                \ 'NAME':  [iconv("\xe7\xa6\x84", "utf-8", &enc), iconv("\xe6\x9d\x83", "utf-8", &enc), iconv("\xe7\xa7\x91", "utf-8", &enc), iconv("\xe5\xbf\x8c", "utf-8", &enc),],
+                \ 'TABLE': [
+                \       ['S1N06', 'S1N18', 'S1N04', 'S1N03'] ,
+                \       ['S1N02', 'S1N16', 'S1N01', 'S1N12'] ,
+                \       ['S1N05', 'S1N02', 'S2N03', 'S1N06'] ,
+                \       ['S1N12', 'S1N05', 'S1N02', 'S1N14'] ,
+                \       ['S1N13', 'S1N12', 'S1N03', 'S1N02'] ,
+                \       ['S1N04', 'S1N13', 'S1N16', 'S2N04'] ,
+                \       ['S1N03', 'S1N04', 'S1N11', 'S1N12'] ,
+                \       ['S1N14', 'S1N03', 'S2N04', 'S2N03'] ,
+                \       ['S1N16', 'S1N01', 'S1N11', 'S1N04'] ,
+                \       ['S1N18', 'S1N14', 'S1N12', 'S1N13'] ,
+                \       ]
+                \ }
 "" S1N01 = 紫微, S1N02 = 天机, S1N03 = 太阳, S1N04 = 武曲, S1N05 = 天同, S1N06 = 廉贞
 "" S1N11 = 天府, S1N12 = 太阴, S1N13 = 贪狼, S1N14 = 巨门, S1N15 = 天相, S1N16 = 天梁, S1N17 = 七杀, S1N18 = 破军
-"" S2N01 = 左辅, S2N02 = 右弼, S2N03 = 文晶, S2N04 = 文曲, S2N05 = 地空, S2N06 = 地劫, S2N07 = 天魁, S2N08 = 天钺
+"" S2N01 = 左辅, S2N02 = 右弼, S2N03 = 文昌, S2N04 = 文曲, S2N05 = 地空, S2N06 = 地劫, S2N07 = 天魁, S2N08 = 天钺
 "" S2N10 = 禄存, S2N11 = 擎羊, S2N12 = 陀罗, S2N13 = 火星, S2N14 = 铃星
 let s:starInfo = {
                  \ 'S1N01' : {
@@ -124,18 +140,79 @@ let s:starInfo = {
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S1N11"]["VALUE"] + 9, s:cellCount) + 1',
                  \           },
+                 \ 'S2N01' : {
+                 \             'NAME'    : [iconv("\xe5\xb7\xa6", "utf-8", &enc),iconv("\xe8\xbe\x85", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 'CalModulo(s:basicInfo["BMONTH"] + 3, s:cellCount) + 1',
+                 \           },
+                 \ 'S2N02' : {
+                 \             'NAME'    : [iconv("\xe5\x8f\xb3", "utf-8", &enc),iconv("\xe5\xbc\xbc", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 'CalModulo(11 - s:basicInfo["BMONTH"], s:cellCount) + 1',
+                 \           },
+                 \ 'S2N03' : {
+                 \             'NAME'    : [iconv("\xe6\x96\x87", "utf-8", &enc),iconv("\xe6\x98\x8c", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 'CalModulo(11 - s:basicInfo["BHOUR"], s:cellCount) + 1',
+                 \           },
+                 \ 'S2N04' : {
+                 \             'NAME'    : [iconv("\xe6\x96\x87", "utf-8", &enc),iconv("\xe6\x9b\xb2", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 'CalModulo(s:basicInfo["BHOUR"] + 3, s:cellCount) + 1',
+                 \           },
+                 \ 'S2N05' : {
+                 \             'NAME'    : [iconv("\xe5\x9c\xb0", "utf-8", &enc),iconv("\xe7\xa9\xba", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 'CalModulo(12 - s:basicInfo["BHOUR"], s:cellCount) + 1',
+                 \           },
+                 \ 'S2N06' : {
+                 \             'NAME'    : [iconv("\xe5\x9c\xb0", "utf-8", &enc),iconv("\xe5\x8a\xab", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 'CalModulo(s:basicInfo["BHOUR"] + 10, s:cellCount) + 1',
+                 \           },
+                 \ 'S2N07' : {
+                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe9\xad\x81", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 's:starInfo["S2N07"]["TABLE"][s:basicInfo["BYEARGZ"] % 10]',
+                 \             'TABLE'   : [4 , 2 , 1 , 12 , 12 , 2 , 1 , 2 , 7 , 4],
+                 \           },
+                 \ 'S2N08' : {
+                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe9\x92\xba", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 's:starInfo["S2N08"]["TABLE"][s:basicInfo["BYEARGZ"] % 10]',
+                 \             'TABLE'   : [6 , 8 , 9 , 10 , 10 , 8 , 9 , 8 , 3 , 6],
+                 \           },
+                 \ 'S2N10' : {
+                 \             'NAME'    : [iconv("\xe7\xa6\x84", "utf-8", &enc),iconv("\xe5\xad\x98", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 's:starInfo["S2N10"]["TABLE"][s:basicInfo["BYEARGZ"] % 10]',
+                 \             'TABLE'   : [1 , 3 , 4 , 6 , 7 , 6 , 7 , 9 , 10 , 12],
+                 \           },
+                 \ 'S2N11' : {
+                 \             'NAME'    : [iconv("\xe6\x93\x8e", "utf-8", &enc),iconv("\xe7\xbe\x8a", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 'CalModulo(s:starInfo["S2N10"]["VALUE"], s:cellCount) + 1',
+                 \           },
+                 \ 'S2N12' : {
+                 \             'NAME'    : [iconv("\xe9\x99\x80", "utf-8", &enc),iconv("\xe7\xbd\x97", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 'CalModulo(s:starInfo["S2N10"]["VALUE"] - 2, s:cellCount) + 1',
+                 \           },
+                 \ 'S2N13' : {
+                 \             'NAME'    : [iconv("\xe7\x81\xab", "utf-8", &enc),iconv("\xe6\x98\x9f", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 'CalModulo(s:starInfo["S2N13"]["TABLE"][s:basicInfo["BYEARGZ"] % 12] + s:basicInfo["BHOUR"] - 2, s:cellCount) + 1',
+                 \             'TABLE'   : [10 , 3 , 4 , 2 , 10 , 3 , 4 , 2 , 10 , 3 , 4 , 2],
+                 \           },
+                 \ 'S2N14' : {
+                 \             'NAME'    : [iconv("\xe9\x93\x83", "utf-8", &enc),iconv("\xe6\x98\x9f", "utf-8", &enc),],
+                 \             'VISIBLE' : 1,
+                 \             'CALC'    : 'CalModulo(s:starInfo["S2N14"]["TABLE"][s:basicInfo["BYEARGZ"] % 12] + s:basicInfo["BHOUR"] - 2, s:cellCount) + 1',
+                 \             'TABLE'   : [11 , 11 , 11 , 4 , 11 , 11 , 11 , 4 , 11 , 11 , 11 , 4],
+                 \           },
                  \ }
 let s:starCount = repeat([0, ], s:cellCount)
 
-function! s:ZiWeiNew()
-    let l:curdt = CalNow()
-    let l:txt = "{'NAME':'Anonymous', 'GENDER':'M', 'CLOCKTIME':'" . l:curdt . "', 'SOLARTIME':'" . l:curdt . "'}"
-    if len(getline('.')) > 0
-        call append(line('.'), l:txt)
-    else
-        call setline(line('.'), l:txt)
-    endif
-endfunction
 function! s:ZiWeiPaiPan()
     let l:inputinfo = eval(getline('.'))
     let l:lunarinfo = CalChineseLunarDT(CalParseDateTime(l:inputinfo['SOLARTIME']))
@@ -177,9 +254,10 @@ function! s:paipan()
         let l:zwpan[CalModulo(l:i + 2, s:cellCount)][l:height - 1] = repeat(' ', l:rightcols - 2) . CalTextDZ(l:monthgz + l:i)
     endfor
     " 单元格下方正中的12宫宫名及大运起始年龄
+    let l:direction = s:basicInfo['NANNV'] * 2 - 3
     for l:i in range(s:cellCount)
         let l:cellidx = CalModulo(s:basicInfo['MING'] - l:i - 1, s:cellCount) + 1
-        let l:startage = s:basicInfo['JU'] + l:i * 10
+        let l:startage = s:basicInfo['JU'] + ((s:cellCount + l:direction * l:i) % s:cellCount) * 10
         if l:cellidx == s:basicInfo['SHEN']
             let l:gongname = s:txtGong[12] . strpart(s:txtGong[l:i], 0, strlen(s:txtGong[12]))
         else
@@ -198,21 +276,51 @@ function! s:paipan()
             endif
         endif
     endfor
+    " 计算四化
+    let l:fourChange = s:fourChange['TABLE'][(s:basicInfo['BYEARGZ'] - 1) % 10]
+    let l:changes = []
+    for l:i in range(len(l:fourChange))
+        let l:cvalue = s:starInfo[l:fourChange[l:i]]['VALUE'] - 1
+        let l:cpos   = s:starInfo[l:fourChange[l:i]]['POS'] - 1
+        let l:j = 0
+        while l:j < len(l:changes)
+            if l:cpos < l:changes[l:j][1]
+                call insert(l:changes, [l:cvalue, l:cpos, l:i], l:j)
+                break
+            endif
+            let l:j = l:j + 1
+        endwhile
+        if l:j >= len(l:changes)
+            call add(l:changes, [l:cvalue, l:cpos, l:i])
+        endif
+    endfor
+    echo l:changes
+    let l:crow = 2
+    for l:i in range(len(l:changes))
+        let l:item = l:changes[l:i]
+        let l:cspace = l:item[1] * 2 - strwidth(l:zwpan[l:item[0]][l:crow])
+        let l:zwpan[l:item[0]][l:crow] = l:zwpan[l:item[0]][l:crow] . s:fourChange['NAME'][l:item[2]] . repeat(' ', l:cspace)
+    endfor
+    unlet l:item
     " 生成命盘
     let l:outtxt = repeat(['',], l:height * 4 + 5)
     let l:outtxt[0] = '+' . repeat('-', l:width) .'+' . repeat('-', l:width) . '+' . repeat('-', l:width) . '+' . repeat('-', l:width) . '+'
+    " 巳午未申宫
     for l:i in range(l:height)
         let l:outtxt[l:i + 1] = '|' . repeat(' ', l:width - strwidth(l:zwpan[5][l:i])) . l:zwpan[5][l:i] . '|' . repeat(' ', l:width - strwidth(l:zwpan[6][l:i])) . l:zwpan[6][l:i] . '|' . repeat(' ', l:width - strwidth(l:zwpan[7][l:i])) . l:zwpan[7][l:i] . '|' . repeat(' ', l:width - strwidth(l:zwpan[8][l:i])) . l:zwpan[8][l:i] . '|'
     endfor
     let l:outtxt[l:height + 1] = '+' . repeat('-', l:width) .'+' . repeat('-', l:width) . '+' . repeat('-', l:width) . '+' . repeat('-', l:width) . '+'
+    " 辰酉宫
     for l:i in range(l:height)
         let l:outtxt[l:i + 2 + l:height] = '|' . repeat(' ', l:width - strwidth(l:zwpan[4][l:i])) . l:zwpan[4][l:i] . '|' . repeat(' ', l:width * 2 + 1) . '|' . repeat(' ', l:width - strwidth(l:zwpan[9][l:i])) . l:zwpan[9][l:i] . '|'
     endfor
     let l:outtxt[l:height * 2 + 2] = '+' . repeat('-', l:width) .'+' . repeat(' ', l:width * 2 + 1) . '+' . repeat('-', l:width) . '+'
+    " 卯戌宫
     for l:i in range(l:height)
         let l:outtxt[l:i + 3 + l:height * 2] = '|' . repeat(' ', l:width - strwidth(l:zwpan[3][l:i])) . l:zwpan[3][l:i] . '|' . repeat(' ', l:width * 2 + 1) . '|' . repeat(' ', l:width - strwidth(l:zwpan[10][l:i])) . l:zwpan[10][l:i] . '|'
     endfor
     let l:outtxt[l:height * 3 + 3] = '+' . repeat('-', l:width) .'+' . repeat('-', l:width) . '+' . repeat('-', l:width) . '+' . repeat('-', l:width) . '+'
+    " 寅丑子亥宫
     for l:i in range(l:height)
         let l:outtxt[l:i + 4 + l:height * 3] = '|' . repeat(' ', l:width - strwidth(l:zwpan[2][l:i])) . l:zwpan[2][l:i] . '|' . repeat(' ', l:width - strwidth(l:zwpan[1][l:i])) . l:zwpan[1][l:i] . '|' . repeat(' ', l:width - strwidth(l:zwpan[0][l:i])) . l:zwpan[0][l:i] . '|' . repeat(' ', l:width - strwidth(l:zwpan[11][l:i])) . l:zwpan[11][l:i] . '|'
     endfor

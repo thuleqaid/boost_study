@@ -384,7 +384,7 @@ function! CalChineseSolarDT(datetime)
             let l:month = l:termidx / 2 + 2
         endif
         let l:month = CalModulo(l:month + CalModulo(l:year - 1, 5) * 12, 60) + 1
-        let l:day = (a:datetime[0] - 1984) * 5 + (a:datetime[0] - 1984 + 3) / 4 + 29 + s:calcDays(a:datetime[0], a:datetime[1], a:datetime[2])
+        let l:day = (a:datetime[0] - 1984) * 5 + (a:datetime[0] - 1984 + 3) / 4 + 29 + CalDays(a:datetime[0], a:datetime[1], a:datetime[2])
         if a:datetime[3] >= 23
             let l:day = l:day + 1
             let l:hour = 1
@@ -566,7 +566,7 @@ function! s:calcDiffDays(date1, date2)
     let l:day2   = str2nr(strpart(a:date2, 6, 2))
     let l:diff   = 0
     while (l:year1 > l:year2) || ((l:year1 == l:year2) && (l:month1 > l:month2))
-        let l:diff = l:diff + s:calcDays(l:year2, l:month2, 0) - l:day2 + 1
+        let l:diff = l:diff + CalDays(l:year2, l:month2, 0) - l:day2 + 1
         let l:day2 = 1
         if l:month2 >= 12
             let l:month2 = 1
@@ -583,7 +583,7 @@ function! s:calcDiffDays(date1, date2)
     return l:diff
 endfunction
 " 共通
-function! s:calcDays(year, month, day)
+function! CalDays(year, month, day)
     " @param[in] year
     " @param[in] year
     " @param[in] day  0~31
