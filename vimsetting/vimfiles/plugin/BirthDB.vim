@@ -23,11 +23,14 @@ function! s:SelectPerson()
         let l:infos = []
         let l:choices = ['Choose Name:',]
         let l:i = 1
-        for l:line in readfile(l:filename)
-            let l:info = eval(l:line)
-            call add(l:infos, l:line)
-            call add(l:choices, string(l:i) . ". " . l:info["NAME"])
-            let l:i = l:i + 1
+        for l:line in readfile(l:filename, 'b')
+            let l:encline = iconv(l:line, "utf-8", &enc)
+            if len(l:encline) > 0
+                let l:info = eval(l:encline)
+                call add(l:infos, l:encline)
+                call add(l:choices, string(l:i) . ". " . l:info["NAME"])
+                let l:i = l:i + 1
+            endif
         endfor
         let l:choice = inputlist(l:choices)
         if (l:choice > 0) && (l:choice < l:i)

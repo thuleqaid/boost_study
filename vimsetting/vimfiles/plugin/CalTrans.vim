@@ -409,6 +409,11 @@ function! CalChineseSolarTermDT(year, termidx)
         let l:idx = l:idx - 24
         let l:year = l:year + 1
     endwhile
+    let l:idx = l:idx + 2
+    if l:idx > 24
+        let l:idx = l:idx - 24
+        let l:year = l:year + 1
+    endif
     let l:yearstr = printf("%04d", l:year)
     if has_key(s:ChineseSolarDB, l:yearstr)
         let l:dtstr = s:ChineseSolarDB[l:yearstr][l:idx - 1]
