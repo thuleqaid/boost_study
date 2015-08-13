@@ -1,5 +1,6 @@
 " define command
 command! -n=0 -bar ZwPan :call s:ZiWeiPaiPan()
+command! -n=1 -bar ZwYear :call s:ZiWeiYear(<args>)
 
 let s:cellMinWidth  = 10
 let s:cellMinHeight = 8
@@ -419,7 +420,7 @@ let s:starInfo2 = {
                  \ 'S9N01' : {
                  \             'NAME'    : [iconv("\xe5\xb0\x86", "utf-8", &enc),iconv("\xe6\x98\x9f", "utf-8", &enc),],
                  \             'VISIBLE' : 1,
-                 \             'CALC'    : 's:starInfo2["S9N01"]["TABLE"][(s:basicInfo["BYEARGZ"] - 1) % 12]',
+                 \             'CALC'    : 's:starInfo2["S9N01"]["TABLE"][(s:basicInfo["YEARGZ"] - 1) % 12]',
                  \             'TABLE'   : [1, 10, 7, 4, 1, 10, 7, 4, 1, 10, 7, 4],
                  \           },
                  \ 'S9N02' : {
@@ -480,7 +481,7 @@ let s:starInfo2 = {
                  \ 'S9N21' : {
                  \             'NAME'    : [iconv("\xe5\xb2\x81", "utf-8", &enc),iconv("\xe5\xbb\xba", "utf-8", &enc),],
                  \             'VISIBLE' : 1,
-                 \             'CALC'    : '(s:basicInfo["BYEARGZ"] - 1) % 12 + 1',
+                 \             'CALC'    : '(s:basicInfo["YEARGZ"] - 1) % 12 + 1',
                  \           },
                  \ 'S9N22' : {
                  \             'NAME'    : [iconv("\xe6\x99\xa6", "utf-8", &enc),iconv("\xe6\xb0\x94", "utf-8", &enc),],
@@ -625,6 +626,27 @@ function! s:ZiWeiPaiPan()
             let s:starInfo[l:skey]['POS']   = l:starCount[l:tmpvalue - 1]
         endif
     endfor
+    call s:ZiWeiYear(str2nr(strftime("%Y")))
+endfunction
+function! s:ZiWeiYear(year)
+    let l:age = a:year - s:basicInfo['BYEAR'] + 1
+    if l:age < s:basicInfo['JU']
+        let l:age = 0
+    elseif l:age >= s:basicInfo['JU'] + 120
+        let l:age = 0
+    endif
+    call s:paipan(l:age)
+endfunction
+function! s:paipan(age)
+    let l:zwpan = []
+    let l:height = max([g:ZiWei_Cell_Height, s:cellMinHeight])
+    let l:width  = max([g:ZiWei_Cell_Width,  s:cellMinWidth]) * 2
+    " 计算流年星曜
+    if a:age > 0
+        let s:basicInfo['YEARGZ'] = CalModulo(s:basicInfo["BYEAR"] + a:age - 1985, 60) + 1
+    else
+        let s:basicInfo['YEARGZ'] = s:basicInfo['BYEARGZ']
+    endif
     let l:starCount = repeat([0, ], s:cellCount)
     for l:skey in sort(keys(s:starInfo2))
         let l:tmpvalue = eval(s:starInfo2[l:skey]['CALC'])
@@ -634,12 +656,6 @@ function! s:ZiWeiPaiPan()
             let s:starInfo2[l:skey]['POS']   = l:starCount[l:tmpvalue - 1]
         endif
     endfor
-    call s:paipan()
-endfunction
-function! s:paipan()
-    let l:zwpan = []
-    let l:height = max([g:ZiWei_Cell_Height, s:cellMinHeight])
-    let l:width  = max([g:ZiWei_Cell_Width,  s:cellMinWidth]) * 2
     " 初期化各宫文字列数组
     for l:i in range(s:cellCount)
         call add(l:zwpan, repeat(['',], l:height))
@@ -655,10 +671,15 @@ function! s:paipan()
     let l:center[1] = iconv("\xe5\x87\xba\xe7\x94\x9f\xe6\x97\xb6\xe9\x97\xb4", "utf-8", &enc)
     let l:center[2] = "    " . s:basicInfo['BIRTH']
     let l:center[3] = "    " . CalChineseLunarDTStr("%YT%YC%MT%MC%DT%DC%HZ%HC",s:basicInfo['LUNAR'])
+    if a:age > 0
+        let l:center[4] = string(s:basicInfo["BYEAR"] + a:age - 1)
+    endif
+    " 单元格右下方地盘干支
     let l:rightcols = l:width - ((l:width - 20) / 2 + 6)
     let l:monthgz   = CalModulo(s:basicInfo['BYEARGZ'] - 1, 5) * 12 + 3
     for l:i in range(s:cellCount)
-        let l:zwpan[CalModulo(l:i + 2, s:cellCount)][l:height - 2] = CalTextTG(l:monthgz + l:i)
+        let l:zwpan[CalModulo(l:i + 2, s:cellCount)][l:height - 3] = repeat(' ', l:rightcols)
+        let l:zwpan[CalModulo(l:i + 2, s:cellCount)][l:height - 2] = repeat(' ', l:rightcols - 2) . CalTextTG(l:monthgz + l:i)
         let l:zwpan[CalModulo(l:i + 2, s:cellCount)][l:height - 1] = repeat(' ', l:rightcols - 2) . CalTextDZ(l:monthgz + l:i)
     endfor
     " 单元格下方正中的12宫宫名及大运起始年龄
@@ -674,6 +695,24 @@ function! s:paipan()
         let l:gongname = '[' . l:gongname . ']' . printf("%d-", l:startage)
         let l:zwpan[l:cellidx - 1][l:height - 1] = l:gongname . strpart(l:zwpan[l:cellidx - 1][l:height - 1], strwidth(l:gongname))
     endfor
+    if a:age > 0
+        " 大运12宫
+        let l:startcell = s:basicInfo['MING'] - l:direction * (a:age / 10)
+        for l:i in range(s:cellCount)
+            let l:cellidx = CalModulo(l:startcell - l:i - 1, s:cellCount) + 1
+            let l:gongname = s:txtGong[l:i]
+            let l:gongname = iconv("\xe5\xa4\xa7", "utf-8", &enc) . l:gongname
+            let l:zwpan[l:cellidx - 1][l:height - 2] = l:gongname . strpart(l:zwpan[l:cellidx - 1][l:height - 2], strwidth(l:gongname))
+        endfor
+        " 流年12宫
+        let l:startcell = CalModulo(s:basicInfo["BYEAR"] + a:age - 1985, 60) + 1
+        for l:i in range(s:cellCount)
+            let l:cellidx = CalModulo(l:startcell - l:i - 1, s:cellCount) + 1
+            let l:gongname = s:txtGong[l:i]
+            let l:gongname = iconv("\xe5\xb9\xb4", "utf-8", &enc) . l:gongname
+            let l:zwpan[l:cellidx - 1][l:height - 3] = l:gongname . strpart(l:zwpan[l:cellidx - 1][l:height - 3], strwidth(l:gongname))
+        endfor
+    endif
     " 单元格右上角的星名
     for l:skey in sort(keys(s:starInfo))
         if s:starInfo[l:skey]['VISIBLE'] == 1
@@ -692,29 +731,46 @@ function! s:paipan()
             let l:zwpan[l:tmpvalue][g:ZiWei_Cell_Height - s:starInfo2[l:skey]['POS']] = s:starInfo2[l:skey]['NAME'][0] . s:starInfo2[l:skey]['NAME'][1] . repeat(' ', l:tmpspace) . l:zwpan[l:tmpvalue][g:ZiWei_Cell_Height - s:starInfo2[l:skey]['POS']]
         endif
     endfor
-    " 计算四化
-    let l:fourChange = s:fourChange['TABLE'][(s:basicInfo['BYEARGZ'] - 1) % 10]
-    let l:changes = []
-    for l:i in range(len(l:fourChange))
-        let l:cvalue = s:starInfo[l:fourChange[l:i]]['VALUE'] - 1
-        let l:cpos   = s:starInfo[l:fourChange[l:i]]['POS'] - 1
-        let l:j = 0
-        while l:j < len(l:changes)
-            if l:cpos < l:changes[l:j][1]
-                call insert(l:changes, [l:cvalue, l:cpos, l:i], l:j)
-                break
-            endif
-            let l:j = l:j + 1
-        endwhile
-        if l:j >= len(l:changes)
-            call add(l:changes, [l:cvalue, l:cpos, l:i])
+    "" 计算四化
+    " 命盘四化
+    let l:yeargzs = [s:basicInfo['BYEARGZ'],]
+    if a:age > 0
+        " 大运四化
+        let l:startcell = CalModulo(s:basicInfo['MING'] - l:direction * (a:age / 10) - 1, s:cellCount) + 1
+        if l:startcell >= 3
+            let l:yeargz = l:monthgz + l:startcell - 3
+        else
+            let l:yeargz = l:monthgz + l:startcell + 9
         endif
-    endfor
-    let l:crow = 2
-    for l:i in range(len(l:changes))
-        let l:item = l:changes[l:i]
-        let l:cspace = l:item[1] * 2 - strwidth(l:zwpan[l:item[0]][l:crow])
-        let l:zwpan[l:item[0]][l:crow] = l:zwpan[l:item[0]][l:crow] . s:fourChange['NAME'][l:item[2]] . repeat(' ', l:cspace)
+        call add(l:yeargzs, l:yeargz)
+        " 流年四化
+        let l:yeargz = CalModulo(s:basicInfo["BYEAR"] + a:age - 1985, 60) + 1
+        call add(l:yeargzs, l:yeargz)
+    endif
+    for l:k in range(len(l:yeargzs))
+        let l:fourChange = s:fourChange['TABLE'][(l:yeargzs[l:k] - 1) % 10]
+        let l:changes = []
+        for l:i in range(len(l:fourChange))
+            let l:cvalue = s:starInfo[l:fourChange[l:i]]['VALUE'] - 1
+            let l:cpos   = s:starInfo[l:fourChange[l:i]]['POS'] - 1
+            let l:j = 0
+            while l:j < len(l:changes)
+                if l:cpos < l:changes[l:j][1]
+                    call insert(l:changes, [l:cvalue, l:cpos, l:i], l:j)
+                    break
+                endif
+                let l:j = l:j + 1
+            endwhile
+            if l:j >= len(l:changes)
+                call add(l:changes, [l:cvalue, l:cpos, l:i])
+            endif
+        endfor
+        let l:crow = 2 + l:k
+        for l:i in range(len(l:changes))
+            let l:item = l:changes[l:i]
+            let l:cspace = l:item[1] * 2 - strwidth(l:zwpan[l:item[0]][l:crow])
+            let l:zwpan[l:item[0]][l:crow] = l:zwpan[l:item[0]][l:crow] . s:fourChange['NAME'][l:item[2]] . repeat(' ', l:cspace)
+        endfor
     endfor
     unlet l:item
     " 生成命盘

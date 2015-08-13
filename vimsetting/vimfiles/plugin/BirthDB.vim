@@ -1,3 +1,4 @@
+command! -n=0 -bar BirthDB :call s:SelectPerson()
 command! -n=0 -bar BirthNew :call s:CalBirthNew()
 command! -n=0 -bar BirthFix :call s:CalBirthFix()
 
@@ -16,6 +17,28 @@ let s:DiffTime_Date = [
                       \ [656 ,633 ,609 ,585 ,561 ,535 ,509 ,483 ,456 ,429 ,402 ,374 ,346 ,317 ,288 ,259 ,230 ,201 ,171 ,142 ,112 ,82 ,52 ,23 ,7 ,37 ,-66 ,-96 ,-125 ,-154 ,-183],
                       \]
 
+function! s:SelectPerson()
+    let l:filename = s:findFile()
+    if strlen(l:filename) > 0
+        let l:infos = []
+        let l:choices = ['Choose Name:',]
+        let l:i = 1
+        for l:line in readfile(l:filename)
+            let l:info = eval(l:line)
+            call add(l:infos, l:line)
+            call add(l:choices, string(l:i) . ". " . l:info["NAME"])
+            let l:i = l:i + 1
+        endfor
+        let l:choice = inputlist(l:choices)
+        if (l:choice > 0) && (l:choice < l:i)
+            if len(getline('.')) > 0
+                call append(line('.'), l:infos[l:choice - 1])
+            else
+                call setline(line('.'), l:infos[l:choice - 1])
+            endif
+        endif
+    endif
+endfunction
 function! s:CalBirthNew()
     let l:name    = input('Input Name: ', 'Anonymous')
     let l:choices = ['Choose Gender', '1. Male', '2. Female']
@@ -99,6 +122,10 @@ function! s:deltaSeconds(date, second)
     return printf("%04d-%02d-%02d %02d:%02d:%02d", l:date[0], l:date[1], l:date[2], l:date[3], l:date[4], l:date[5])
 endfunction
 
+function! s:findFile()
+    let l:path = globpath(&rtp, 'plugin/BirthDB.txt')
+    return l:path
+endfunction
 "" 经度计算法
 " 15度1小时,1度240秒
 " 时差 = (经度 - 120) * 240
