@@ -457,7 +457,8 @@ function! s:findFile()
     return l:path
 endfunction
 function! s:stripNo(txt)
-    let l:idx = stridx(a:txt, '#')
-    return strpart(a:txt, l:idx + 1)
+    let l:txt = iconv(a:txt, "utf-8", &enc)
+    let l:idx = stridx(l:txt, '#')
+    return strpart(l:txt, l:idx + 1)
 endfunction
 
