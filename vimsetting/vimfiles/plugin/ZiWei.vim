@@ -697,7 +697,7 @@ function! s:paipan(age)
     endfor
     if a:age > 0
         " 大运12宫
-        let l:startcell = s:basicInfo['MING'] - l:direction * (a:age / 10)
+        let l:startcell = s:basicInfo['MING'] - l:direction * ((a:age - s:basicInfo['JU'])/ 10)
         for l:i in range(s:cellCount)
             let l:cellidx = CalModulo(l:startcell - l:i - 1, s:cellCount) + 1
             let l:gongname = s:txtGong[l:i]
@@ -736,7 +736,7 @@ function! s:paipan(age)
     let l:yeargzs = [s:basicInfo['BYEARGZ'],]
     if a:age > 0
         " 大运四化
-        let l:startcell = CalModulo(s:basicInfo['MING'] - l:direction * (a:age / 10) - 1, s:cellCount) + 1
+        let l:startcell = CalModulo(s:basicInfo['MING'] - l:direction * ((a:age - s:basicInfo['JU'])/ 10) - 1, s:cellCount) + 1
         if l:startcell >= 3
             let l:yeargz = l:monthgz + l:startcell - 3
         else

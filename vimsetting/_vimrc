@@ -50,7 +50,8 @@ set nowrap
     "autocmd FileType python,javascript,php set expandtab
 "endif
 map <F5> "+y
-map <F6> "+p
+nmap <F6> "+p
+map! <F6> <C-r>+
 
 set rtp+=~/.vim/vimfiles/
 " ModifyTag.vim

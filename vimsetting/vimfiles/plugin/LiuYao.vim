@@ -166,6 +166,10 @@ function! s:InsertDateTime()
     let l:method = s:ListAndSelect('Method List:', s:setupmethod, -1)
     if l:method >= 0
         let l:coins = s:setupexample[l:method]
+        if has("python")
+            let l:coins = system("python " . s:findFile() . ' '. strpart(l:coins,0,2))
+            let l:coins = strpart(l:coins, 0, strlen(l:coins)-1)
+        endif
         if len(getline('.')) > 0
             call append(line('.'), "{'TIME':'" . l:curdt . "', 'COINS':'" . l:coins . "'}")
         else
@@ -497,4 +501,8 @@ function! s:ListAndSelect(title, itemlist, markindex)
         let l:choice = 0
     endif
     return l:choice - 1
+endfunction
+function! s:findFile()
+    let l:path = globpath(&rtp, 'plugin/LiuYao.py')
+    return l:path
 endfunction
