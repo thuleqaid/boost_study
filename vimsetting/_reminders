@@ -1,0 +1,7 @@
+REM Sep 2 +7 MSG 自己的[year(trigdate())-1983]岁生日 %b
+REM Sep 25 +7 MSG 老婆的[year(trigdate())-1982]岁生日 %b
+REM Jul 3 +7 MSG 儿子的[year(trigdate())-2013]岁生日 %b
+REM Fri 1 --7 MSG 电话费 %b
+REM Fri 3 --7 MSG 房贷还款 %b
+REM May 31 2016 +7 MSG 手机套餐变更 %b
+REM Dec 1 +3 MSG 理财到期 %b
