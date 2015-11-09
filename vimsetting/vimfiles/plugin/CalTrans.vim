@@ -3,83 +3,79 @@
 
 let s:wxTG  = [2, 2, 3, 3, 4, 4, 5, 5, 1, 1]
 let s:wxDZ  = [1, 4, 2, 2, 4, 3, 3, 4, 5, 5, 4, 1]
-if &encoding == 'utf-8'
-    " utf-8
-    let s:txtTG       = ['甲' , '乙' , '丙' , '丁' , '戊'  , '己'  , '庚' , '辛' , '壬' , '癸']
-    let s:txtDZ       = ['子' , '丑' , '寅' , '卯' , '辰'  , '巳'  , '午' , '未' , '申' , '酉'  , '戌' , '亥']
-    let s:txtExtra    = ['年' , '月' , '日' , '时' , '空'  , '闰']
-    let s:txtNumber   = ['一' , '二' , '三' , '四' , '五'  , '六'  , '七' , '八' , '九' , '十'  , '廿' , '卅'  , '初' , '正' , '冬' , '腊']
-    let s:txtCalLoop  = ['上' , '中' , '下' , '运' , '元']
-    let s:txtWX       = ['水' , '木' , '火' , '土' , '金']
-else
-    " cp936
-    let s:txtTG = [
-                  \ iconv("\xe7\x94\xb2", "utf-8", &enc),
-                  \ iconv("\xe4\xb9\x99", "utf-8", &enc),
-                  \ iconv("\xe4\xb8\x99", "utf-8", &enc),
-                  \ iconv("\xe4\xb8\x81", "utf-8", &enc),
-                  \ iconv("\xe6\x88\x8a", "utf-8", &enc),
-                  \ iconv("\xe5\xb7\xb1", "utf-8", &enc),
-                  \ iconv("\xe5\xba\x9a", "utf-8", &enc),
-                  \ iconv("\xe8\xbe\x9b", "utf-8", &enc),
-                  \ iconv("\xe5\xa3\xac", "utf-8", &enc),
-                  \ iconv("\xe7\x99\xb8", "utf-8", &enc),
+let s:utfPrefix = '#utf8#'
+"" 甲, 乙, 丙, 丁, 戊, 己, 庚, 辛, 壬, 癸
+let s:txtTG = [
+              \ s:utfPrefix . "\xe7\x94\xb2",
+              \ s:utfPrefix . "\xe4\xb9\x99",
+              \ s:utfPrefix . "\xe4\xb8\x99",
+              \ s:utfPrefix . "\xe4\xb8\x81",
+              \ s:utfPrefix . "\xe6\x88\x8a",
+              \ s:utfPrefix . "\xe5\xb7\xb1",
+              \ s:utfPrefix . "\xe5\xba\x9a",
+              \ s:utfPrefix . "\xe8\xbe\x9b",
+              \ s:utfPrefix . "\xe5\xa3\xac",
+              \ s:utfPrefix . "\xe7\x99\xb8",
+              \ ]
+"" 子, 丑, 寅, 卯, 辰, 巳, 午, 未, 申, 酉, 戌, 亥
+let s:txtDZ = [
+              \ s:utfPrefix . "\xe5\xad\x90",
+              \ s:utfPrefix . "\xe4\xb8\x91",
+              \ s:utfPrefix . "\xe5\xaf\x85",
+              \ s:utfPrefix . "\xe5\x8d\xaf",
+              \ s:utfPrefix . "\xe8\xbe\xb0",
+              \ s:utfPrefix . "\xe5\xb7\xb3",
+              \ s:utfPrefix . "\xe5\x8d\x88",
+              \ s:utfPrefix . "\xe6\x9c\xaa",
+              \ s:utfPrefix . "\xe7\x94\xb3",
+              \ s:utfPrefix . "\xe9\x85\x89",
+              \ s:utfPrefix . "\xe6\x88\x8c",
+              \ s:utfPrefix . "\xe4\xba\xa5",
+              \ ]
+"" 年, 月, 日, 时, 空, 闰
+let s:txtExtra = [
+                 \ s:utfPrefix . "\xe5\xb9\xb4",
+                 \ s:utfPrefix . "\xe6\x9c\x88",
+                 \ s:utfPrefix . "\xe6\x97\xa5",
+                 \ s:utfPrefix . "\xe6\x97\xb6",
+                 \ s:utfPrefix . "\xe7\xa9\xba",
+                 \ s:utfPrefix . "\xe9\x97\xb0",
+                 \ ]
+"" 一, 二, 三, 四, 五, 六, 七, 八, 九, 十, 廿, 卅, 初, 正, 冬, 腊
+let s:txtNumber = [
+                  \ s:utfPrefix . "\xe4\xb8\x80",
+                  \ s:utfPrefix . "\xe4\xba\x8c",
+                  \ s:utfPrefix . "\xe4\xb8\x89",
+                  \ s:utfPrefix . "\xe5\x9b\x9b",
+                  \ s:utfPrefix . "\xe4\xba\x94",
+                  \ s:utfPrefix . "\xe5\x85\xad",
+                  \ s:utfPrefix . "\xe4\xb8\x83",
+                  \ s:utfPrefix . "\xe5\x85\xab",
+                  \ s:utfPrefix . "\xe4\xb9\x9d",
+                  \ s:utfPrefix . "\xe5\x8d\x81",
+                  \ s:utfPrefix . "\xe5\xbb\xbf",
+                  \ s:utfPrefix . "\xe5\x8d\x85",
+                  \ s:utfPrefix . "\xe5\x88\x9d",
+                  \ s:utfPrefix . "\xe6\xad\xa3",
+                  \ s:utfPrefix . "\xe5\x86\xac",
+                  \ s:utfPrefix . "\xe8\x85\x8a",
                   \ ]
-    let s:txtDZ = [
-                  \ iconv("\xe5\xad\x90", "utf-8", &enc),
-                  \ iconv("\xe4\xb8\x91", "utf-8", &enc),
-                  \ iconv("\xe5\xaf\x85", "utf-8", &enc),
-                  \ iconv("\xe5\x8d\xaf", "utf-8", &enc),
-                  \ iconv("\xe8\xbe\xb0", "utf-8", &enc),
-                  \ iconv("\xe5\xb7\xb3", "utf-8", &enc),
-                  \ iconv("\xe5\x8d\x88", "utf-8", &enc),
-                  \ iconv("\xe6\x9c\xaa", "utf-8", &enc),
-                  \ iconv("\xe7\x94\xb3", "utf-8", &enc),
-                  \ iconv("\xe9\x85\x89", "utf-8", &enc),
-                  \ iconv("\xe6\x88\x8c", "utf-8", &enc),
-                  \ iconv("\xe4\xba\xa5", "utf-8", &enc),
-                  \ ]
-    let s:txtExtra = [
-                     \ iconv("\xe5\xb9\xb4", "utf-8", &enc),
-                     \ iconv("\xe6\x9c\x88", "utf-8", &enc),
-                     \ iconv("\xe6\x97\xa5", "utf-8", &enc),
-                     \ iconv("\xe6\x97\xb6", "utf-8", &enc),
-                     \ iconv("\xe7\xa9\xba", "utf-8", &enc),
-                     \ iconv("\xe9\x97\xb0", "utf-8", &enc),
-                     \ ]
-    let s:txtNumber = [
-                      \ iconv("\xe4\xb8\x80", "utf-8", &enc),
-                      \ iconv("\xe4\xba\x8c", "utf-8", &enc),
-                      \ iconv("\xe4\xb8\x89", "utf-8", &enc),
-                      \ iconv("\xe5\x9b\x9b", "utf-8", &enc),
-                      \ iconv("\xe4\xba\x94", "utf-8", &enc),
-                      \ iconv("\xe5\x85\xad", "utf-8", &enc),
-                      \ iconv("\xe4\xb8\x83", "utf-8", &enc),
-                      \ iconv("\xe5\x85\xab", "utf-8", &enc),
-                      \ iconv("\xe4\xb9\x9d", "utf-8", &enc),
-                      \ iconv("\xe5\x8d\x81", "utf-8", &enc),
-                      \ iconv("\xe5\xbb\xbf", "utf-8", &enc),
-                      \ iconv("\xe5\x8d\x85", "utf-8", &enc),
-                      \ iconv("\xe5\x88\x9d", "utf-8", &enc),
-                      \ iconv("\xe6\xad\xa3", "utf-8", &enc),
-                      \ iconv("\xe5\x86\xac", "utf-8", &enc),
-                      \ iconv("\xe8\x85\x8a", "utf-8", &enc),
-                      \ ]
-    let s:txtCalLoop = [
-                       \ iconv("\xe4\xb8\x8a", "utf-8", &enc),
-                       \ iconv("\xe4\xb8\xad", "utf-8", &enc),
-                       \ iconv("\xe4\xb8\x8b", "utf-8", &enc),
-                       \ iconv("\xe8\xbf\x90", "utf-8", &enc),
-                       \ iconv("\xe5\x85\x83", "utf-8", &enc),
-                       \ ]
-    let s:txtWX = [
-                  \ iconv("\xe6\xb0\xb4", "utf-8", &enc),
-                  \ iconv("\xe6\x9c\xa8", "utf-8", &enc),
-                  \ iconv("\xe7\x81\xab", "utf-8", &enc),
-                  \ iconv("\xe5\x9c\x9f", "utf-8", &enc),
-                  \ iconv("\xe9\x87\x91", "utf-8", &enc),
-                  \ ]
-endif
+"" 上, 中, 下, 运, 元
+let s:txtCalLoop = [
+                   \ s:utfPrefix . "\xe4\xb8\x8a",
+                   \ s:utfPrefix . "\xe4\xb8\xad",
+                   \ s:utfPrefix . "\xe4\xb8\x8b",
+                   \ s:utfPrefix . "\xe8\xbf\x90",
+                   \ s:utfPrefix . "\xe5\x85\x83",
+                   \ ]
+"" 水, 木, 火, 土, 金
+let s:txtWX = [
+              \ s:utfPrefix . "\xe6\xb0\xb4",
+              \ s:utfPrefix . "\xe6\x9c\xa8",
+              \ s:utfPrefix . "\xe7\x81\xab",
+              \ s:utfPrefix . "\xe5\x9c\x9f",
+              \ s:utfPrefix . "\xe9\x87\x91",
+              \ ]
 let s:ChineseSolarDB = {
                        \ '1951' : ['0106033026','0120205206','0204151329','0219110939','0306092639','0321102538','0405143236','0420214802','0506080917','0521211524','0606123236','0622052449','0707225352','0723162037','0808083723','0823231600','0908111802','0923203642','1009023619','1024053600','1108052639','1123025106','1207220221','1222160005'],
                        \ '1952' : ['0106090948','0121023829','0204205300','0219165648','0305150722','0320161347','0404201506','0420033641','0505135406','0521030354','0605182023','0621111234','0707044441','0722220728','0807143100','0823050247','0907171340','0923022334','1008083219','1023112206','1107112131','1122083538','1207035537','1221214313'],
@@ -294,12 +290,12 @@ endfunction
 function! CalTextTG(gz)
     " @param[in] gz:1~60
     let l:gz = CalModulo(a:gz - 1, 10)
-    return s:txtTG[l:gz]
+    return s:_(s:txtTG[l:gz])
 endfunction
 function! CalTextDZ(gz)
     " @param[in] gz:1~60
     let l:gz = CalModulo(a:gz - 1, 12)
-    return s:txtDZ[l:gz]
+    return s:_(s:txtDZ[l:gz])
 endfunction
 function! CalTextKW(gz)
     " @param[in] gz:1~60
@@ -309,7 +305,7 @@ endfunction
 function! CalTextWX(wx)
     " @param[in] wx:1~5
     let l:wx = CalModulo(a:wx - 1, 5)
-    return s:txtWX[l:wx]
+    return s:_(s:txtWX[l:wx])
 endfunction
 " 干支五行
 function! CalWxTG(gz)
@@ -345,7 +341,7 @@ function! CalChineseSolarDTStr(outfmt, datetime)
         if stridx(l:outstr, l:datetag[l:i]) >= 0
             let l:gstr = CalTextTG(a:datetime[l:i])
             let l:zstr = CalTextDZ(a:datetime[l:i])
-            let l:cstr = s:txtExtra[l:i]
+            let l:cstr = s:_(s:txtExtra[l:i])
             let l:nstr = CalTextKW(a:datetime[l:i])
             let l:outstr = substitute(l:outstr, l:datetag[l:i] . "G", l:gstr, 'g')
             let l:outstr = substitute(l:outstr, l:datetag[l:i] . "Z", l:zstr, 'g')
@@ -353,10 +349,10 @@ function! CalChineseSolarDTStr(outfmt, datetime)
             let l:outstr = substitute(l:outstr, l:datetag[l:i] . "N", l:nstr, 'g')
         endif
     endfor
-    let l:outstr = substitute(l:outstr, "%NC", s:txtExtra[4], 'g')
+    let l:outstr = substitute(l:outstr, "%NC", s:_(s:txtExtra[4]), 'g')
     if stridx(l:outstr, "%L") >= 0
-        let l:str3 = s:txtCalLoop[(a:datetime[4] - 1) / 3] . s:txtCalLoop[4]
-        let l:str9 = s:txtNumber[a:datetime[4] - 1] . s:txtCalLoop[3]
+        let l:str3 = s:_(s:txtCalLoop[(a:datetime[4] - 1) / 3]) . s:_(s:txtCalLoop[4])
+        let l:str9 = s:_(s:txtNumber[a:datetime[4] - 1]) . s:_(s:txtCalLoop[3])
         let l:outstr = substitute(l:outstr, "%L3", l:str3, 'g')
         let l:outstr = substitute(l:outstr, "%L9", l:str9, 'g')
     endif
@@ -454,7 +450,7 @@ function! CalChineseLunarDTStr(outfmt, datetime)
     let l:datetag = ["%YC", "%MC", "%DC", "%HC"]
     for l:i in range(len(l:datetag))
         if stridx(l:outstr, l:datetag[l:i]) >= 0
-            let l:cstr = s:txtExtra[l:i]
+            let l:cstr = s:_(s:txtExtra[l:i])
             let l:outstr = substitute(l:outstr, l:datetag[l:i], l:cstr, 'g')
         endif
     endfor
@@ -468,32 +464,32 @@ function! CalChineseLunarDTStr(outfmt, datetime)
     endif
     if stridx(l:outstr, "%M") >= 0
         if a:datetime[4] > 0
-            let l:strt = s:txtExtra[5]
+            let l:strt = s:_(s:txtExtra[5])
         else
             let l:strt = ''
         endif
         if a:datetime[1] == 1
-            let l:strt = l:strt . s:txtNumber[13]
+            let l:strt = l:strt . s:_(s:txtNumber[13])
         elseif a:datetime[1] > 10
-            let l:strt = l:strt . s:txtNumber[a:datetime[1] + 3]
+            let l:strt = l:strt . s:_(s:txtNumber[a:datetime[1] + 3])
         else
-            let l:strt = l:strt . s:txtNumber[a:datetime[1] - 1]
+            let l:strt = l:strt . s:_(s:txtNumber[a:datetime[1] - 1])
         endif
         let l:outstr = substitute(l:outstr, "%MT", l:strt, 'g')
     endif
     if stridx(l:outstr, "%D") >= 0
         if a:datetime[2] <= 10
-            let l:strt = s:txtNumber[12] . s:txtNumber[a:datetime[2] - 1]
+            let l:strt = s:_(s:txtNumber[12]) . s:_(s:txtNumber[a:datetime[2] - 1])
         elseif a:datetime[2] < 20
-            let l:strt = s:txtNumber[9] . s:txtNumber[a:datetime[2] - 11]
+            let l:strt = s:_(s:txtNumber[9]) . s:_(s:txtNumber[a:datetime[2] - 11])
         elseif a:datetime[2] == 20
-            let l:strt = s:txtNumber[1] . s:txtNumber[9]
+            let l:strt = s:_(s:txtNumber[1]) . s:_(s:txtNumber[9])
         elseif a:datetime[2] < 30
-            let l:strt = s:txtNumber[10] . s:txtNumber[a:datetime[2] - 21]
+            let l:strt = s:_(s:txtNumber[10]) . s:_(s:txtNumber[a:datetime[2] - 21])
         elseif a:datetime[2] == 30
-            let l:strt = s:txtNumber[2] . s:txtNumber[9]
+            let l:strt = s:_(s:txtNumber[2]) . s:_(s:txtNumber[9])
         else
-            let l:strt = s:txtNumber[11] . s:txtNumber[a:datetime[2] - 31]
+            let l:strt = s:_(s:txtNumber[11]) . s:_(s:txtNumber[a:datetime[2] - 31])
         endif
         let l:outstr = substitute(l:outstr, "%DT", l:strt, 'g')
     endif
@@ -618,4 +614,7 @@ function! CalDays(year, month, day)
         endif
     endif
     return l:days
+endfunction
+function! s:_(txt)
+    return Utf8Text(a:txt)
 endfunction

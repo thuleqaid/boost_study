@@ -26,26 +26,27 @@ let s:basicInfo = {
                   \ 'SHEN'    : 1,
                   \ 'JU'      : 2,
                   \ }
+let s:utfPrefix = '#utf8#'
 "" 命宫, 兄弟, 夫妻, 子女, 财帛, 疾厄, 迁移, 奴仆, 官禄, 田宅, 福德, 父母, 身
 let s:txtGong = [
-                \ iconv("\xe5\x91\xbd\xe5\xae\xab", "utf-8", &enc),
-                \ iconv("\xe5\x85\x84\xe5\xbc\x9f", "utf-8", &enc),
-                \ iconv("\xe5\xa4\xab\xe5\xa6\xbb", "utf-8", &enc),
-                \ iconv("\xe5\xad\x90\xe5\xa5\xb3", "utf-8", &enc),
-                \ iconv("\xe8\xb4\xa2\xe5\xb8\x9b", "utf-8", &enc),
-                \ iconv("\xe7\x96\xbe\xe5\x8e\x84", "utf-8", &enc),
-                \ iconv("\xe8\xbf\x81\xe7\xa7\xbb", "utf-8", &enc),
-                \ iconv("\xe5\xa5\xb4\xe4\xbb\x86", "utf-8", &enc),
-                \ iconv("\xe5\xae\x98\xe7\xa6\x84", "utf-8", &enc),
-                \ iconv("\xe7\x94\xb0\xe5\xae\x85", "utf-8", &enc),
-                \ iconv("\xe7\xa6\x8f\xe5\xbe\xb7", "utf-8", &enc),
-                \ iconv("\xe7\x88\xb6\xe6\xaf\x8d", "utf-8", &enc),
-                \ iconv("\xe8\xba\xab", "utf-8", &enc),
+                \ s:utfPrefix . "\xe5\x91\xbd\xe5\xae\xab",
+                \ s:utfPrefix . "\xe5\x85\x84\xe5\xbc\x9f",
+                \ s:utfPrefix . "\xe5\xa4\xab\xe5\xa6\xbb",
+                \ s:utfPrefix . "\xe5\xad\x90\xe5\xa5\xb3",
+                \ s:utfPrefix . "\xe8\xb4\xa2\xe5\xb8\x9b",
+                \ s:utfPrefix . "\xe7\x96\xbe\xe5\x8e\x84",
+                \ s:utfPrefix . "\xe8\xbf\x81\xe7\xa7\xbb",
+                \ s:utfPrefix . "\xe5\xa5\xb4\xe4\xbb\x86",
+                \ s:utfPrefix . "\xe5\xae\x98\xe7\xa6\x84",
+                \ s:utfPrefix . "\xe7\x94\xb0\xe5\xae\x85",
+                \ s:utfPrefix . "\xe7\xa6\x8f\xe5\xbe\xb7",
+                \ s:utfPrefix . "\xe7\x88\xb6\xe6\xaf\x8d",
+                \ s:utfPrefix . "\xe8\xba\xab",
                 \ ]
 "" 四化：禄权科忌
 let s:fourChange = {
                 \ 'PARAM': 60,
-                \ 'NAME':  [iconv("\xe7\xa6\x84", "utf-8", &enc), iconv("\xe6\x9d\x83", "utf-8", &enc), iconv("\xe7\xa7\x91", "utf-8", &enc), iconv("\xe5\xbf\x8c", "utf-8", &enc),],
+                \ 'NAME':  [s:utfPrefix . "\xe7\xa6\x84", s:utfPrefix . "\xe6\x9d\x83", s:utfPrefix . "\xe7\xa7\x91", s:utfPrefix . "\xe5\xbf\x8c",],
                 \ 'TABLE': [
                 \       ['S0N06', 'S0N18', 'S0N04', 'S0N03'] ,
                 \       ['S0N02', 'S0N16', 'S0N01', 'S0N12'] ,
@@ -86,7 +87,7 @@ let s:fourChange = {
 "" S2N31 = 三台, S2N32 = 八座, S2N33 = 恩光, S2N34 = 天贵
 let s:starInfo = {
                  \ 'S0N01' : {
-                 \             'NAME'    : [iconv("\xe7\xb4\xab", "utf-8", &enc),iconv("\xe5\xbe\xae", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe7\xb4\xab",s:utfPrefix . "\xe5\xbe\xae",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S0N01"]["TABLE"][s:basicInfo["JU"] - 2][s:basicInfo["BDAY"] - 1]',
                  \             'TABLE'   : [
@@ -98,316 +99,316 @@ let s:starInfo = {
                  \                         ],
                  \           },
                  \ 'S0N02' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe6\x9c\xba", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe6\x9c\xba",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N01"]["VALUE"] - 2, s:cellCount) + 1',
                  \           },
                  \ 'S0N03' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xaa", "utf-8", &enc),iconv("\xe9\x98\xb3", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xaa",s:utfPrefix . "\xe9\x98\xb3",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N01"]["VALUE"] - 4, s:cellCount) + 1',
                  \           },
                  \ 'S0N04' : {
-                 \             'NAME'    : [iconv("\xe6\xad\xa6", "utf-8", &enc),iconv("\xe6\x9b\xb2", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\xad\xa6",s:utfPrefix . "\xe6\x9b\xb2",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N01"]["VALUE"] - 5, s:cellCount) + 1',
                  \           },
                  \ 'S0N05' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\x90\x8c", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\x90\x8c",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N01"]["VALUE"] - 6, s:cellCount) + 1',
                  \           },
                  \ 'S0N06' : {
-                 \             'NAME'    : [iconv("\xe5\xbb\x89", "utf-8", &enc),iconv("\xe8\xb4\x9e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xbb\x89",s:utfPrefix . "\xe8\xb4\x9e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N01"]["VALUE"] - 9, s:cellCount) + 1',
                  \           },
                  \ 'S0N11' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\xba\x9c", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\xba\x9c",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(17 - s:starInfo["S0N01"]["VALUE"], s:cellCount) + 1',
                  \           },
                  \ 'S0N12' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xaa", "utf-8", &enc),iconv("\xe9\x98\xb4", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xaa",s:utfPrefix . "\xe9\x98\xb4",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N11"]["VALUE"], s:cellCount) + 1',
                  \           },
                  \ 'S0N13' : {
-                 \             'NAME'    : [iconv("\xe8\xb4\xaa", "utf-8", &enc),iconv("\xe7\x8b\xbc", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe8\xb4\xaa",s:utfPrefix . "\xe7\x8b\xbc",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N11"]["VALUE"] + 1, s:cellCount) + 1',
                  \           },
                  \ 'S0N14' : {
-                 \             'NAME'    : [iconv("\xe5\xb7\xa8", "utf-8", &enc),iconv("\xe9\x97\xa8", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xb7\xa8",s:utfPrefix . "\xe9\x97\xa8",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N11"]["VALUE"] + 2, s:cellCount) + 1',
                  \           },
                  \ 'S0N15' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe7\x9b\xb8", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe7\x9b\xb8",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N11"]["VALUE"] + 3, s:cellCount) + 1',
                  \           },
                  \ 'S0N16' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe6\xa2\x81", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe6\xa2\x81",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N11"]["VALUE"] + 4, s:cellCount) + 1',
                  \           },
                  \ 'S0N17' : {
-                 \             'NAME'    : [iconv("\xe4\xb8\x83", "utf-8", &enc),iconv("\xe6\x9d\x80", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe4\xb8\x83",s:utfPrefix . "\xe6\x9d\x80",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N11"]["VALUE"] + 5, s:cellCount) + 1',
                  \           },
                  \ 'S0N18' : {
-                 \             'NAME'    : [iconv("\xe7\xa0\xb4", "utf-8", &enc),iconv("\xe5\x86\x9b", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe7\xa0\xb4",s:utfPrefix . "\xe5\x86\x9b",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S0N11"]["VALUE"] + 9, s:cellCount) + 1',
                  \           },
                  \ 'S1N01' : {
-                 \             'NAME'    : [iconv("\xe7\xa6\x84", "utf-8", &enc),iconv("\xe5\xad\x98", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe7\xa6\x84",s:utfPrefix . "\xe5\xad\x98",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S1N01"]["TABLE"][s:basicInfo["BYEARGZ"] % 10]',
                  \             'TABLE'   : [1 , 3 , 4 , 6 , 7 , 6 , 7 , 9 , 10 , 12],
                  \           },
                  \ 'S1N02' : {
-                 \             'NAME'    : [iconv("\xe6\x93\x8e", "utf-8", &enc),iconv("\xe7\xbe\x8a", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\x93\x8e",s:utfPrefix . "\xe7\xbe\x8a",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S1N01"]["VALUE"], s:cellCount) + 1',
                  \           },
                  \ 'S1N03' : {
-                 \             'NAME'    : [iconv("\xe9\x99\x80", "utf-8", &enc),iconv("\xe7\xbd\x97", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe9\x99\x80",s:utfPrefix . "\xe7\xbd\x97",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S1N01"]["VALUE"] - 2, s:cellCount) + 1',
                  \           },
                  \ 'S1N04' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe9\xad\x81", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe9\xad\x81",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S1N04"]["TABLE"][s:basicInfo["BYEARGZ"] % 10]',
                  \             'TABLE'   : [4 , 2 , 1 , 12 , 12 , 2 , 1 , 2 , 7 , 4],
                  \           },
                  \ 'S1N05' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe9\x92\xba", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe9\x92\xba",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S1N05"]["TABLE"][s:basicInfo["BYEARGZ"] % 10]',
                  \             'TABLE'   : [6 , 8 , 9 , 10 , 10 , 8 , 9 , 8 , 3 , 6],
                  \           },
                  \ 'S1N11' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe9\xa9\xac", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe9\xa9\xac",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S1N11"]["TABLE"][s:basicInfo["BYEARGZ"] % 12]',
                  \             'TABLE'   : [6 , 3 , 12 , 9 , 6 , 3 , 12 , 9 , 6 , 3 , 12 , 9],
                  \           },
                  \ 'S1N21' : {
-                 \             'NAME'    : [iconv("\xe5\xb7\xa6", "utf-8", &enc),iconv("\xe8\xbe\x85", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xb7\xa6",s:utfPrefix . "\xe8\xbe\x85",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:basicInfo["BMONTH"] + 3, s:cellCount) + 1',
                  \           },
                  \ 'S1N22' : {
-                 \             'NAME'    : [iconv("\xe5\x8f\xb3", "utf-8", &enc),iconv("\xe5\xbc\xbc", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x8f\xb3",s:utfPrefix . "\xe5\xbc\xbc",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(11 - s:basicInfo["BMONTH"], s:cellCount) + 1',
                  \           },
                  \ 'S1N41' : {
-                 \             'NAME'    : [iconv("\xe6\x96\x87", "utf-8", &enc),iconv("\xe6\x98\x8c", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\x96\x87",s:utfPrefix . "\xe6\x98\x8c",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(11 - s:basicInfo["BHOUR"], s:cellCount) + 1',
                  \           },
                  \ 'S1N42' : {
-                 \             'NAME'    : [iconv("\xe6\x96\x87", "utf-8", &enc),iconv("\xe6\x9b\xb2", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\x96\x87",s:utfPrefix . "\xe6\x9b\xb2",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:basicInfo["BHOUR"] + 3, s:cellCount) + 1',
                  \           },
                  \ 'S1N43' : {
-                 \             'NAME'    : [iconv("\xe7\x81\xab", "utf-8", &enc),iconv("\xe6\x98\x9f", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe7\x81\xab",s:utfPrefix . "\xe6\x98\x9f",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S1N43"]["TABLE"][s:basicInfo["BYEARGZ"] % 12] + s:basicInfo["BHOUR"] - 2, s:cellCount) + 1',
                  \             'TABLE'   : [10 , 3 , 4 , 2 , 10 , 3 , 4 , 2 , 10 , 3 , 4 , 2],
                  \           },
                  \ 'S1N44' : {
-                 \             'NAME'    : [iconv("\xe9\x93\x83", "utf-8", &enc),iconv("\xe6\x98\x9f", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe9\x93\x83",s:utfPrefix . "\xe6\x98\x9f",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S1N44"]["TABLE"][s:basicInfo["BYEARGZ"] % 12] + s:basicInfo["BHOUR"] - 2, s:cellCount) + 1',
                  \             'TABLE'   : [11 , 11 , 11 , 4 , 11 , 11 , 11 , 4 , 11 , 11 , 11 , 4],
                  \           },
                  \ 'S1N45' : {
-                 \             'NAME'    : [iconv("\xe5\x9c\xb0", "utf-8", &enc),iconv("\xe5\x8a\xab", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x9c\xb0",s:utfPrefix . "\xe5\x8a\xab",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:basicInfo["BHOUR"] + 10, s:cellCount) + 1',
                  \           },
                  \ 'S1N46' : {
-                 \             'NAME'    : [iconv("\xe5\x9c\xb0", "utf-8", &enc),iconv("\xe7\xa9\xba", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x9c\xb0",s:utfPrefix . "\xe7\xa9\xba",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(12 - s:basicInfo["BHOUR"], s:cellCount) + 1',
                  \           },
                  \ 'S1N47' : {
-                 \             'NAME'    : [iconv("\xe5\x8f\xb0", "utf-8", &enc),iconv("\xe8\xbe\x85", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x8f\xb0",s:utfPrefix . "\xe8\xbe\x85",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(5 + s:basicInfo["BHOUR"], s:cellCount) + 1',
                  \           },
                  \ 'S1N48' : {
-                 \             'NAME'    : [iconv("\xe5\xb0\x81", "utf-8", &enc),iconv("\xe8\xaf\xb0", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xb0\x81",s:utfPrefix . "\xe8\xaf\xb0",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(1 + s:basicInfo["BHOUR"], s:cellCount) + 1',
                  \           },
                  \ 'S2N01' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\xae\x98", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\xae\x98",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N01"]["TABLE"][s:basicInfo["BYEARGZ"] % 10]',
                  \             'TABLE'   : [7 , 8 , 5 , 6 , 3 , 4 , 10 , 12 , 10 , 11],
                  \           },
                  \ 'S2N02' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe7\xa6\x8f", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe7\xa6\x8f",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N02"]["TABLE"][s:basicInfo["BYEARGZ"] % 10]',
                  \             'TABLE'   : [6 , 10 , 9 , 1 , 12 , 4 , 3 , 7 , 6 , 7],
                  \           },
                  \ 'S2N03' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\x8e\xa8", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\x8e\xa8",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N03"]["TABLE"][s:basicInfo["BYEARGZ"] % 10]',
                  \             'TABLE'   : [12 , 6 , 7 , 1 , 6 , 7 , 9 , 3 , 7 , 10],
                  \           },
                  \ 'S2N11' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe7\xa9\xba", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe7\xa9\xba",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(0 + s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N12' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\x93\xad", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\x93\xad",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(7 - s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N13' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe8\x99\x9a", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe8\x99\x9a",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(5 + s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N14' : {
-                 \             'NAME'    : [iconv("\xe9\xbe\x99", "utf-8", &enc),iconv("\xe6\xb1\xa0", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe9\xbe\x99",s:utfPrefix . "\xe6\xb1\xa0",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(3 + s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N15' : {
-                 \             'NAME'    : [iconv("\xe5\x87\xa4", "utf-8", &enc),iconv("\xe9\x98\x81", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x87\xa4",s:utfPrefix . "\xe9\x98\x81",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(11 - s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N16' : {
-                 \             'NAME'    : [iconv("\xe7\xba\xa2", "utf-8", &enc),iconv("\xe9\xb8\xbe", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe7\xba\xa2",s:utfPrefix . "\xe9\xb8\xbe",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(4 - s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N17' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\x96\x9c", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\x96\x9c",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(10 - s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N18' : {
-                 \             'NAME'    : [iconv("\xe5\xad\xa4", "utf-8", &enc),iconv("\xe8\xbe\xb0", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xad\xa4",s:utfPrefix . "\xe8\xbe\xb0",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N18"]["TABLE"][s:basicInfo["BYEARGZ"] % 12]',
                  \             'TABLE'   : [3 , 3 , 3 , 6 , 6 , 6 , 9 , 9 , 9 , 12, 12, 12],
                  \           },
                  \ 'S2N19' : {
-                 \             'NAME'    : [iconv("\xe5\xaf\xa1", "utf-8", &enc),iconv("\xe5\xae\xbf", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xaf\xa1",s:utfPrefix . "\xe5\xae\xbf",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N19"]["TABLE"][s:basicInfo["BYEARGZ"] % 12]',
                  \             'TABLE'   : [11 , 11 , 11 , 2 , 2 , 2 , 5 , 5 , 5 , 8, 8, 8],
                  \           },
                  \ 'S2N1A' : {
-                 \             'NAME'    : [iconv("\xe8\x9c\x9a", "utf-8", &enc),iconv("\xe5\xbb\x89", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe8\x9c\x9a",s:utfPrefix . "\xe5\xbb\x89",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N1A"]["TABLE"][s:basicInfo["BYEARGZ"] % 12]',
                  \             'TABLE'   : [2 , 9 , 10 , 11 , 6 , 7 , 8 , 3 , 4 , 5, 12, 1],
                  \           },
                  \ 'S2N1B' : {
-                 \             'NAME'    : [iconv("\xe7\xa0\xb4", "utf-8", &enc),iconv("\xe7\xa2\x8e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe7\xa0\xb4",s:utfPrefix . "\xe7\xa2\x8e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N1B"]["TABLE"][s:basicInfo["BYEARGZ"] % 12]',
                  \             'TABLE'   : [10 , 6 , 2 , 10 , 6 , 2 , 10 , 6 , 2 , 10, 6, 2],
                  \           },
                  \ 'S2N1C' : {
-                 \             'NAME'    : [iconv("\xe5\x8d\x8e", "utf-8", &enc),iconv("\xe7\x9b\x96", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x8d\x8e",s:utfPrefix . "\xe7\x9b\x96",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N1C"]["TABLE"][s:basicInfo["BYEARGZ"] % 12]',
                  \             'TABLE'   : [8 , 5 , 2 , 11 , 8 , 5 , 2 , 11 , 8 , 5, 2, 11],
                  \           },
                  \ 'S2N1D' : {
-                 \             'NAME'    : [iconv("\xe5\x92\xb8", "utf-8", &enc),iconv("\xe6\xb1\xa0", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x92\xb8",s:utfPrefix . "\xe6\xb1\xa0",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N1D"]["TABLE"][s:basicInfo["BYEARGZ"] % 12]',
                  \             'TABLE'   : [1 , 10 , 7 , 4 , 1 , 10 , 7 , 4 , 1 , 10, 7, 4],
                  \           },
                  \ 'S2N1E' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\xbe\xb7", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\xbe\xb7",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(8 + s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N1F' : {
-                 \             'NAME'    : [iconv("\xe6\x9c\x88", "utf-8", &enc),iconv("\xe5\xbe\xb7", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\x9c\x88",s:utfPrefix . "\xe5\xbe\xb7",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(4 + s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N1G' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe6\x89\x8d", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe6\x89\x8d",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:basicInfo["MING"] - 2 + s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N1H' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\xaf\xbf", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\xaf\xbf",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:basicInfo["SHEN"] - 2 + s:basicInfo["BYEARGZ"] % 12, s:cellCount) + 1',
                  \           },
                  \ 'S2N21' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\x88\x91", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\x88\x91",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(8 + s:basicInfo["BMONTH"], s:cellCount) + 1',
                  \           },
                  \ 'S2N22' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\xa7\x9a", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\xa7\x9a",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(0 + s:basicInfo["BMONTH"], s:cellCount) + 1',
                  \           },
                  \ 'S2N23' : {
-                 \             'NAME'    : [iconv("\xe8\xa7\xa3", "utf-8", &enc),iconv("\xe7\xa5\x9e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe8\xa7\xa3",s:utfPrefix . "\xe7\xa5\x9e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N23"]["TABLE"][s:basicInfo["BMONTH"] % 12]',
                  \             'TABLE'   : [7 , 9 , 9 , 11 , 11 , 1 , 1 , 3 , 3 , 5, 5, 7],
                  \           },
                  \ 'S2N24' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\xb7\xab", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\xb7\xab",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N24"]["TABLE"][s:basicInfo["BMONTH"] % 12]',
                  \             'TABLE'   : [12 , 6 , 9 , 3 , 12 , 6 , 9 , 3 , 12 , 6, 9, 3],
                  \           },
                  \ 'S2N25' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe6\x9c\x88", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe6\x9c\x88",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N25"]["TABLE"][s:basicInfo["BMONTH"] % 12]',
                  \             'TABLE'   : [3 , 11 , 6 , 5 , 3 , 8 , 4 , 12 , 8 , 3, 7, 11],
                  \           },
                  \ 'S2N26' : {
-                 \             'NAME'    : [iconv("\xe9\x98\xb4", "utf-8", &enc),iconv("\xe7\x85\x9e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe9\x98\xb4",s:utfPrefix . "\xe7\x85\x9e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S2N26"]["TABLE"][s:basicInfo["BMONTH"] % 12]',
                  \             'TABLE'   : [5 , 3 , 1 , 11 , 9 , 7 , 5 , 3 , 1 , 11, 9, 7],
                  \           },
                  \ 'S2N31' : {
-                 \             'NAME'    : [iconv("\xe4\xb8\x89", "utf-8", &enc),iconv("\xe5\x8f\xb0", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe4\xb8\x89",s:utfPrefix . "\xe5\x8f\xb0",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:basicInfo["BDAY"] + s:starInfo["S1N21"]["VALUE"] - 2, s:cellCount) + 1',
                  \           },
                  \ 'S2N32' : {
-                 \             'NAME'    : [iconv("\xe5\x85\xab", "utf-8", &enc),iconv("\xe5\xba\xa7", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x85\xab",s:utfPrefix . "\xe5\xba\xa7",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo["S1N22"]["VALUE"] - s:basicInfo["BDAY"], s:cellCount) + 1',
                  \           },
                  \ 'S2N33' : {
-                 \             'NAME'    : [iconv("\xe6\x81\xa9", "utf-8", &enc),iconv("\xe5\x85\x89", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\x81\xa9",s:utfPrefix . "\xe5\x85\x89",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:basicInfo["BDAY"] + s:starInfo["S1N41"]["VALUE"] - 3, s:cellCount) + 1',
                  \           },
                  \ 'S2N34' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe8\xb4\xb5", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe8\xb4\xb5",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:basicInfo["BDAY"] + s:starInfo["S1N42"]["VALUE"] - 3, s:cellCount) + 1',
                  \           },
@@ -418,183 +419,183 @@ let s:starInfo = {
 "" S9N41 = 博士 S9N42 = 力士 S9N43 = 青龙 S9N44 = 小耗 S9N45 = 将军 S9N46 = 奏书 S9N47 = 飞廉 S9N48 = 喜神 S9N49 = 病符 S9N50 = 大耗 S9N51 = 伏兵 S9N52 = 官府
 let s:starInfo2 = {
                  \ 'S9N01' : {
-                 \             'NAME'    : [iconv("\xe5\xb0\x86", "utf-8", &enc),iconv("\xe6\x98\x9f", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xb0\x86",s:utfPrefix . "\xe6\x98\x9f",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo2["S9N01"]["TABLE"][(s:basicInfo["YEARGZ"] - 1) % 12]',
                  \             'TABLE'   : [1, 10, 7, 4, 1, 10, 7, 4, 1, 10, 7, 4],
                  \           },
                  \ 'S9N02' : {
-                 \             'NAME'    : [iconv("\xe6\x94\x80", "utf-8", &enc),iconv("\xe9\x9e\x8d", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\x94\x80",s:utfPrefix . "\xe9\x9e\x8d",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"], s:cellCount) + 1',
                  \           },
                  \ 'S9N03' : {
-                 \             'NAME'    : [iconv("\xe5\xb2\x81", "utf-8", &enc),iconv("\xe9\xa9\xbf", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xb2\x81",s:utfPrefix . "\xe9\xa9\xbf",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"] + 1, s:cellCount) + 1',
                  \           },
                  \ 'S9N04' : {
-                 \             'NAME'    : [iconv("\xe6\x81\xaf", "utf-8", &enc),iconv("\xe7\xa5\x9e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\x81\xaf",s:utfPrefix . "\xe7\xa5\x9e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"] + 2, s:cellCount) + 1',
                  \           },
                  \ 'S9N05' : {
-                 \             'NAME'    : [iconv("\xe5\x8d\x8e", "utf-8", &enc),iconv("\xe7\x9b\x96", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x8d\x8e",s:utfPrefix . "\xe7\x9b\x96",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"] + 3, s:cellCount) + 1',
                  \           },
                  \ 'S9N06' : {
-                 \             'NAME'    : [iconv("\xe5\x8a\xab", "utf-8", &enc),iconv("\xe7\x85\x9e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x8a\xab",s:utfPrefix . "\xe7\x85\x9e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"] + 4, s:cellCount) + 1',
                  \           },
                  \ 'S9N07' : {
-                 \             'NAME'    : [iconv("\xe7\x81\xbe", "utf-8", &enc),iconv("\xe7\x85\x9e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe7\x81\xbe",s:utfPrefix . "\xe7\x85\x9e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"] + 5, s:cellCount) + 1',
                  \           },
                  \ 'S9N08' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe7\x85\x9e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe7\x85\x9e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"] + 6, s:cellCount) + 1',
                  \           },
                  \ 'S9N09' : {
-                 \             'NAME'    : [iconv("\xe6\x8c\x87", "utf-8", &enc),iconv("\xe8\x83\x8c", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\x8c\x87",s:utfPrefix . "\xe8\x83\x8c",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"] + 7, s:cellCount) + 1',
                  \           },
                  \ 'S9N10' : {
-                 \             'NAME'    : [iconv("\xe5\x92\xb8", "utf-8", &enc),iconv("\xe6\xb1\xa0", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x92\xb8",s:utfPrefix . "\xe6\xb1\xa0",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"] + 8, s:cellCount) + 1',
                  \           },
                  \ 'S9N11' : {
-                 \             'NAME'    : [iconv("\xe6\x9c\x88", "utf-8", &enc),iconv("\xe7\x85\x9e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\x9c\x88",s:utfPrefix . "\xe7\x85\x9e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"] + 9, s:cellCount) + 1',
                  \           },
                  \ 'S9N12' : {
-                 \             'NAME'    : [iconv("\xe4\xba\xa1", "utf-8", &enc),iconv("\xe7\xa5\x9e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe4\xba\xa1",s:utfPrefix . "\xe7\xa5\x9e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N01"]["VALUE"] + 10, s:cellCount) + 1',
                  \           },
                  \ 'S9N21' : {
-                 \             'NAME'    : [iconv("\xe5\xb2\x81", "utf-8", &enc),iconv("\xe5\xbb\xba", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xb2\x81",s:utfPrefix . "\xe5\xbb\xba",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : '(s:basicInfo["YEARGZ"] - 1) % 12 + 1',
                  \           },
                  \ 'S9N22' : {
-                 \             'NAME'    : [iconv("\xe6\x99\xa6", "utf-8", &enc),iconv("\xe6\xb0\x94", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe6\x99\xa6",s:utfPrefix . "\xe6\xb0\x94",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"], s:cellCount) + 1',
                  \           },
                  \ 'S9N23' : {
-                 \             'NAME'    : [iconv("\xe4\xb8\xa7", "utf-8", &enc),iconv("\xe9\x97\xa8", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe4\xb8\xa7",s:utfPrefix . "\xe9\x97\xa8",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"] + 1, s:cellCount) + 1',
                  \           },
                  \ 'S9N24' : {
-                 \             'NAME'    : [iconv("\xe8\xb4\xaf", "utf-8", &enc),iconv("\xe7\xb4\xa2", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe8\xb4\xaf",s:utfPrefix . "\xe7\xb4\xa2",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"] + 2, s:cellCount) + 1',
                  \           },
                  \ 'S9N25' : {
-                 \             'NAME'    : [iconv("\xe5\xae\x98", "utf-8", &enc),iconv("\xe7\xac\xa6", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xae\x98",s:utfPrefix . "\xe7\xac\xa6",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"] + 3, s:cellCount) + 1',
                  \           },
                  \ 'S9N26' : {
-                 \             'NAME'    : [iconv("\xe5\xb0\x8f", "utf-8", &enc),iconv("\xe8\x80\x97", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xb0\x8f",s:utfPrefix . "\xe8\x80\x97",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"] + 4, s:cellCount) + 1',
                  \           },
                  \ 'S9N27' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa7", "utf-8", &enc),iconv("\xe8\x80\x97", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa7",s:utfPrefix . "\xe8\x80\x97",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"] + 5, s:cellCount) + 1',
                  \           },
                  \ 'S9N28' : {
-                 \             'NAME'    : [iconv("\xe9\xbe\x99", "utf-8", &enc),iconv("\xe5\xbe\xb7", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe9\xbe\x99",s:utfPrefix . "\xe5\xbe\xb7",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"] + 6, s:cellCount) + 1',
                  \           },
                  \ 'S9N29' : {
-                 \             'NAME'    : [iconv("\xe7\x99\xbd", "utf-8", &enc),iconv("\xe8\x99\x8e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe7\x99\xbd",s:utfPrefix . "\xe8\x99\x8e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"] + 7, s:cellCount) + 1',
                  \           },
                  \ 'S9N30' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa9", "utf-8", &enc),iconv("\xe5\xbe\xb7", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa9",s:utfPrefix . "\xe5\xbe\xb7",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"] + 8, s:cellCount) + 1',
                  \           },
                  \ 'S9N31' : {
-                 \             'NAME'    : [iconv("\xe5\x90\x8a", "utf-8", &enc),iconv("\xe5\xae\xa2", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x90\x8a",s:utfPrefix . "\xe5\xae\xa2",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"] + 9, s:cellCount) + 1',
                  \           },
                  \ 'S9N32' : {
-                 \             'NAME'    : [iconv("\xe7\x97\x85", "utf-8", &enc),iconv("\xe7\xac\xa6", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe7\x97\x85",s:utfPrefix . "\xe7\xac\xa6",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N21"]["VALUE"] + 10, s:cellCount) + 1',
                  \           },
                  \ 'S9N41' : {
-                 \             'NAME'    : [iconv("\xe5\x8d\x9a", "utf-8", &enc),iconv("\xe5\xa3\xab", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x8d\x9a",s:utfPrefix . "\xe5\xa3\xab",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 's:starInfo["S1N01"]["VALUE"]',
                  \           },
                  \ 'S9N42' : {
-                 \             'NAME'    : [iconv("\xe5\x8a\x9b", "utf-8", &enc),iconv("\xe5\xa3\xab", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x8a\x9b",s:utfPrefix . "\xe5\xa3\xab",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 1 - 1,  s:cellCount) + 1',
                  \           },
                  \ 'S9N43' : {
-                 \             'NAME'    : [iconv("\xe9\x9d\x92", "utf-8", &enc),iconv("\xe9\xbe\x99", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe9\x9d\x92",s:utfPrefix . "\xe9\xbe\x99",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 2 - 1,  s:cellCount) + 1',
                  \           },
                  \ 'S9N44' : {
-                 \             'NAME'    : [iconv("\xe5\xb0\x8f", "utf-8", &enc),iconv("\xe8\x80\x97", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xb0\x8f",s:utfPrefix . "\xe8\x80\x97",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 3 - 1,  s:cellCount) + 1',
                  \           },
                  \ 'S9N45' : {
-                 \             'NAME'    : [iconv("\xe5\xb0\x86", "utf-8", &enc),iconv("\xe5\x86\x9b", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xb0\x86",s:utfPrefix . "\xe5\x86\x9b",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 4 - 1,  s:cellCount) + 1',
                  \           },
                  \ 'S9N46' : {
-                 \             'NAME'    : [iconv("\xe5\xa5\x8f", "utf-8", &enc),iconv("\xe4\xb9\xa6", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa5\x8f",s:utfPrefix . "\xe4\xb9\xa6",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 5 - 1,  s:cellCount) + 1',
                  \           },
                  \ 'S9N47' : {
-                 \             'NAME'    : [iconv("\xe9\xa3\x9e", "utf-8", &enc),iconv("\xe5\xbb\x89", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe9\xa3\x9e",s:utfPrefix . "\xe5\xbb\x89",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 6 - 1,  s:cellCount) + 1',
                  \           },
                  \ 'S9N48' : {
-                 \             'NAME'    : [iconv("\xe5\x96\x9c", "utf-8", &enc),iconv("\xe7\xa5\x9e", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\x96\x9c",s:utfPrefix . "\xe7\xa5\x9e",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 7 - 1,  s:cellCount) + 1',
                  \           },
                  \ 'S9N49' : {
-                 \             'NAME'    : [iconv("\xe7\x97\x85", "utf-8", &enc),iconv("\xe7\xac\xa6", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe7\x97\x85",s:utfPrefix . "\xe7\xac\xa6",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 8 - 1,  s:cellCount) + 1',
                  \           },
                  \ 'S9N50' : {
-                 \             'NAME'    : [iconv("\xe5\xa4\xa7", "utf-8", &enc),iconv("\xe8\x80\x97", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xa4\xa7",s:utfPrefix . "\xe8\x80\x97",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 9 - 1,  s:cellCount) + 1',
                  \           },
                  \ 'S9N51' : {
-                 \             'NAME'    : [iconv("\xe4\xbc\x8f", "utf-8", &enc),iconv("\xe5\x85\xb5", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe4\xbc\x8f",s:utfPrefix . "\xe5\x85\xb5",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 10 - 1,  s:cellCount) + 1',
                  \           },
                  \ 'S9N52' : {
-                 \             'NAME'    : [iconv("\xe5\xae\x98", "utf-8", &enc),iconv("\xe5\xba\x9c", "utf-8", &enc),],
+                 \             'NAME'    : [s:utfPrefix . "\xe5\xae\x98",s:utfPrefix . "\xe5\xba\x9c",],
                  \             'VISIBLE' : 1,
                  \             'CALC'    : 'CalModulo(s:starInfo2["S9N41"]["VALUE"] - (s:basicInfo["NANNV"] * 2 - 3) * 11 - 1,  s:cellCount) + 1',
                  \           },
@@ -662,13 +663,13 @@ function! s:paipan(age)
     endfor
     let l:center = repeat(['',], l:height * 2 + 1)
     " 设置中央块
-    let l:center[0] = iconv("\xe5\xa7\x93\xe5\x90\x8d", "utf-8", &enc) . ":" . s:basicInfo['NAME'] . "        " . iconv("\xe6\x80\xa7\xe5\x88\xab", "utf-8", &enc) . ":"
+    let l:center[0] = s:_(s:utfPrefix . "\xe5\xa7\x93\xe5\x90\x8d") . ":" . s:basicInfo['NAME'] . "        " . s:_(s:utfPrefix . "\xe6\x80\xa7\xe5\x88\xab") . ":"
     if s:basicInfo['GENDER'] == 1
-        let l:center[0] = l:center[0] . iconv("\xe7\x94\xb7", "utf-8", &enc)
+        let l:center[0] = l:center[0] . s:_(s:utfPrefix . "\xe7\x94\xb7")
     else
-        let l:center[0] = l:center[0] . iconv("\xe5\xa5\xb3", "utf-8", &enc)
+        let l:center[0] = l:center[0] . s:_(s:utfPrefix . "\xe5\xa5\xb3")
     endif
-    let l:center[1] = iconv("\xe5\x87\xba\xe7\x94\x9f\xe6\x97\xb6\xe9\x97\xb4", "utf-8", &enc)
+    let l:center[1] = s:_(s:utfPrefix . "\xe5\x87\xba\xe7\x94\x9f\xe6\x97\xb6\xe9\x97\xb4")
     let l:center[2] = "    " . s:basicInfo['BIRTH']
     let l:center[3] = "    " . CalChineseLunarDTStr("%YT%YC%MT%MC%DT%DC%HZ%HC",s:basicInfo['LUNAR'])
     if a:age > 0
@@ -688,9 +689,9 @@ function! s:paipan(age)
         let l:cellidx = CalModulo(s:basicInfo['MING'] - l:i - 1, s:cellCount) + 1
         let l:startage = s:basicInfo['JU'] + ((s:cellCount + l:direction * l:i) % s:cellCount) * 10
         if l:cellidx == s:basicInfo['SHEN']
-            let l:gongname = s:txtGong[12] . strpart(s:txtGong[l:i], 0, strlen(s:txtGong[12]))
+            let l:gongname = s:_(s:txtGong[12]) . strpart(s:_(s:txtGong[l:i]), 0, strlen(s:_(s:txtGong[12])))
         else
-            let l:gongname = s:txtGong[l:i]
+            let l:gongname = s:_(s:txtGong[l:i])
         endif
         let l:gongname = '[' . l:gongname . ']' . printf("%d-", l:startage)
         let l:zwpan[l:cellidx - 1][l:height - 1] = l:gongname . strpart(l:zwpan[l:cellidx - 1][l:height - 1], strwidth(l:gongname))
@@ -700,16 +701,16 @@ function! s:paipan(age)
         let l:startcell = s:basicInfo['MING'] - l:direction * ((a:age - s:basicInfo['JU'])/ 10)
         for l:i in range(s:cellCount)
             let l:cellidx = CalModulo(l:startcell - l:i - 1, s:cellCount) + 1
-            let l:gongname = s:txtGong[l:i]
-            let l:gongname = iconv("\xe5\xa4\xa7", "utf-8", &enc) . l:gongname
+            let l:gongname = s:_(s:txtGong[l:i])
+            let l:gongname = s:_(s:utfPrefix . "\xe5\xa4\xa7") . l:gongname
             let l:zwpan[l:cellidx - 1][l:height - 2] = l:gongname . strpart(l:zwpan[l:cellidx - 1][l:height - 2], strwidth(l:gongname))
         endfor
         " 流年12宫
         let l:startcell = CalModulo(s:basicInfo["BYEAR"] + a:age - 1985, 60) + 1
         for l:i in range(s:cellCount)
             let l:cellidx = CalModulo(l:startcell - l:i - 1, s:cellCount) + 1
-            let l:gongname = s:txtGong[l:i]
-            let l:gongname = iconv("\xe5\xb9\xb4", "utf-8", &enc) . l:gongname
+            let l:gongname = s:_(s:txtGong[l:i])
+            let l:gongname = s:_(s:utfPrefix . "\xe5\xb9\xb4") . l:gongname
             let l:zwpan[l:cellidx - 1][l:height - 3] = l:gongname . strpart(l:zwpan[l:cellidx - 1][l:height - 3], strwidth(l:gongname))
         endfor
     endif
@@ -718,8 +719,8 @@ function! s:paipan(age)
         if s:starInfo[l:skey]['VISIBLE'] == 1
             let l:tmpvalue = s:starInfo[l:skey]['VALUE'] - 1
             if strwidth(l:zwpan[l:tmpvalue][0]) < l:width
-                let l:zwpan[l:tmpvalue][0] = s:starInfo[l:skey]['NAME'][0] . l:zwpan[l:tmpvalue][0]
-                let l:zwpan[l:tmpvalue][1] = s:starInfo[l:skey]['NAME'][1] . l:zwpan[l:tmpvalue][1]
+                let l:zwpan[l:tmpvalue][0] = s:_(s:starInfo[l:skey]['NAME'][0]) . l:zwpan[l:tmpvalue][0]
+                let l:zwpan[l:tmpvalue][1] = s:_(s:starInfo[l:skey]['NAME'][1]) . l:zwpan[l:tmpvalue][1]
             endif
         endif
     endfor
@@ -727,8 +728,8 @@ function! s:paipan(age)
     for l:skey in sort(keys(s:starInfo2))
         if s:starInfo2[l:skey]['VISIBLE'] == 1
             let l:tmpvalue = s:starInfo2[l:skey]['VALUE'] - 1
-            let l:tmpspace = l:width - strwidth(l:zwpan[l:tmpvalue][g:ZiWei_Cell_Height - s:starInfo2[l:skey]['POS']]) - strwidth(s:starInfo2[l:skey]['NAME'][0]) * 2
-            let l:zwpan[l:tmpvalue][g:ZiWei_Cell_Height - s:starInfo2[l:skey]['POS']] = s:starInfo2[l:skey]['NAME'][0] . s:starInfo2[l:skey]['NAME'][1] . repeat(' ', l:tmpspace) . l:zwpan[l:tmpvalue][g:ZiWei_Cell_Height - s:starInfo2[l:skey]['POS']]
+            let l:tmpspace = l:width - strwidth(l:zwpan[l:tmpvalue][g:ZiWei_Cell_Height - s:starInfo2[l:skey]['POS']]) - strwidth(s:_(s:starInfo2[l:skey]['NAME'][0])) * 2
+            let l:zwpan[l:tmpvalue][g:ZiWei_Cell_Height - s:starInfo2[l:skey]['POS']] = s:_(s:starInfo2[l:skey]['NAME'][0]) . s:_(s:starInfo2[l:skey]['NAME'][1]) . repeat(' ', l:tmpspace) . l:zwpan[l:tmpvalue][g:ZiWei_Cell_Height - s:starInfo2[l:skey]['POS']]
         endif
     endfor
     "" 计算四化
@@ -769,7 +770,7 @@ function! s:paipan(age)
         for l:i in range(len(l:changes))
             let l:item = l:changes[l:i]
             let l:cspace = l:item[1] * 2 - strwidth(l:zwpan[l:item[0]][l:crow])
-            let l:zwpan[l:item[0]][l:crow] = l:zwpan[l:item[0]][l:crow] . s:fourChange['NAME'][l:item[2]] . repeat(' ', l:cspace)
+            let l:zwpan[l:item[0]][l:crow] = l:zwpan[l:item[0]][l:crow] . s:_(s:fourChange['NAME'][l:item[2]]) . repeat(' ', l:cspace)
         endfor
     endfor
     unlet l:item
@@ -801,4 +802,7 @@ function! s:paipan(age)
         call append(l:i, l:item)
         let l:i = l:i + 1
     endfor
+endfunction
+function! s:_(txt)
+    return Utf8Text(a:txt)
 endfunction

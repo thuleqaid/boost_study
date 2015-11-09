@@ -578,11 +578,11 @@ function! s:constructEndLine()
 	return l:output
 endfunction
 function! s:constructKeyword()
-	let l:output = '[' . g:mt_tag_key1 . ']'
+	let l:output = '[' . s:_(g:mt_tag_key1) . ']'
 	if g:mt_tag_key2 != ''
-		let l:output = l:output . '[' . g:mt_tag_key2 . ']'
+		let l:output = l:output . '[' . s:_(g:mt_tag_key2) . ']'
 		if g:mt_tag_key3 != ''
-			let l:output = l:output . '[' . g:mt_tag_key3 . ']'
+			let l:output = l:output . '[' . s:_(g:mt_tag_key3) . ']'
 		endif
 	endif
 	return l:output
@@ -596,18 +596,19 @@ function! s:constructKeywordLine(type)
 		let l:addtag = 'DEL[]_[]'
 	endif
 	let l:curtime = strftime(g:mt_tag_timef)
-	let l:output = g:mt_cmt_start . l:addtag . g:mt_tag_sep . s:constructKeyword() . g:mt_tag_sep . l:curtime . g:mt_tag_sep . g:mt_tag_user . g:mt_cmt_end
+	let l:output = g:mt_cmt_start . l:addtag . g:mt_tag_sep . s:constructKeyword() . g:mt_tag_sep . l:curtime . g:mt_tag_sep . s:_(g:mt_tag_user) . g:mt_cmt_end
 	return l:output
 endfunction
 function! s:constructReasonLine()
-	let l:choice = ListAndSelect('Choose Reason:', g:mt_tag_rlist, -1)
+	let l:rlist = map(copy(g:mt_tag_rlist), 's:_(v:val)')
+	let l:choice = ListAndSelect('Choose Reason:', l:rlist, -1)
 	if l:choice < 0
 		let l:msg = ''
 		while l:msg =~ '^\s*$'
 			let l:msg    = input('Input Reason: ', '')
 		endwhile
 	else
-		let l:msg    = g:mt_tag_rlist[l:choice]
+		let l:msg    = l:rlist[l:choice]
 	endif
 	let l:output = g:mt_cmt_start . l:msg . g:mt_cmt_end
 	return l:output
@@ -1137,4 +1138,6 @@ function! s:createPath(filename)
 		call mkdir(l:filepath, 'p')
 	endif
 endfunction
-
+function! s:_(txt)
+    return Utf8Text(a:txt)
+endfunction

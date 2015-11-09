@@ -24,141 +24,137 @@ let s:paipanmethod = ['LiuYao', 'MeiHua']
 let s:setupmethod = ['Coin Head', 'Coin Tail', 'Gua Code', 'Three Numbers']
 let s:setupexample = ['CH:000000', 'CT:000000', 'GC:11123456', 'TN:111,222,333']
 let s:txtYao = ['----  ----', '----------']
-if &encoding == 'utf-8'
-    " utf-8
-    let s:txtLS       = ['青龙'  , '朱雀' , '勾陈' , '滕蛇' , '白虎' , '玄武']
-    let s:txtLQ       = ['兄'    , '父'   , '官'   , '财'   , '孙']
-    let s:txtGua      = ['坤'    , '艮'   , '坎'   , '巽'   , '震'   , '离'    , '兑'   , '乾']
-    let s:txtGuaType  = ['宫'    , '正'   , '互'   , '变'   , '错'   , '综']
-    let s:txtExtra    = ['世'    , '应'   , '动'   , '伏'   , '为']
-    let s:txt64Gua    = [ '坤'   , '剥'   , '比'   , '观'   , '豫'   , '晋'    , '萃'   , '否'   ,
-                        \ '谦'   , '艮'   , '蹇'   , '渐'   , '小过' , '旅'    , '咸'   , '遯'   ,
-                        \ '师'   , '蒙'   , '坎'   , '涣'   , '解'   , '未济'  , '困'   , '讼'   ,
-                        \ '升'   , '蛊'   , '井'   , '巽'   , '恒'   , '鼎'    , '大过' , '姤'   ,
-                        \ '复'   , '颐'   , '屯'   , '益'   , '震'   , '噬嗑'  , '随'   , '无妄' ,
-                        \ '明夷' , '贲'   , '既济' , '家人' , '丰'   , '离'    , '革'   , '同人' ,
-                        \ '临'   , '损'   , '节'   , '中孚' , '归妹' , '睽'    , '兑'   , '履'   ,
-                        \ '泰'   , '大畜' , '需'   , '小畜' , '大壮' , '大有'  , '夬'   , '乾'   ]
-    let s:txtGuaXiang = ['地'    , '山'   , '水'   , '风'   , '雷'   , '火'    , '泽'   , '天']
-else
-    " cp936
-    let s:txtLS = [
-                  \ iconv("\xe9\x9d\x92\xe9\xbe\x99", "utf-8", &enc),
-                  \ iconv("\xe6\x9c\xb1\xe9\x9b\x80", "utf-8", &enc),
-                  \ iconv("\xe5\x8b\xbe\xe9\x99\x88", "utf-8", &enc),
-                  \ iconv("\xe6\xbb\x95\xe8\x9b\x87", "utf-8", &enc),
-                  \ iconv("\xe7\x99\xbd\xe8\x99\x8e", "utf-8", &enc),
-                  \ iconv("\xe7\x8e\x84\xe6\xad\xa6", "utf-8", &enc),
-                  \ ]
-    let s:txtLQ = [
-                  \ iconv("\xe5\x85\x84", "utf-8", &enc),
-                  \ iconv("\xe7\x88\xb6", "utf-8", &enc),
-                  \ iconv("\xe5\xae\x98", "utf-8", &enc),
-                  \ iconv("\xe8\xb4\xa2", "utf-8", &enc),
-                  \ iconv("\xe5\xad\x99", "utf-8", &enc),
-                  \ ]
-    let s:txtGua = [
-                   \ iconv("\xe5\x9d\xa4", "utf-8", &enc),
-                   \ iconv("\xe8\x89\xae", "utf-8", &enc),
-                   \ iconv("\xe5\x9d\x8e", "utf-8", &enc),
-                   \ iconv("\xe5\xb7\xbd", "utf-8", &enc),
-                   \ iconv("\xe9\x9c\x87", "utf-8", &enc),
-                   \ iconv("\xe7\xa6\xbb", "utf-8", &enc),
-                   \ iconv("\xe5\x85\x91", "utf-8", &enc),
-                   \ iconv("\xe4\xb9\xbe", "utf-8", &enc),
+let s:utfPrefix = '#utf8#'
+"" 青龙, 朱雀, 勾陈, 滕蛇, 白虎, 玄武
+let s:txtLS = [
+              \ s:utfPrefix . "\xe9\x9d\x92\xe9\xbe\x99",
+              \ s:utfPrefix . "\xe6\x9c\xb1\xe9\x9b\x80",
+              \ s:utfPrefix . "\xe5\x8b\xbe\xe9\x99\x88",
+              \ s:utfPrefix . "\xe6\xbb\x95\xe8\x9b\x87",
+              \ s:utfPrefix . "\xe7\x99\xbd\xe8\x99\x8e",
+              \ s:utfPrefix . "\xe7\x8e\x84\xe6\xad\xa6",
+              \ ]
+"" 兄, 父, 官, 财, 孙
+let s:txtLQ = [
+              \ s:utfPrefix . "\xe5\x85\x84",
+              \ s:utfPrefix . "\xe7\x88\xb6",
+              \ s:utfPrefix . "\xe5\xae\x98",
+              \ s:utfPrefix . "\xe8\xb4\xa2",
+              \ s:utfPrefix . "\xe5\xad\x99",
+              \ ]
+"" 坤, 艮, 坎, 巽, 震, 离, 兑, 乾
+let s:txtGua = [
+               \ s:utfPrefix . "\xe5\x9d\xa4",
+               \ s:utfPrefix . "\xe8\x89\xae",
+               \ s:utfPrefix . "\xe5\x9d\x8e",
+               \ s:utfPrefix . "\xe5\xb7\xbd",
+               \ s:utfPrefix . "\xe9\x9c\x87",
+               \ s:utfPrefix . "\xe7\xa6\xbb",
+               \ s:utfPrefix . "\xe5\x85\x91",
+               \ s:utfPrefix . "\xe4\xb9\xbe",
+               \ ]
+"" 宫, 正, 互, 变, 错, 综
+let s:txtGuaType = [
+                   \ s:utfPrefix . "\xe5\xae\xab",
+                   \ s:utfPrefix . "\xe6\xad\xa3",
+                   \ s:utfPrefix . "\xe4\xba\x92",
+                   \ s:utfPrefix . "\xe5\x8f\x98",
+                   \ s:utfPrefix . "\xe9\x94\x99",
+                   \ s:utfPrefix . "\xe7\xbb\xbc",
                    \ ]
-    let s:txtGuaType = [
-                       \ iconv("\xe5\xae\xab", "utf-8", &enc),
-                       \ iconv("\xe6\xad\xa3", "utf-8", &enc),
-                       \ iconv("\xe4\xba\x92", "utf-8", &enc),
-                       \ iconv("\xe5\x8f\x98", "utf-8", &enc),
-                       \ iconv("\xe9\x94\x99", "utf-8", &enc),
-                       \ iconv("\xe7\xbb\xbc", "utf-8", &enc),
-                       \ ]
-    let s:txtExtra = [
-                     \ iconv("\xe4\xb8\x96", "utf-8", &enc),
-                     \ iconv("\xe5\xba\x94", "utf-8", &enc),
-                     \ iconv("\xe5\x8a\xa8", "utf-8", &enc),
-                     \ iconv("\xe4\xbc\x8f", "utf-8", &enc),
-                     \ iconv("\xe4\xb8\xba", "utf-8", &enc),
-                     \ ]
-    let s:txt64Gua = [
-                     \ iconv("\xe5\x9d\xa4", "utf-8", &enc),
-                     \ iconv("\xe5\x89\xa5", "utf-8", &enc),
-                     \ iconv("\xe6\xaf\x94", "utf-8", &enc),
-                     \ iconv("\xe8\xa7\x82", "utf-8", &enc),
-                     \ iconv("\xe8\xb1\xab", "utf-8", &enc),
-                     \ iconv("\xe6\x99\x8b", "utf-8", &enc),
-                     \ iconv("\xe8\x90\x83", "utf-8", &enc),
-                     \ iconv("\xe5\x90\xa6", "utf-8", &enc),
-                     \ iconv("\xe8\xb0\xa6", "utf-8", &enc),
-                     \ iconv("\xe8\x89\xae", "utf-8", &enc),
-                     \ iconv("\xe8\xb9\x87", "utf-8", &enc),
-                     \ iconv("\xe6\xb8\x90", "utf-8", &enc),
-                     \ iconv("\xe5\xb0\x8f\xe8\xbf\x87", "utf-8", &enc),
-                     \ iconv("\xe6\x97\x85", "utf-8", &enc),
-                     \ iconv("\xe5\x92\xb8", "utf-8", &enc),
-                     \ iconv("\xe9\x81\xaf", "utf-8", &enc),
-                     \ iconv("\xe5\xb8\x88", "utf-8", &enc),
-                     \ iconv("\xe8\x92\x99", "utf-8", &enc),
-                     \ iconv("\xe5\x9d\x8e", "utf-8", &enc),
-                     \ iconv("\xe6\xb6\xa3", "utf-8", &enc),
-                     \ iconv("\xe8\xa7\xa3", "utf-8", &enc),
-                     \ iconv("\xe6\x9c\xaa\xe6\xb5\x8e", "utf-8", &enc),
-                     \ iconv("\xe5\x9b\xb0", "utf-8", &enc),
-                     \ iconv("\xe8\xae\xbc", "utf-8", &enc),
-                     \ iconv("\xe5\x8d\x87", "utf-8", &enc),
-                     \ iconv("\xe8\x9b\x8a", "utf-8", &enc),
-                     \ iconv("\xe4\xba\x95", "utf-8", &enc),
-                     \ iconv("\xe5\xb7\xbd", "utf-8", &enc),
-                     \ iconv("\xe6\x81\x92", "utf-8", &enc),
-                     \ iconv("\xe9\xbc\x8e", "utf-8", &enc),
-                     \ iconv("\xe5\xa4\xa7\xe8\xbf\x87", "utf-8", &enc),
-                     \ iconv("\xe5\xa7\xa4", "utf-8", &enc),
-                     \ iconv("\xe5\xa4\x8d", "utf-8", &enc),
-                     \ iconv("\xe9\xa2\x90", "utf-8", &enc),
-                     \ iconv("\xe5\xb1\xaf", "utf-8", &enc),
-                     \ iconv("\xe7\x9b\x8a", "utf-8", &enc),
-                     \ iconv("\xe9\x9c\x87", "utf-8", &enc),
-                     \ iconv("\xe5\x99\xac\xe5\x97\x91", "utf-8", &enc),
-                     \ iconv("\xe9\x9a\x8f", "utf-8", &enc),
-                     \ iconv("\xe6\x97\xa0\xe5\xa6\x84", "utf-8", &enc),
-                     \ iconv("\xe6\x98\x8e\xe5\xa4\xb7", "utf-8", &enc),
-                     \ iconv("\xe8\xb4\xb2", "utf-8", &enc),
-                     \ iconv("\xe6\x97\xa2\xe6\xb5\x8e", "utf-8", &enc),
-                     \ iconv("\xe5\xae\xb6\xe4\xba\xba", "utf-8", &enc),
-                     \ iconv("\xe4\xb8\xb0", "utf-8", &enc),
-                     \ iconv("\xe7\xa6\xbb", "utf-8", &enc),
-                     \ iconv("\xe9\x9d\xa9", "utf-8", &enc),
-                     \ iconv("\xe5\x90\x8c\xe4\xba\xba", "utf-8", &enc),
-                     \ iconv("\xe4\xb8\xb4", "utf-8", &enc),
-                     \ iconv("\xe6\x8d\x9f", "utf-8", &enc),
-                     \ iconv("\xe8\x8a\x82", "utf-8", &enc),
-                     \ iconv("\xe4\xb8\xad\xe5\xad\x9a", "utf-8", &enc),
-                     \ iconv("\xe5\xbd\x92\xe5\xa6\xb9", "utf-8", &enc),
-                     \ iconv("\xe7\x9d\xbd", "utf-8", &enc),
-                     \ iconv("\xe5\x85\x91", "utf-8", &enc),
-                     \ iconv("\xe5\xb1\xa5", "utf-8", &enc),
-                     \ iconv("\xe6\xb3\xb0", "utf-8", &enc),
-                     \ iconv("\xe5\xa4\xa7\xe7\x95\x9c", "utf-8", &enc),
-                     \ iconv("\xe9\x9c\x80", "utf-8", &enc),
-                     \ iconv("\xe5\xb0\x8f\xe7\x95\x9c", "utf-8", &enc),
-                     \ iconv("\xe5\xa4\xa7\xe5\xa3\xae", "utf-8", &enc),
-                     \ iconv("\xe5\xa4\xa7\xe6\x9c\x89", "utf-8", &enc),
-                     \ iconv("\xe5\xa4\xac", "utf-8", &enc),
-                     \ iconv("\xe4\xb9\xbe", "utf-8", &enc),
-                     \ ]
-    let s:txtGuaXiang = [
-                        \ iconv("\xe5\x9c\xb0", "utf-8", &enc),
-                        \ iconv("\xe5\xb1\xb1", "utf-8", &enc),
-                        \ iconv("\xe6\xb0\xb4", "utf-8", &enc),
-                        \ iconv("\xe9\xa3\x8e", "utf-8", &enc),
-                        \ iconv("\xe9\x9b\xb7", "utf-8", &enc),
-                        \ iconv("\xe7\x81\xab", "utf-8", &enc),
-                        \ iconv("\xe6\xb3\xbd", "utf-8", &enc),
-                        \ iconv("\xe5\xa4\xa9", "utf-8", &enc),
-                        \ ]
-endif
+"" 世, 应, 动, 伏, 为
+let s:txtExtra = [
+                 \ s:utfPrefix . "\xe4\xb8\x96",
+                 \ s:utfPrefix . "\xe5\xba\x94",
+                 \ s:utfPrefix . "\xe5\x8a\xa8",
+                 \ s:utfPrefix . "\xe4\xbc\x8f",
+                 \ s:utfPrefix . "\xe4\xb8\xba",
+                 \ ]
+"" 坤   , 剥   , 比   , 观   , 豫   , 晋   , 萃   , 否
+"" 谦   , 艮   , 蹇   , 渐   , 小过 , 旅   , 咸   , 遯
+"" 师   , 蒙   , 坎   , 涣   , 解   , 未济 , 困   , 讼
+"" 升   , 蛊   , 井   , 巽   , 恒   , 鼎   , 大过 , 姤
+"" 复   , 颐   , 屯   , 益   , 震   , 噬嗑 , 随   , 无妄
+"" 明夷 , 贲   , 既济 , 家人 , 丰   , 离   , 革   , 同人
+"" 临   , 损   , 节   , 中孚 , 归妹 , 睽   , 兑   , 履
+"" 泰   , 大畜 , 需   , 小畜 , 大壮 , 大有 , 夬   , 乾
+let s:txt64Gua = [
+                 \ s:utfPrefix . "\xe5\x9d\xa4",
+                 \ s:utfPrefix . "\xe5\x89\xa5",
+                 \ s:utfPrefix . "\xe6\xaf\x94",
+                 \ s:utfPrefix . "\xe8\xa7\x82",
+                 \ s:utfPrefix . "\xe8\xb1\xab",
+                 \ s:utfPrefix . "\xe6\x99\x8b",
+                 \ s:utfPrefix . "\xe8\x90\x83",
+                 \ s:utfPrefix . "\xe5\x90\xa6",
+                 \ s:utfPrefix . "\xe8\xb0\xa6",
+                 \ s:utfPrefix . "\xe8\x89\xae",
+                 \ s:utfPrefix . "\xe8\xb9\x87",
+                 \ s:utfPrefix . "\xe6\xb8\x90",
+                 \ s:utfPrefix . "\xe5\xb0\x8f\xe8\xbf\x87",
+                 \ s:utfPrefix . "\xe6\x97\x85",
+                 \ s:utfPrefix . "\xe5\x92\xb8",
+                 \ s:utfPrefix . "\xe9\x81\xaf",
+                 \ s:utfPrefix . "\xe5\xb8\x88",
+                 \ s:utfPrefix . "\xe8\x92\x99",
+                 \ s:utfPrefix . "\xe5\x9d\x8e",
+                 \ s:utfPrefix . "\xe6\xb6\xa3",
+                 \ s:utfPrefix . "\xe8\xa7\xa3",
+                 \ s:utfPrefix . "\xe6\x9c\xaa\xe6\xb5\x8e",
+                 \ s:utfPrefix . "\xe5\x9b\xb0",
+                 \ s:utfPrefix . "\xe8\xae\xbc",
+                 \ s:utfPrefix . "\xe5\x8d\x87",
+                 \ s:utfPrefix . "\xe8\x9b\x8a",
+                 \ s:utfPrefix . "\xe4\xba\x95",
+                 \ s:utfPrefix . "\xe5\xb7\xbd",
+                 \ s:utfPrefix . "\xe6\x81\x92",
+                 \ s:utfPrefix . "\xe9\xbc\x8e",
+                 \ s:utfPrefix . "\xe5\xa4\xa7\xe8\xbf\x87",
+                 \ s:utfPrefix . "\xe5\xa7\xa4",
+                 \ s:utfPrefix . "\xe5\xa4\x8d",
+                 \ s:utfPrefix . "\xe9\xa2\x90",
+                 \ s:utfPrefix . "\xe5\xb1\xaf",
+                 \ s:utfPrefix . "\xe7\x9b\x8a",
+                 \ s:utfPrefix . "\xe9\x9c\x87",
+                 \ s:utfPrefix . "\xe5\x99\xac\xe5\x97\x91",
+                 \ s:utfPrefix . "\xe9\x9a\x8f",
+                 \ s:utfPrefix . "\xe6\x97\xa0\xe5\xa6\x84",
+                 \ s:utfPrefix . "\xe6\x98\x8e\xe5\xa4\xb7",
+                 \ s:utfPrefix . "\xe8\xb4\xb2",
+                 \ s:utfPrefix . "\xe6\x97\xa2\xe6\xb5\x8e",
+                 \ s:utfPrefix . "\xe5\xae\xb6\xe4\xba\xba",
+                 \ s:utfPrefix . "\xe4\xb8\xb0",
+                 \ s:utfPrefix . "\xe7\xa6\xbb",
+                 \ s:utfPrefix . "\xe9\x9d\xa9",
+                 \ s:utfPrefix . "\xe5\x90\x8c\xe4\xba\xba",
+                 \ s:utfPrefix . "\xe4\xb8\xb4",
+                 \ s:utfPrefix . "\xe6\x8d\x9f",
+                 \ s:utfPrefix . "\xe8\x8a\x82",
+                 \ s:utfPrefix . "\xe4\xb8\xad\xe5\xad\x9a",
+                 \ s:utfPrefix . "\xe5\xbd\x92\xe5\xa6\xb9",
+                 \ s:utfPrefix . "\xe7\x9d\xbd",
+                 \ s:utfPrefix . "\xe5\x85\x91",
+                 \ s:utfPrefix . "\xe5\xb1\xa5",
+                 \ s:utfPrefix . "\xe6\xb3\xb0",
+                 \ s:utfPrefix . "\xe5\xa4\xa7\xe7\x95\x9c",
+                 \ s:utfPrefix . "\xe9\x9c\x80",
+                 \ s:utfPrefix . "\xe5\xb0\x8f\xe7\x95\x9c",
+                 \ s:utfPrefix . "\xe5\xa4\xa7\xe5\xa3\xae",
+                 \ s:utfPrefix . "\xe5\xa4\xa7\xe6\x9c\x89",
+                 \ s:utfPrefix . "\xe5\xa4\xac",
+                 \ s:utfPrefix . "\xe4\xb9\xbe",
+                 \ ]
+"" 地, 山, 水, 风, 雷, 火, 泽, 天
+let s:txtGuaXiang = [
+                    \ s:utfPrefix . "\xe5\x9c\xb0",
+                    \ s:utfPrefix . "\xe5\xb1\xb1",
+                    \ s:utfPrefix . "\xe6\xb0\xb4",
+                    \ s:utfPrefix . "\xe9\xa3\x8e",
+                    \ s:utfPrefix . "\xe9\x9b\xb7",
+                    \ s:utfPrefix . "\xe7\x81\xab",
+                    \ s:utfPrefix . "\xe6\xb3\xbd",
+                    \ s:utfPrefix . "\xe5\xa4\xa9",
+                    \ ]
 let s:wxGua = [4, 4, 1, 2, 2, 3, 5, 5] " 土，土，水，木，木，火，金，金
 let s:baseGZ = [[10, 12,  2,  4,  6,  8],
               \ [ 3,  1, 11,  9,  7,  5],
@@ -293,7 +289,7 @@ function! s:calcGuaStr(guas, day)
         let l:gua5 = l:gua05
         for l:i in range(l:imin, l:imax)
             " 六神
-            let l:yaostr[i] = l:yaostr[i] . s:txtLS[CalModulo(l:day + l:yaolen - l:i - 1, l:yaolen)]
+            let l:yaostr[i] = l:yaostr[i] . s:_(s:txtLS[CalModulo(l:day + l:yaolen - l:i - 1, l:yaolen)])
             " 宫卦
             let l:yaog  = CalModulo(s:baseGZ[l:gua00][l:i] - 1, 10)
             let l:yaoz  = CalModulo(s:baseGZ[l:gua00][l:i] - 1, 12)
@@ -302,7 +298,7 @@ function! s:calcGuaStr(guas, day)
             let l:gongpos1 = strlen(l:yaostr[i])
             let l:yaostr[i] = l:yaostr[i] . '  '
             let l:guacol[0] = strwidth(l:yaostr[i])
-            let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua0 % 2] . CalTextDZ(l:yaoz + 1) . s:txtLQ[l:yaolq]
+            let l:yaostr[i] = l:yaostr[i] . s:_(s:txtYao[l:gua0 % 2]) . CalTextDZ(l:yaoz + 1) . s:_(s:txtLQ[l:yaolq])
             let l:gongpos2 = strlen(l:yaostr[i])
             " 正卦
             let l:yaog  = CalModulo(s:baseGZ[l:gua01][l:i] - 1, 10)
@@ -310,15 +306,15 @@ function! s:calcGuaStr(guas, day)
             let l:yaolq = CalModulo(l:basewx - CalWxDZ(l:yaoz + 1), l:wxlen)
             let l:lq1[l:yaolq] = 1
             if l:yaolen - l:i == l:guainfo[1][2]
-                let l:txtsy = s:txtGua[l:guainfo[1][1]] " 世
+                let l:txtsy = s:_(s:txtGua[l:guainfo[1][1]]) " 世
             elseif (l:yaolen - l:i == l:guainfo[1][2] + 3) || (l:yaolen - l:i == l:guainfo[1][2] - 3)
-                let l:txtsy = s:txtExtra[1] " 应
+                let l:txtsy = s:_(s:txtExtra[1]) " 应
             else
-                let l:txtsy = repeat(' ', strwidth(s:txtExtra[1]))
+                let l:txtsy = repeat(' ', strwidth(s:_(s:txtExtra[1])))
             endif
             let l:yaostr[i] = l:yaostr[i] . '  '
             let l:guacol[1] = strwidth(l:yaostr[i])
-            let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua1 % 2] . l:txtsy . CalTextDZ(l:yaoz + 1) . s:txtLQ[l:yaolq]
+            let l:yaostr[i] = l:yaostr[i] . s:_(s:txtYao[l:gua1 % 2]) . l:txtsy . CalTextDZ(l:yaoz + 1) . s:_(s:txtLQ[l:yaolq])
             " 互卦
             if g:ly_paipan_mode == 1
                 let l:txtsy = ''
@@ -327,22 +323,22 @@ function! s:calcGuaStr(guas, day)
                 let l:yaolq = CalModulo(l:basewx - CalWxDZ(l:yaoz + 1), l:wxlen)
                 let l:yaostr[i] = l:yaostr[i] . '  '
                 let l:guacol[2] = strwidth(l:yaostr[i])
-                let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua2 % 2] . l:txtsy . CalTextDZ(l:yaoz + 1) . s:txtLQ[l:yaolq]
+                let l:yaostr[i] = l:yaostr[i] . s:_(s:txtYao[l:gua2 % 2]) . l:txtsy . CalTextDZ(l:yaoz + 1) . s:_(s:txtLQ[l:yaolq])
             endif
             " 变卦
             if (g:ly_paipan_mode == 1) || ((g:ly_paipan_mode == 0) && ((g:ly_visible_all == 1) || (l:gua3 % 2 != l:gua1 % 2)))
                 " 变爻
                 if l:yaolen - l:i == l:guainfo[3][2]
-                    let l:txtsy = s:txtGua[l:guainfo[3][1]] " 世
+                    let l:txtsy = s:_(s:txtGua[l:guainfo[3][1]]) " 世
                 elseif (l:yaolen - l:i == l:guainfo[3][2] + 3) || (l:yaolen - l:i == l:guainfo[3][2] - 3)
-                    let l:txtsy = s:txtExtra[1] " 应
+                    let l:txtsy = s:_(s:txtExtra[1]) " 应
                 else
-                    let l:txtsy = repeat(' ', strwidth(s:txtExtra[1]))
+                    let l:txtsy = repeat(' ', strwidth(s:_(s:txtExtra[1])))
                 endif
                 if l:gua3 % 2 != l:gua1 % 2
-                    let l:txtdj = s:txtExtra[2]
+                    let l:txtdj = s:_(s:txtExtra[2])
                 else
-                    let l:txtdj = repeat(' ', strwidth(s:txtExtra[2]))
+                    let l:txtdj = repeat(' ', strwidth(s:_(s:txtExtra[2])))
                 endif
                 let l:yaog  = CalModulo(s:baseGZ[l:gua03][l:i] - 1, 10)
                 let l:yaoz  = CalModulo(s:baseGZ[l:gua03][l:i] - 1, 12)
@@ -350,7 +346,7 @@ function! s:calcGuaStr(guas, day)
                 let l:lq1[l:yaolq] = 1
                 let l:yaostr[i] = l:yaostr[i] . '  ' . l:txtdj
                 let l:guacol[3] = strwidth(l:yaostr[i])
-                let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua3 % 2] . l:txtsy . CalTextDZ(l:yaoz + 1) . s:txtLQ[l:yaolq]
+                let l:yaostr[i] = l:yaostr[i] . s:_(s:txtYao[l:gua3 % 2]) . l:txtsy . CalTextDZ(l:yaoz + 1) . s:_(s:txtLQ[l:yaolq])
             endif
             " 错卦
             if g:ly_paipan_mode == 1
@@ -360,7 +356,7 @@ function! s:calcGuaStr(guas, day)
                 let l:yaolq = CalModulo(l:basewx - CalWxDZ(l:yaoz + 1), l:wxlen)
                 let l:yaostr[i] = l:yaostr[i] . '  '
                 let l:guacol[4] = strwidth(l:yaostr[i])
-                let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua4 % 2] . l:txtsy . CalTextDZ(l:yaoz + 1) . s:txtLQ[l:yaolq]
+                let l:yaostr[i] = l:yaostr[i] . s:_(s:txtYao[l:gua4 % 2]) . l:txtsy . CalTextDZ(l:yaoz + 1) . s:_(s:txtLQ[l:yaolq])
             endif
             " 综卦
             if g:ly_paipan_mode == 1
@@ -370,7 +366,7 @@ function! s:calcGuaStr(guas, day)
                 let l:yaolq = CalModulo(l:basewx - CalWxDZ(l:yaoz + 1), l:wxlen)
                 let l:yaostr[i] = l:yaostr[i] . '  '
                 let l:guacol[5] = strwidth(l:yaostr[i])
-                let l:yaostr[i] = l:yaostr[i] . s:txtYao[l:gua5 % 2] . l:txtsy . CalTextDZ(l:yaoz + 1) . s:txtLQ[l:yaolq]
+                let l:yaostr[i] = l:yaostr[i] . s:_(s:txtYao[l:gua5 % 2]) . l:txtsy . CalTextDZ(l:yaoz + 1) . s:_(s:txtLQ[l:yaolq])
             endif
             let l:gua0 = l:gua0 / 2
             let l:gua1 = l:gua1 / 2
@@ -385,11 +381,11 @@ function! s:calcGuaStr(guas, day)
     let l:widthdiff = 0
     for l:i in range(l:typelen)
         if l:guacol[l:i] > 0
-            let l:tmptxt = s:txtGuaType[l:i]
+            let l:tmptxt = s:_(s:txtGuaType[l:i])
             if l:guainfo[l:i][0] % 9 == 0
-                let l:tmptxt = l:tmptxt . s:txtGuaXiang[l:guainfo[l:i][0] / 8] . s:txtExtra[4] . s:txt64Gua[l:guainfo[l:i][0]]
+                let l:tmptxt = l:tmptxt . s:_(s:txtGuaXiang[l:guainfo[l:i][0] / 8]) . s:_(s:txtExtra[4]) . s:_(s:txt64Gua[l:guainfo[l:i][0]])
             else
-                let l:tmptxt = l:tmptxt . s:txtGuaXiang[l:guainfo[l:i][0] % 8] . s:txtGuaXiang[l:guainfo[l:i][0] / 8] . s:txt64Gua[l:guainfo[l:i][0]]
+                let l:tmptxt = l:tmptxt . s:_(s:txtGuaXiang[l:guainfo[l:i][0] % 8]) . s:_(s:txtGuaXiang[l:guainfo[l:i][0] / 8]) . s:_(s:txt64Gua[l:guainfo[l:i][0]])
             endif
             " l:guacol由列数转变为字节数
             let l:guacol[l:i] = l:guacol[l:i] + l:widthdiff
@@ -402,16 +398,16 @@ function! s:calcGuaStr(guas, day)
         for l:j in range(l:wxlen)
             if l:lq1[l:j] > 0
                 for l:i in l:lq0[l:j]
-                    let l:yaostr[l:i] = strpart(l:yaostr[l:i], 0, l:gongpos2) . repeat(' ', strwidth(s:txtExtra[3])) . strpart(l:yaostr[l:i], l:gongpos2)
+                    let l:yaostr[l:i] = strpart(l:yaostr[l:i], 0, l:gongpos2) . repeat(' ', strwidth(s:_(s:txtExtra[3]))) . strpart(l:yaostr[l:i], l:gongpos2)
                 endfor
             else
                 for l:i in l:lq0[l:j]
-                    let l:yaostr[l:i] = strpart(l:yaostr[l:i], 0, l:gongpos2) . s:txtExtra[3] . strpart(l:yaostr[l:i], l:gongpos2)
+                    let l:yaostr[l:i] = strpart(l:yaostr[l:i], 0, l:gongpos2) . s:_(s:txtExtra[3]) . strpart(l:yaostr[l:i], l:gongpos2)
                 endfor
             endif
         endfor
-        let l:yaostr[l:yaolen] = strpart(l:yaostr[l:yaolen], 0, l:gongpos2) . repeat(' ', strwidth(s:txtExtra[3])) . strpart(l:yaostr[l:yaolen], l:gongpos2)
-        let l:gongpos2 = l:gongpos2 + strlen(s:txtExtra[3])
+        let l:yaostr[l:yaolen] = strpart(l:yaostr[l:yaolen], 0, l:gongpos2) . repeat(' ', strwidth(s:_(s:txtExtra[3]))) . strpart(l:yaostr[l:yaolen], l:gongpos2)
+        let l:gongpos2 = l:gongpos2 + strlen(s:_(s:txtExtra[3]))
     endif
     " 删除无用宫卦
     if (g:ly_paipan_mode == 0) && (g:ly_visible_all != 1)
@@ -502,4 +498,7 @@ endfunction
 function! s:findFile()
     let l:path = globpath(&rtp, 'plugin/LiuYao.py')
     return l:path
+endfunction
+function! s:_(txt)
+    return Utf8Text(a:txt)
 endfunction
