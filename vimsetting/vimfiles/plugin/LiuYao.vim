@@ -1,3 +1,17 @@
+" Name    : LiuYao
+" Object  : Switch guifont quickly
+" Author  : thuleqaid@163.com
+" Date    : 2015/11/09
+" Version : v0.4
+" ChangeLog
+" v0.4 2015/11/09
+"   move s:ListAndSelect into common.vim
+" v0.3 2015/08/31
+"   use python script to generate random initial value
+" v0.2 2015/07/17
+"   move date calculation into CalTrans.vim
+" v0.1 2015/07/15
+"   new plugin
 let g:ly_paipan_mode = get(g:, 'ly_paipan_mode', 0) " 0:六爻, 1:梅花
 let g:ly_visible_all = get(g:, 'ly_visible_all', 0) " 只用于六爻排盘方式 0:只显示宫卦中的伏神和变卦中的动爻, 1:显示宫卦和变卦中所有的爻
 
@@ -156,14 +170,14 @@ let s:baseGZ = [[10, 12,  2,  4,  6,  8],
               \ [11,  9,  7,  5,  3,  1]]
 
 function! s:SetPaiPanMode()
-    let l:mode = s:ListAndSelect('PaiPan Mode List:', s:paipanmethod, g:ly_paipan_mode)
+    let l:mode = ListAndSelect('PaiPan Mode List:', s:paipanmethod, g:ly_paipan_mode)
     if l:mode >= 0
         let g:ly_paipan_mode = l:mode
     endif
 endfunction
 function! s:InsertDateTime()
     let l:curdt = CalNow()
-    let l:method = s:ListAndSelect('Method List:', s:setupmethod, -1)
+    let l:method = ListAndSelect('Method List:', s:setupmethod, -1)
     if l:method >= 0
         let l:coins = s:setupexample[l:method]
         if has("python")
@@ -484,23 +498,6 @@ function! s:calcBase(gua)
         let l:i = l:i + 1
     endwhile
     return [l:base, l:pos[l:i]]
-endfunction
-function! s:ListAndSelect(title, itemlist, markindex)
-    let l:choices = copy(a:itemlist)
-    " generate choice-list
-    call map(l:choices, '"  " . (v:key + 1) . ". " . v:val')
-    " insert '*' at the start of selected item
-    if (a:markindex >= 0) && (a:markindex < len(a:itemlist))
-        let l:choices[a:markindex] = '*' . l:choices[a:markindex][1:]
-    endif
-    " set list title
-    call insert(l:choices, a:title)
-    " ask for user choice
-    let l:choice = inputlist(l:choices)
-    if (l:choice < 1) || (l:choice > len(a:itemlist))
-        let l:choice = 0
-    endif
-    return l:choice - 1
 endfunction
 function! s:findFile()
     let l:path = globpath(&rtp, 'plugin/LiuYao.py')

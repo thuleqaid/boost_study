@@ -1,9 +1,11 @@
 " Name    : VimIDE
 " Object  : c/c++ IDE with project management
 " Author  : thuleqaid@163.com
-" Date    : 2015/06/27
-" Version : v0.2
+" Date    : 2015/11/09
+" Version : v0.3
 " ChangeLog
+" v0.3 2015/11/09
+"   move s:ListAndSelect into common.vim
 " v0.2 2015/06/27
 "   modify s:listProjects() to allow choose from list
 "   add s:cleanProjects()
@@ -159,7 +161,7 @@ function! s:listProjects()
     let l:items = copy(s:prjlist)
     call map(l:items, 'join(v:val,"\t")')
     let l:curidx = s:currentTagIdx()
-    let l:newidx = s:ListAndSelect('Project List:', l:items, l:curidx)
+    let l:newidx = ListAndSelect('Project List:', l:items, l:curidx)
     if (l:newidx >= 0) && (l:newidx != l:curidx)
         call s:setTagByIdx(l:newidx)
     endif
@@ -274,21 +276,4 @@ function! s:currentTagIdx()
     endwhile
     " connected tag is not in the project list
     return -1
-endfunction
-function! s:ListAndSelect(title, itemlist, markindex)
-    let l:choices = copy(a:itemlist)
-    " generate choice-list
-    call map(l:choices, '"  " . (v:key + 1) . ". " . v:val')
-    " insert '*' at the start of selected item
-    if (a:markindex >= 0) && (a:markindex < len(a:itemlist))
-        let l:choices[a:markindex] = '*' . l:choices[a:markindex][1:]
-    endif
-    " set list title
-    call insert(l:choices, a:title)
-    " ask for user choice
-    let l:choice = inputlist(l:choices)
-    if (l:choice < 1) || (l:choice > len(a:itemlist))
-        let l:choice = 0
-    endif
-    return l:choice - 1
 endfunction

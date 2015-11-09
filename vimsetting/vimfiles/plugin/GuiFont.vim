@@ -1,9 +1,11 @@
 " Name    : GuiFont
 " Object  : Switch guifont quickly
 " Author  : thuleqaid@163.com
-" Date    : 2015/08/01
-" Version : v0.3
+" Date    : 2015/11/09
+" Version : v0.4
 " ChangeLog
+" v0.4 2015/11/09
+"   move s:ListAndSelect into common.vim
 " v0.3 2015/08/01
 "   add s:ListEncoding()
 " v0.2 2015/06/27
@@ -52,14 +54,14 @@ nmap <Leader>fs :GuiFontListSet<CR>
 " functions
 function! s:ListEncoding()
 	let l:curidx = index(g:encodinglist, &encoding)
-	let l:newidx = s:ListAndSelect('Encoding List:', g:encodinglist, l:curidx)
+	let l:newidx = ListAndSelect('Encoding List:', g:encodinglist, l:curidx)
 	if (l:newidx >= 0) && (l:newidx != l:curidx)
 		silent! exe 'set encoding=' . g:encodinglist[l:newidx]
 	endif
 endfunction
 function! s:ListGuifont()
 	let l:curidx = s:curfontidx()
-	let l:newidx = s:ListAndSelect('Font List:', g:guifontlist, l:curidx)
+	let l:newidx = ListAndSelect('Font List:', g:guifontlist, l:curidx)
 	if (l:newidx >= 0) && (l:newidx != l:curidx)
 		silent! exe 'set guifont=' . g:guifontlist[l:newidx]
 	endif
@@ -92,22 +94,4 @@ function! s:curfontidx()
 	let l:curfont = &guifont
 	let l:curidx = index(g:guifontlist, l:curfont)
 	return l:curidx
-endfunction
-
-function! s:ListAndSelect(title, itemlist, markindex)
-	let l:choices = copy(a:itemlist)
-	" generate choice-list
-	call map(l:choices, '"  " . (v:key + 1) . ". " . v:val')
-	" insert '*' at the start of selected item
-	if (a:markindex >= 0) && (a:markindex < len(a:itemlist))
-		let l:choices[a:markindex] = '*' . l:choices[a:markindex][1:]
-	endif
-	" set list title
-	call insert(l:choices, a:title)
-	" ask for user choice
-	let l:choice = inputlist(l:choices)
-	if (l:choice < 1) || (l:choice > len(a:itemlist))
-		let l:choice = 0
-	endif
-	return l:choice - 1
 endfunction
