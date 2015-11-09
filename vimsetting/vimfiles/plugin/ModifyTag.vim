@@ -1,9 +1,11 @@
 " Name    : ModifyTag
 " Object  : add modify history for c/c++ source
 " Author  : thuleqaid@163.com
-" Date    : 2015/05/07
-" Version : v1.4
+" Date    : 2015/11/09
+" Version : v1.5
 " ChangeLog
+" v1.5 2015/11/09
+"   use ListAndSelect in common.vim instead of inputlist
 " v1.4 2015/05/07
 "   modify s:RemoveTag() to get different output form by setting g:mt_tag_rmode
 "   modify s:constructReasonLine() to allow user to select one reason from a predefined list(g:mt_tag_rlist)
@@ -598,17 +600,14 @@ function! s:constructKeywordLine(type)
 	return l:output
 endfunction
 function! s:constructReasonLine()
-	let l:choices = copy(g:mt_tag_rlist)
-	call map(l:choices, '(v:key + 1) . ". " . v:val')
-	call insert(l:choices, 'Choose Reason:')
-	let l:choice = inputlist(l:choices)
-	if (l:choice < 1) || (l:choice > len(g:mt_tag_rlist))
+	let l:choice = ListAndSelect('Choose Reason:', g:mt_tag_rlist, -1)
+	if l:choice < 0
 		let l:msg = ''
 		while l:msg =~ '^\s*$'
 			let l:msg    = input('Input Reason: ', '')
 		endwhile
 	else
-		let l:msg    = g:mt_tag_rlist[l:choice - 1]
+		let l:msg    = g:mt_tag_rlist[l:choice]
 	endif
 	let l:output = g:mt_cmt_start . l:msg . g:mt_cmt_end
 	return l:output
