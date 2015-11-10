@@ -56,15 +56,15 @@ map! <F6> <C-r>+
 set rtp+=~/.vim/vimfiles/
 " ModifyTag.vim
 "" project info
-let g:mt_tag_key1 = 'Key Level 1'
-let g:mt_tag_key2 = 'Key Level 2'
-let g:mt_tag_key3 = 'Key Level 3'
+let g:mt_tag_key1 = "Key Level 1"
+let g:mt_tag_key2 = "Key Level 2"
+let g:mt_tag_key3 = "Key Level 3"
 let g:mt_tag_allowr = 1
-let g:mt_tag_rlist  = ['Reason 1', 'Reason 2', 'Reason 3']
+let g:mt_tag_rlist  = ["Reason 1", "Reason 2", "Reason 3"]
 let g:mt_tag_rmode  = 3
 let g:mt_tag_diffall = 0
 "" developer info
-let g:mt_tag_user   = 'thuleqaid'
+let g:mt_tag_user   = "thuleqaid"
 let g:mt_tag_vigrep = 1
 "" format setting
 let g:mt_tag_timef  = "%Y/%m/%d"

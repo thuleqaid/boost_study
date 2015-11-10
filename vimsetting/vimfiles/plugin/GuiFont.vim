@@ -36,7 +36,7 @@
 
 " Parameter
 let g:guifontlist = get(g:, 'guifontlist', ['',])
-let g:encodinglist = get(g:, 'encodinglist', ['utf-8','cp932','cp936'])
+let g:encodinglist = get(g:, 'encodinglist', [['utf-8',''], ['cp932', ''], ['cp936', '']])
 
 " Key bindings
 command! -n=0 -bar GuiFontEncodingList :call s:ListEncoding()
@@ -53,10 +53,14 @@ nmap <Leader>fs :GuiFontListSet<CR>
 
 " functions
 function! s:ListEncoding()
-	let l:curidx = index(g:encodinglist, &encoding)
-	let l:newidx = ListAndSelect('Encoding List:', g:encodinglist, l:curidx)
-	if (l:newidx >= 0) && (l:newidx != l:curidx)
-		silent! exe 'set encoding=' . g:encodinglist[l:newidx]
+	let l:encodinglist = map(copy(g:encodinglist), 'v:val[0]')
+	let l:curidx = index(l:encodinglist, &encoding)
+	let l:newidx = ListAndSelect('Encoding List:', l:encodinglist, l:curidx)
+	if (l:newidx >= 0)
+		silent! exe 'set encoding=' . g:encodinglist[l:newidx][0]
+		if strlen(g:encodinglist[l:newidx][1]) > 0
+			silent! exe 'set guifont=' . g:encodinglist[l:newidx][1]
+		endif
 	endif
 endfunction
 function! s:ListGuifont()
