@@ -115,7 +115,7 @@ endfunction
 function! s:genTag(name)
     let l:dir=s:inputDir(a:name)
     let l:msg = input('Project Name: ', '')
-    exe '!ctags -R'
+    exe '!ctags -R --sort=no --excmd=number'
     exe '!cscope -Rbcu'
     ""update project list
     call s:appendPrjList(l:msg, l:dir)
@@ -147,7 +147,7 @@ function! s:updateTag()
         echo 'No tags are connected.'
     else
         silent! exe 'cs kill -1'
-        exe '!ctags -R'
+        exe '!ctags -R --sort=no --excmd=number'
         exe '!cscope -Rbcu'
         let l:cscopefile = globpath(s:currenttag, 'cscope.out')
         exe ':cs add ' . l:cscopefile
@@ -186,7 +186,7 @@ function! s:cleanProjects(action)
                     if len(s:currenttag) <= 0
                         " generate tag files
                         exe ':chdir '. s:prjlist[l:i][1]
-                        exe '!ctags -R'
+                        exe '!ctags -R --sort=no --excmd=number'
                         exe '!cscope -Rbcu'
                     endif
                 endif
