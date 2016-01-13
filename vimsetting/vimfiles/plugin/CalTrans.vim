@@ -379,7 +379,7 @@ function! CalChineseSolarDT(datetime)
             let l:year = CalModulo(a:datetime[0] - 1984, 60) + 1
             let l:month = l:termidx / 2 + 2
         endif
-        let l:month = CalModulo(l:month + CalModulo(l:year - 1, 5) * 12, 60) + 1
+        let l:month = CalModulo(CalModulo(a:datetime[0] - 1984, 60) * 12 + l:month, 60) + 1
         let l:day = (a:datetime[0] - 1984) * 5 + (a:datetime[0] - 1984 + 3) / 4 + 29 + CalDays(a:datetime[0], a:datetime[1], a:datetime[2])
         if a:datetime[3] >= 23
             let l:day = l:day + 1
