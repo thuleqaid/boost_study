@@ -1,7 +1,14 @@
 #include "project1/project1.h"
 
+Project1::~Project1() {
+}
+
+int Project1::inner_foo(int i) {
+	return i * i;
+}
+
 void Project1::foo(int &i) {
-	i = 1;
+	i = inner_foo(i);
 }
 
 

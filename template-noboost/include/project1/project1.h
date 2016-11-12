@@ -6,10 +6,8 @@
 class Project1 {
 
 public:
-	// why only detected if implemented here?
-	// void foo(int &i) {
-	// 	i = 1;
-	// }
+	virtual ~Project1();
+	virtual int inner_foo(int i);
 	void foo(int &i);
 
 };
