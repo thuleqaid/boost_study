@@ -11,6 +11,8 @@ else()
 endif()
 
 option(GDB "Build with debug info." OFF)
+option(GLOG "Build with Google log library." OFF)
+option(GFLAGS "Build with Google flags library." OFF)
 
 set(CMAKE_CXX_FLAGS "-Wall")
 if (GDB)
@@ -39,17 +41,15 @@ foreach (moditem ${MODULE_LIST})
   add_subdirectory(${MODULE_DIR}/${moditem})
 endforeach ()
 
+include("${ROOT_DIR}/extlibs.cmake")
 add_executable(${PROJECT_NAME} main.cpp)
+if (EXTLIBS)
+  target_link_libraries(${PROJECT_NAME} ${EXTLIBS})
+endif ()
 
 foreach (moditem ${MODULE_LIST})
   target_link_libraries(${PROJECT_NAME} ${moditem})
 endforeach ()
-
-if (MINGW)
-  # Copy libstdc++-6.dll to binary dir
-  string(REGEX REPLACE "^(.+/)[^/]+$" "\\1libstdc++-6.dll" LIBSTDCXX ${CMAKE_CXX_COMPILER})
-  file(COPY ${LIBSTDCXX} DESTINATION ${CMAKE_BINARY_DIR})
-endif (MINGW)
 
 ################################
 # Testing
