@@ -16,7 +16,7 @@ option(GFLAGS "Build with Google flags library." OFF)
 option(GMOCK "Test with Google mock library." OFF)
 option(GTEST "Test with Google test library." OFF)
 
-set(CMAKE_CXX_FLAGS "-Wall")
+set(CMAKE_CXX_FLAGS " -std=c++11 -Wall")
 if (GDB)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 endif ()

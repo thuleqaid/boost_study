@@ -1,3 +1,5 @@
+#include "common/common.h"
+#include "basemodule/basemodule.h"
 #ifdef ENABLE_GFLAGS
 #include <gflags/gflags.h>
 #endif
@@ -10,6 +12,15 @@
 // DEFINE_bool(verbose, false, "Display program name before message");
 // DEFINE_string(message, "Hello world!", "Message to print");
 #endif
+
+VD MainInit( VD );
+VD MainLoop( VD );
+VD MainExit( VD );
+U1 MainLoopCondition( VD );
+U1 MainExitCode( VD );
+
+#define MAINLOOP_CONTINUE		( 0 )			/* 主循环继续 */
+#define MAINLOOP_BREAK			( 1 )			/* 主循环退出 */
 
 int main(int argc, char *argv[])
 {
@@ -27,5 +38,51 @@ int main(int argc, char *argv[])
 	google::ParseCommandLineFlags(&argc, &argv, true);
 #endif
 
+	MainInit();
+	while (MAINLOOP_CONTINUE == MainLoopCondition()) {
+		MainLoop();
+	}
+	MainExit();
 	return 0;
+}
+
+VD MainInit( VD )
+{
+	I4 i = 0;
+	for (i = MODID_START; i < MODID_MAX; ++i) {
+		g_mods.getModule(i)->init();
+	}
+}
+
+VD MainLoop( VD )
+{
+	I4 i = 0;
+	for (i = MODID_START; i < MODID_MAX; ++i) {
+		g_mods.getModule(i)->run();
+	}
+}
+
+VD MainExit( VD )
+{
+	I4 i = 0;
+	U1 code = EXIT_UNKNOWN;
+
+	code = MainExitCode();
+	for (i = MODID_START; i < MODID_MAX; ++i) {
+		g_mods.getModule(i)->exit(code);
+	}
+}
+U1 MainLoopCondition( VD )
+{
+	static I4 i4_times = 10;
+	while (i4_times > 0) {
+		i4_times--;
+		return MAINLOOP_CONTINUE;
+	}
+	return MAINLOOP_BREAK;
+}
+
+U1 MainExitCode( VD )
+{
+	return EXIT_USER;
 }
