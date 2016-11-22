@@ -1,5 +1,6 @@
 #include "common/common.h"
-#include "basemodule/basemodule.h"
+#include "basemodule/modulelist.h"
+
 #ifdef ENABLE_GFLAGS
 #include <gflags/gflags.h>
 #endif
@@ -49,7 +50,7 @@ int main(int argc, char *argv[])
 VD MainInit( VD )
 {
 	I4 i = 0;
-	for (i = MODID_START; i < MODID_MAX; ++i) {
+	for (i = E_MODID::MODID_START; i < E_MODID::MODID_MAX; ++i) {
 		g_mods.getModule(i)->init();
 	}
 }
@@ -57,7 +58,7 @@ VD MainInit( VD )
 VD MainLoop( VD )
 {
 	I4 i = 0;
-	for (i = MODID_START; i < MODID_MAX; ++i) {
+	for (i = E_MODID::MODID_START; i < E_MODID::MODID_MAX; ++i) {
 		g_mods.getModule(i)->run();
 	}
 }
@@ -65,10 +66,10 @@ VD MainLoop( VD )
 VD MainExit( VD )
 {
 	I4 i = 0;
-	U1 code = EXIT_UNKNOWN;
+	U1 code = E_EXITCODE::EXIT_UNKNOWN;
 
 	code = MainExitCode();
-	for (i = MODID_START; i < MODID_MAX; ++i) {
+	for (i = E_MODID::MODID_START; i < E_MODID::MODID_MAX; ++i) {
 		g_mods.getModule(i)->exit(code);
 	}
 }
@@ -84,5 +85,5 @@ U1 MainLoopCondition( VD )
 
 U1 MainExitCode( VD )
 {
-	return EXIT_USER;
+	return E_EXITCODE::EXIT_USER;
 }
