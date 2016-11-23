@@ -15,8 +15,13 @@ public:
 	virtual I4 getCounter() const;
 	static const I4 COUNTER_MIN;
 	static const I4 COUNTER_MAX;
+#ifdef ENABLE_GMOCK
+public:
+#else
 protected:
+#endif
 	virtual VD countUp();
+protected:
 	/**	\brief		计数器成员变量
 	 *	\version	0.1	2016/11/21	初版
 	 */
