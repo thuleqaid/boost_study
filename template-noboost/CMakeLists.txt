@@ -82,6 +82,10 @@ if (GMOCK OR GTEST)
                                                  ${TEST_ROOT_DIR}/${moditem}/inc
                                                  ${MODULE_DIR}/${moditem}/inc)
       target_link_libraries(test_${moditem} ${MODULE_LIST})
+      if (MSVC)
+        set_target_properties( test_${moditem} PROPERTIES COMPILE_OPTIONS "${COMPILE_OPTIONS} /MTd"
+                                                          LINK_FLAGS "/NODEFAULTLIB:\"LIBCMTD.lib\"" )
+      endif ()
       if (EXTLIBS)
         target_link_libraries(${PROJECT_NAME} ${EXTLIBS})
       endif ()

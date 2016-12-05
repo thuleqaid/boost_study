@@ -43,26 +43,49 @@ endif ()
 if (_find_gtest)
   add_library(gtest UNKNOWN IMPORTED)
   add_library(gtest_main UNKNOWN IMPORTED)
-  set_target_properties(gtest PROPERTIES
-    IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgtest.a
-    INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
-  )
-  set_target_properties(gtest_main PROPERTIES
-    IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgtest_main.a
-    INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
-  )
+  if (MSVC)
+    set_target_properties(gtest PROPERTIES
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/gtest.lib
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+    )
+    set_target_properties(gtest_main PROPERTIES
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/gtest_main.lib
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+    )
+  else ()
+    set_target_properties(gtest PROPERTIES
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgtest.a
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+    )
+    set_target_properties(gtest_main PROPERTIES
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgtest_main.a
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+    )
+  endif ()
+  add_definitions(-DENABLE_GTEST)
 endif ()
 if (_find_gmock)
   add_library(gmock UNKNOWN IMPORTED)
   add_library(gmock_main UNKNOWN IMPORTED)
-  set_target_properties(gmock PROPERTIES
-    IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgmock.a
-    INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
-  )
-  set_target_properties(gmock_main PROPERTIES
-    IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgmock_main.a
-    INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
-  )
+  if (MSVC)
+    set_target_properties(gmock PROPERTIES
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/gmock.lib
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+    )
+    set_target_properties(gmock_main PROPERTIES
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/gmock_main.lib
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+    )
+  else ()
+    set_target_properties(gmock PROPERTIES
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgmock.a
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+    )
+    set_target_properties(gmock_main PROPERTIES
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgmock_main.a
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+    )
+  endif ()
   add_definitions(-DENABLE_GMOCK)
 endif ()
 if (_link_gflags)
