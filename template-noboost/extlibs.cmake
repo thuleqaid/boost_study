@@ -86,6 +86,7 @@ if (_find_gmock)
       INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
     )
   endif ()
+  add_definitions(-DENABLE_GTEST)
   add_definitions(-DENABLE_GMOCK)
 endif ()
 if (_link_gflags)

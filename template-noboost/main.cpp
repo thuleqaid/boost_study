@@ -69,7 +69,7 @@ VD MainExit( VD )
 	U1 code = E_EXITCODE::EXIT_UNKNOWN;
 
 	code = MainExitCode();
-	for (i = E_MODID::MODID_START; i < E_MODID::MODID_MAX; ++i) {
+	for (i = E_MODID::MODID_MAX - 1; i >= E_MODID::MODID_START; --i) {
 		g_mods.getModule(i)->exit(code);
 	}
 }
