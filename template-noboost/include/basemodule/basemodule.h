@@ -86,7 +86,7 @@ public:
 	virtual ~BaseModuleList()
 	{
 		I4 i = 0;
-		for (i = ModEnum::MODID_START; i < ModEnum::MODID_MAX; ++i) {
+		for (i = ModEnum::MODID_MAX - 1; i >= ModEnum::MODID_START; --i) {
 			delete mods[i];
 		}
 	}
