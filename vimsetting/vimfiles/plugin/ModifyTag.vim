@@ -6,6 +6,7 @@
 " ChangeLog
 " v1.6 2017/02/14
 "   add g:mt_tag_const_true and g:mt_tag_const_false
+"   add g:mt_tag_vigrep_filepattern and g:mt_tag_find_filepattern
 " v1.5 2015/11/09
 "   use ListAndSelect in common.vim instead of inputlist
 " v1.4 2015/05/07
@@ -106,6 +107,8 @@ let g:mt_tag_diffall = get(g:, 'mt_tag_diffall', 1) "show both match lines and m
 " this part should be unique for every people
 let g:mt_tag_user   = get(g:, 'mt_tag_user', 'anonymous')
 let g:mt_tag_vigrep = get(g:, 'mt_tag_vigrep', 1) "0: use find and grep program (for shell only), 1: use vim's internal grep (slow)
+let g:mt_tag_vigrep_filepattern = get(g:, 'mt_tag_vigrep_filepattern', '*.{c,cxx,cpp,h,hxx,hpp}') " filename pattern used when g:mt_tag_vigrep = 1
+let g:mt_tag_find_filepattern = get(g:, 'mt_tag_find_filepattern', '.*\\.\\(c\\|cxx\\|cpp\\|h\\|hxx\\|hpp\\)') " filename pattern used when g:mt_tag_vigrep = 0
 " Paramater III
 " this part should be same for every people
 let g:mt_tag_timef  = get(g:, 'mt_tag_timef', "%Y/%m/%d")
@@ -374,11 +377,11 @@ endfunction
 function! s:SearchCurrentDirectory()
 	let l:keyword  = escape(s:constructKeyword(), s:ptn_escape)
 	if g:mt_tag_vigrep > 0
-		let l:command  = "vimgrep /" . l:keyword . "/j " . expand("%:p:h:gs?\\?/?") . '/**/*.{c,cxx,cpp,h,hxx,hpp}'
+		let l:command  = "vimgrep /" . l:keyword . "/j " . expand("%:p:h:gs?\\?/?") . '/**/' . g:mt_tag_vigrep_filepattern
 		silent! exe l:command
 		silent! exe "cwindow"
 	else
-		let l:command  = "find " . expand("%:p:h:gs?\\?/?") . " -iregex '.*\\.\\(c\\|cxx\\|cpp\\|h\\|hxx\\|hpp\\)' | xargs grep -Hn '" . l:keyword . "'"
+		let l:command  = "find " . expand("%:p:h:gs?\\?/?") . " -iregex '" . g:mt_tag_find_filepattern . "' | xargs grep -Hn '" . l:keyword . "'"
 		let l:qflist = []
 		let l:result = system(l:command)
 		for l:text in split(l:result,'\n')
