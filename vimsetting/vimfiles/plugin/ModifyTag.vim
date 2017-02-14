@@ -1,9 +1,11 @@
 " Name    : ModifyTag
 " Object  : add modify history for c/c++ source
 " Author  : thuleqaid@163.com
-" Date    : 2015/11/09
-" Version : v1.5
+" Date    : 2017/02/14
+" Version : v1.6
 " ChangeLog
+" v1.6 2017/02/14
+"   add g:mt_tag_const_true and g:mt_tag_const_false
 " v1.5 2015/11/09
 "   use ListAndSelect in common.vim instead of inputlist
 " v1.4 2015/05/07
@@ -109,6 +111,8 @@ let g:mt_tag_vigrep = get(g:, 'mt_tag_vigrep', 1) "0: use find and grep program 
 let g:mt_tag_timef  = get(g:, 'mt_tag_timef', "%Y/%m/%d")
 let g:mt_tag_mode   = get(g:, 'mt_tag_mode', 0)  "0: [#if] for chg and del, 1:[#if] for add, chg and del
 let g:mt_tag_co     = get(g:, 'mt_tag_co' ,'')   "compile option, valid only if g:mt_tag_mode == 1
+let g:mt_tag_const_true = get(g:, 'mt_tag_const_true' ,'1')   "valid only if g:mt_tag_co == ""
+let g:mt_tag_const_false = get(g:, 'mt_tag_const_false' ,'0')   "valid only if g:mt_tag_co == ""
 let g:mt_tag_start  = get(g:, 'mt_tag_start', '/*$$$$$$$$$$$$$$$$$CorrectStart$$$$$$$$$$$$$$$$$$*/')
 let g:mt_tag_end    = get(g:, 'mt_tag_end', '/*$$$$$$$$$$$$$$$$$$CorrectEnd$$$$$$$$$$$$$$$$$$$*/')
 let g:mt_tag_sep    = get(g:, 'mt_tag_sep', ',')
@@ -617,7 +621,7 @@ function! s:constructIfLine(type)
 	if a:type == 'add'
 		if g:mt_tag_mode == 1
 			if g:mt_tag_co == ''
-				let l:addtag = '#if 1'
+				let l:addtag = '#if ' . g:mt_tag_const_true
 			else
 				let l:addtag = '#ifndef ' . g:mt_tag_co
 			endif
@@ -627,22 +631,22 @@ function! s:constructIfLine(type)
 	elseif a:type == 'chg'
 		if g:mt_tag_mode == 1
 			if g:mt_tag_co == ''
-				let l:addtag = '#if 0'
+				let l:addtag = '#if ' . g:mt_tag_const_false
 			else
 				let l:addtag = '#ifdef ' . g:mt_tag_co
 			endif
 		else
-			let l:addtag = '#if 0'
+			let l:addtag = '#if ' . g:mt_tag_const_false
 		endif
 	elseif a:type == 'del'
 		if g:mt_tag_mode == 1
 			if g:mt_tag_co == ''
-				let l:addtag = '#if 0'
+				let l:addtag = '#if ' . g:mt_tag_const_false
 			else
 				let l:addtag = '#ifdef ' . g:mt_tag_co
 			endif
 		else
-			let l:addtag = '#if 0'
+			let l:addtag = '#if ' . g:mt_tag_const_false
 		endif
 	endif
 	return l:addtag

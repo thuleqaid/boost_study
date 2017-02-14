@@ -5,10 +5,13 @@
 set nocompatible
 set cryptmethod=blowfish
 set backspace=indent,eol,start
-colorscheme darkblue
+"colorscheme darkblue
 
 set enc=utf-8
-set fileencodings=utf-8,cp936,sjis
+"set enc=cp936
+"set enc=cp932
+set fileencodings=utf-8,cp932,cp936
+
 set fileformat=unix
 set number
 set iminsert=0
@@ -19,7 +22,7 @@ set bk
 set bdir=~/.vim/temp
 " swap
 set dir=~/.vim/temp
-"set lines=40 columns=110
+set lines=40 columns=110
 set guioptions-=T
 set list
 set listchars=tab:>-,trail:-
@@ -46,9 +49,9 @@ set ai
 set si
 set nowrap
 
-"if has("autocmd")
-    "autocmd FileType python,javascript,php set expandtab
-"endif
+if has("autocmd")
+    autocmd FileType python,javascript,php,html set expandtab
+endif
 map <F5> "+y
 nmap <F6> "+p
 map! <F6> <C-r>+
@@ -70,6 +73,8 @@ let g:mt_tag_vigrep = 1
 let g:mt_tag_timef  = "%Y/%m/%d"
 let g:mt_tag_mode   = 0
 let g:mt_tag_co     = ''
+" let g:mt_tag_const_true = 'true'
+" let g:mt_tag_const_false = 'false'
 "" enable auto-expandtab
 if has("autocmd")
     autocmd BufRead * ModifyTagAutoExpandTab
@@ -129,8 +134,8 @@ Plugin 'JavaScript-syntax'
 "markdown
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
-let g:vim_markdown_folding_disabled=1
-let g:vim_markdown_initial_foldlevel=1
+"let g:vim_markdown_folding_disabled=1
+"let g:vim_markdown_initial_foldlevel=1
 
 "Git
 ""Bundle 'fugitive.vim'
@@ -138,8 +143,8 @@ Plugin 'motemen/git-vim'
 "" show branch name in the status line
 "set laststatus=2
 "set statusline=%{GitBranch()}
-Plugin 'airblade/vim-gitgutter'
-let g:gitgutter_max_signs = 9999
+"Plugin 'airblade/vim-gitgutter'
+"let g:gitgutter_max_signs = 9999
 
 "Syntax check
 Plugin 'Syntastic'
@@ -169,12 +174,22 @@ Plugin 'terryma/vim-multiple-cursors'
 
 "AutoComplPop
 Plugin 'AutoComplPop'
-"let g:acp_behaviorPythonOmniLength = -1
+let g:acp_behaviorPythonOmniLength = -1
 
 "OmniCppComplete
 Plugin 'OmniCppComplete'
-set tags+=~/work/cpp47.tag
-set tags+=~/work/boost.tag
+" make a file in HOME directory(ctags.cnf for Windows, .ctags for Unix)
+"" content for ctags.cnf/.ctags
+" --c++-kinds=+p
+" --fields=+iaS
+" --extra=+q
+"" create tags file for cpp standard headers
+" use ctags to generate tag files
+"" ctags -R -o stdc.tag c:\PortableSoft\mingw32\i686-w64-mingw32\include
+"" ctags -R --language-force=c++ -o stdcpp.tag c:\PortableSoft\mingw32\lib\gcc\i686-w64-mingw32\6.2.0\include\c++
+"" add [set tags+=xxx.tag] repeatly for all cpp libraries
+set tags+=~/stdc.tag
+set tags+=~/stdcpp.tag
 
 hi PmenuSel ctermbg=green
 hi PmenuSel guibg=green
