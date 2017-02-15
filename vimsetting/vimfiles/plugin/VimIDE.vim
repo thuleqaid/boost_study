@@ -1,9 +1,11 @@
 " Name    : VimIDE
 " Object  : c/c++ IDE with project management
 " Author  : thuleqaid@163.com
-" Date    : 2015/11/09
-" Version : v0.3
+" Date    : 2017/02/15
+" Version : v0.4
 " ChangeLog
+" v0.4 2017/02/15
+"   set source root dir as current dir for NERD_tree when setting tag in s:setTag()
 " v0.3 2015/11/09
 "   move s:ListAndSelect into common.vim
 " v0.2 2015/06/27
@@ -138,6 +140,8 @@ function! s:setTag(name)
         let s:currenttag = l:dir
         exe ':set tags+=' . l:tagfile
         exe ':cs add ' . l:cscopefile
+        exe ':NERDTree ' . l:dir
+        exe ':NERDTreeClose'
     else
         echo s:currenttag . ' is in connection'
     endif

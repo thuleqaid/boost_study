@@ -197,6 +197,20 @@ hi PmenuSel guibg=green
 "VOom
 Plugin 'VOom'
 
+"Rust
+Plugin 'racer-rust/vim-racer'
+Plugin 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
+set hidden
+"set environment variable "RUST_SRC_PATH" to rust source path, e.g. "c:\PortableSoft\home\rustc-1.13.0\src"
+let g:racer_cmd = "c:/Users/tianquan/.cargo/bin/racer.exe"
+
+let g:racer_experimental_completer = 1
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
 call vundle#end()
 filetype plugin indent on     " required!
 "

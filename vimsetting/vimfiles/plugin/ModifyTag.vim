@@ -1,9 +1,13 @@
 " Name    : ModifyTag
 " Object  : add modify history for c/c++ source
 " Author  : thuleqaid@163.com
-" Date    : 2017/02/14
-" Version : v1.6
+" Date    : 2017/02/15
+" Version : v1.7
 " ChangeLog
+" v1.7 2017/02/15
+"  add g:mt_tag_diff_tag1 ~ g:mt_tag_diff_tag5
+"  add s:SumModifiedFiles() and s:MakeVimScript()
+"  add usage for diff files
 " v1.6 2017/02/14
 "   add g:mt_tag_const_true and g:mt_tag_const_false
 "   add g:mt_tag_vigrep_filepattern and g:mt_tag_find_filepattern
@@ -93,6 +97,19 @@
 " if has("autocmd")
 "     autocmd BufRead * ModifyTagAutoExpandTab
 " endif
+" Diff Modified Files
+" 1. use <Leader>tt to list all changes in the current directory
+" 2. use <Leader>tS to summarize modified files
+" 3. use <Leader>tD to generate vim script for diff files
+" 4. set base soft dir in the empty line between g:mt_tag_diff_tag1 and g:mt_tag_diff_tag2
+"    set output html dir in the empty line between g:mt_tag_diff_tag3 and g:mt_tag_diff_tag4
+"      Default Value for g:mt_tag_diff_tag1 ~ g:mt_tag_diff_tag4
+"        g:mt_tag_diff_tag1 = "#1 Base Source Dir:"
+"        g:mt_tag_diff_tag2 = "#2 New Source Dir:"
+"        g:mt_tag_diff_tag3 = "#3 Output Html Dir:"
+"        g:mt_tag_diff_tag4 = "#4 FileList:"
+" 5. use :so % to run the generated vim script
+"    Related Option: g:mt_tag_diffall
 
 " Paramater I
 " this part should be unique for every project
@@ -123,6 +140,11 @@ let g:mt_cmt_start  = get(g:, 'mt_cmt_start', '/*$$$ ')
 let g:mt_cmt_end    = get(g:, 'mt_cmt_end', '*/')
 let g:mt_rm_prefix  = get(g:, 'mt_rm_prefix', '') "prefix that will be added at the beginning of every deleted line
 let s:ptn_escape = '/*[]()'
+let g:mt_tag_diff_tag1 = get(g:, 'mt_tag_diff_tag1', "#1 Base Source Dir:")
+let g:mt_tag_diff_tag2 = get(g:, 'mt_tag_diff_tag2', "#2 New Source Dir:")
+let g:mt_tag_diff_tag3 = get(g:, 'mt_tag_diff_tag3', "#3 Output Html Dir:")
+let g:mt_tag_diff_tag4 = get(g:, 'mt_tag_diff_tag4', "#4 FileList:")
+let g:mt_tag_diff_tag5 = get(g:, 'mt_tag_diff_tag5', "#5 Finished")
 " define command
 command! -n=0 -bar ModifyTagUpdateLines :call s:CalculateModifiedLines()
 command! -n=0 -rang=% -bar ModifyTagManualCount :<line1>,<line2>call s:CountLines()
@@ -141,6 +163,8 @@ command! -n=+ -bar ModifyTagListStaticCheck :call s:ListStaticCheck(<f-args>)
 command! -n=0 -bar ModifyTagFilterStaticCheck :call s:FilterStaticCheck()
 command! -n=0 -bar ModifyTagAutoExpandTab :call s:AutoExpandTab()
 command! -n=+ -bar ModifyTagDiff2Html :call s:Diff2Html(<f-args>)
+command! -n=0 -bar ModifyTagSumFiles :call s:SumModifiedFiles()
+command! -n=0 -bar ModifyTagDiffFiles :call s:MakeVimScript()
 " key-binding
 nmap <Leader>ta :ModifyTagAddSource<CR>
 vmap <Leader>ta :ModifyTagAddSource<CR>
@@ -161,6 +185,8 @@ nmap <Leader>tz :ModifyTagStaticCheck 0 0<CR>
 nmap <Leader>tL :ModifyTagStaticCheck 1 1<CR>
 nmap <Leader>tZ :ModifyTagStaticCheck 1 0<CR>
 nmap <Leader>tf :ModifyTagFilterStaticCheck<CR>
+nmap <Leader>tS :ModifyTagSumFiles<CR>
+nmap <Leader>tD :ModifyTagDiffFiles<CR>
 
 function! s:Diff2Html(oldfile, newfile, outfile)
 	silent! exe 'e ' . a:newfile
@@ -1147,4 +1173,48 @@ function! s:createPath(filename)
 endfunction
 function! s:_(txt)
     return Utf8Text(a:txt)
+endfunction
+function! s:SumModifiedFiles()
+	call append(line('$'), g:mt_tag_diff_tag1)
+	call append(line('$'), "")
+	call append(line('$'), g:mt_tag_diff_tag2)
+	call append(line('$'), expand("%:p:h:gs?\\?/?"))
+	call append(line('$'), g:mt_tag_diff_tag3)
+	call append(line('$'), "")
+	call append(line('$'), g:mt_tag_diff_tag4)
+	let l:lasttext = ''
+	for l:item in getqflist()
+		let l:text = bufname(l:item.bufnr)
+		if l:lasttext != l:text
+			call append(line('$'), l:text)
+			let l:lasttext = l:text
+		endif
+	endfor
+	call append(line('$'), g:mt_tag_diff_tag5)
+endfunction
+function! s:MakeVimScript()
+	silent! exe "normal gg"
+	let l:lineno1   = search(g:mt_tag_diff_tag1)
+	let l:lineno2   = search(g:mt_tag_diff_tag2)
+	let l:lineno3   = search(g:mt_tag_diff_tag3)
+	let l:lineno4   = search(g:mt_tag_diff_tag4)
+	if g:mt_tag_diff_tag5 == ''
+		let l:lineno5   = line('$')
+	else
+		let l:lineno5   = search(g:mt_tag_diff_tag5) - 1
+	endif
+	if (l:lineno1 > 0) && (l:lineno2 == l:lineno1+2) && (l:lineno3 == l:lineno2+2) && (l:lineno4 == l:lineno3+2) && (l:lineno5 > l:lineno4)
+		let l:dir1 = fnamemodify(getline(l:lineno1+1), ':p:gs?\\?/?')
+		let l:dir2 = fnamemodify(getline(l:lineno2+1), ':p:gs?\\?/?')
+		let l:dir3 = fnamemodify(getline(l:lineno3+1), ':p:gs?\\?/?')
+		let l:lineno1   = line('$')
+		while l:lineno4 < lineno5
+			let l:lineno4 = l:lineno4 + 1
+			let l:curfile = fnamemodify(getline(l:lineno4), ':gs?\\?/?')
+			call append(line('$'), ':ModifyTagDiff2Html ' . l:dir1 . l:curfile . ' ' . l:dir2 . l:curfile . ' ' . l:dir3 . l:curfile . '.html')
+		endwhile
+		silent! exe "normal gg" . l:lineno1 . "dd"
+	else
+		echo "Information loss or Tag missing\n" . l:lineno1 . "\t" . l:lineno2 . "\t" . l:lineno3 . "\t" . l:lineno4 . "\t" . l:lineno5
+	endif
 endfunction
