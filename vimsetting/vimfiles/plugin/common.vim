@@ -25,6 +25,7 @@ function! Utf8Code(data)
 	silent exe 'set encoding=utf-8'
 	call setline(1, l:u8data)
 	silent exe '%!xxd -ps'
+	silent exe 'normal gg' . repeat('Jx', line('$'))
 	let l:hexdata = getline(1)
 	let l:hexlen  = strlen(l:hexdata)
 	" strip line break
