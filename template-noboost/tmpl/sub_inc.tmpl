@@ -1,0 +1,21 @@
+#ifndef _{MODNAME_UPPER_ABBREV}{SUBMODNAME_UPPER}_H_
+#define _{MODNAME_UPPER_ABBREV}{SUBMODNAME_UPPER}_H_
+
+#include "basemodule/basemodule.h"
+
+class {MODNAME_CAP_ABBREV}{SUBMODNAME_CAP} : public BaseModule
+{{
+public:
+	{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}();
+	virtual ~{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}();
+#ifdef ENABLE_GMOCK
+public:
+#else
+protected:
+#endif
+	/* virtual protected method */
+protected:
+	/* protected member */
+}};
+
+#endif /* _{MODNAME_UPPER_ABBREV}{SUBMODNAME_UPPER}_H_ */
