@@ -1,5 +1,5 @@
-#include "log.hpp"
-#include "argvutils.hpp"
+#include "boost/log.hpp"
+#include "boost/argvutils.hpp"
 int main(int argc, char* argv[])
 {
 	ArgvUtils au = simple_argv(argc, argv);

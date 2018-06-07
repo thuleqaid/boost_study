@@ -1,6 +1,6 @@
 #include <iostream>
-#include "argvutils.hpp"
-#include "log.hpp"
+#include "boost/argvutils.hpp"
+#include "boost/log.hpp"
 ArgvUtils simple_argv(int argc, char *argv[])
 {
 	bool ret = true;
