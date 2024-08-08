@@ -1,0 +1,78 @@
+#ifndef _{MODNAME_UPPER_ABBREV}{SUBMODNAME_UPPER}_MOCK_H_
+#define _{MODNAME_UPPER_ABBREV}{SUBMODNAME_UPPER}_MOCK_H_
+
+#ifdef ENABLE_GMOCK
+#include "gmock/gmock.h"
+#endif
+#include "{MODNAME_LOWER_ABBREV}{SUBMODNAME_LOWER}.h"
+
+class {MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}Test : public ::testing::Test
+{{
+protected:
+	{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}Test()
+	{{
+	}}
+
+	virtual ~{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}Test()
+	{{
+	}}
+
+	virtual void SetUp()
+	{{
+		p = new {MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}();
+	}}
+
+	virtual void TearDown()
+	{{
+		delete p;
+	}}
+
+	{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP} *p;
+}};
+
+#ifdef ENABLE_GMOCK
+
+using ::testing::_;
+using ::testing::Invoke;
+
+class {MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}Mock : public {MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}
+{{
+public:
+	{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}Mock()
+	{{
+		/*
+		ON_CALL(*this, func())
+			.WillByDefault(Invoke(&real_, &{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}::func));
+		*/
+	}}
+
+private:
+	{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP} real_;
+}};
+
+class {MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}MockTest : public ::testing::Test
+{{
+protected:
+	{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}MockTest()
+	{{
+	}}
+
+	virtual ~{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}MockTest()
+	{{
+	}}
+
+	virtual void SetUp()
+	{{
+		p = new {MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}Mock();
+	}}
+
+	virtual void TearDown()
+	{{
+		delete p;
+	}}
+
+	{MODNAME_CAP_ABBREV}{SUBMODNAME_CAP}Mock *p;
+}};
+#endif
+
+#endif /* _{MODNAME_UPPER_ABBREV}{SUBMODNAME_UPPER}_MOCK_H_ */
