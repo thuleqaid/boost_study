@@ -8,7 +8,7 @@
 #define BOOST_THREAD_PROVIDES_ONCE_CXX11
 #include <boost/thread/once.hpp>
 
-#include "log.hpp"
+#include "boost/log.hpp"
 
 namespace logging = boost::log;
 namespace attrs = boost::log::attributes;
