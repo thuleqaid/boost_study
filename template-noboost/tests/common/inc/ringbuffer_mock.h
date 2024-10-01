@@ -2,7 +2,7 @@
 #define _RINGBUFFER_MOCK_H_
 
 #include "common/ringbuffer.h"
-typedef RingBuffer<U4, 2, 8> U4RingBuffer;
+typedef RingBuffer<U4> U4RingBuffer;
 #define ObjectClass U4RingBuffer
 #define TestPrefix ObjectClass
 
@@ -21,7 +21,7 @@ protected:
 
   virtual void SetUp()
   {
-    p = new ObjectClass(0);
+    p = new ObjectClass(0, 4, 2);
   }
 
   virtual void TearDown()
@@ -40,7 +40,7 @@ using ::testing::Invoke;
 class MockObjectClass : public ObjectClass
 {
 public:
-  MockObjectClass(const U4 &default_value, RingBufferFullStrategy default_strategy=RINGBUFFER_FULL_ERROR) : ObjectClass(default_value, default_strategy), real_(default_value, default_strategy)
+  MockObjectClass(const U4 &default_value, USIZE buffer_length, USIZE buffer_count=1, RingBufferFullStrategy default_strategy=RINGBUFFER_FULL_ERROR) : ObjectClass(default_value, default_strategy), real_(default_value, default_strategy)
   {
     /*
       ON_CALL(*this, func())
@@ -65,7 +65,7 @@ protected:
 
   virtual void SetUp()
   {
-    p = new MockObjectClass(0);
+    p = new MockObjectClass(0, 4, 2);
   }
 
   virtual void TearDown()
