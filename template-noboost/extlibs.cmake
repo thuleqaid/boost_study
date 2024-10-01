@@ -1,6 +1,6 @@
 set(EXTLIBS)
 
-set(GOOGLE_LIBS_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/extlibs")
+set(GOOGLE_LIBS_ROOT "${ROOT_DIR}/extlibs")
 set(_copy_dll OFF)
 set(_find_gflags OFF)
 set(_find_glog OFF)
@@ -27,6 +27,7 @@ if (GTEST)
 endif ()
 if (GMOCK)
   set(_copy_dll ON)
+  set(_find_gtest ON)
   set(_find_gmock ON)
 endif ()
 
@@ -97,9 +98,16 @@ if (_link_glog)
 endif ()
 
 if (MINGW AND _copy_dll)
-  # Copy libstdc++-6.dll to binary dir
-  string(REGEX REPLACE "^(.+/)[^/]+$" "\\1libstdc++-6.dll" LIBSTDCXX ${CMAKE_CXX_COMPILER})
-  file(COPY ${LIBSTDCXX} DESTINATION ${CMAKE_BINARY_DIR})
+  string(REGEX REPLACE "^(.+/)[^/]+$" "\\1" CXX_DIR ${CMAKE_CXX_COMPILER})
+  # MinGW
+  file(COPY_FILE "${CXX_DIR}/libstdc++-6.dll" "${CMAKE_BINARY_DIR}/libstdc++-6.dll" RESULT STATUS)
+  # LLVM
+  file(COPY_FILE "${CXX_DIR}/libc++.dll" "${CMAKE_BINARY_DIR}/libc++.dll" RESULT STATUS)
+  file(COPY_FILE "${CXX_DIR}/libunwind.dll" "${CMAKE_BINARY_DIR}/libunwind.dll" RESULT STATUS)
+  if (_find_glog)
+    # Copy libglog.dll to binary dir
+    file(COPY ${GOOGLE_LIBS_ROOT}/bin/libglog.dll DESTINATION ${CMAKE_BINARY_DIR})
+  endif ()
 endif ()
 
 unset(GOOGLE_LIBS_ROOT)
