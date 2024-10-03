@@ -1,3 +1,4 @@
+#ifdef COMMON_RINGBUFFER_ENABLE
 #include "gtest/gtest.h"
 #include "ringbuffer_mock.h"
 
@@ -74,4 +75,5 @@ TEST_F(MockTestClass, XXX)
   EXPECT_EQ(0, 0);
 }
 
+#endif
 #endif

@@ -17,7 +17,7 @@
 
 void test(TIMER_ID_T x)                            // 定义计时器回调函数
 {
-    LOG(ERROR) << x;
+    LOG(ERROR) << x<<EOL;
 }
 
 int main(int argc, char *argv[])
@@ -31,10 +31,10 @@ int main(int argc, char *argv[])
 #endif
     google::InitGoogleLogging(argv[0]);
 
-    LOG(INFO) << "INFO: Hello";
-    LOG(WARNING) << "WARNING: Hello";
-    LOG(ERROR) << "ERROR: Hello";
-    // LOG(FATAL) << "FATAL: Hello";
+    LOG(INFO) << "INFO: Hello"<<EOL;
+    LOG(WARNING) << "WARNING: Hello"<<EOL;
+    LOG(ERROR) << "ERROR: Hello"<<EOL;
+    // LOG(FATAL) << "FATAL: Hello"<<EOL;
     std::shared_ptr<TIMER_OWNER_T> pt(new TIMER_OWNER_T(0));   // 申明父对象
     Timer_init();                                       // 生成计时器线程
     TIMER_ID_T tid;

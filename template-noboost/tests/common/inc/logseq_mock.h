@@ -1,13 +1,12 @@
-#ifndef _RINGBUFFER_MOCK_H_
-#define _RINGBUFFER_MOCK_H_
-#ifdef COMMON_RINGBUFFER_ENABLE
+#ifndef _LOGSEQ_MOCK_H_
+#define _LOGSEQ_MOCK_H_
+#ifdef COMMON_LOGSEQ_ENABLE
 
-#include "common/ringbuffer.h"
-typedef RingBuffer<U4> U4RingBuffer;
-#define ObjectClass U4RingBuffer
+#define ObjectClass LogSeq
 #define TestPrefix ObjectClass
 
 #include "common/test.h"
+#include "logseq_inner.h"
 
 class TestClass : public ::testing::Test
 {
@@ -22,7 +21,7 @@ protected:
 
   virtual void SetUp()
   {
-    p = new ObjectClass(0, 4, 2);
+    p = new ObjectClass(8, 4);
   }
 
   virtual void TearDown()
@@ -41,9 +40,9 @@ using ::testing::Invoke;
 class MockObjectClass : public ObjectClass
 {
 public:
-  MockObjectClass(const U4 &default_value, USIZE buffer_length, USIZE buffer_count=1, RingBufferFullStrategy default_strategy=RINGBUFFER_FULL_ERROR)
-    :ObjectClass(default_value, default_strategy)
-    ,real_(default_value, default_strategy)
+  MockObjectClass(const U4 history_size, const U1 count_bits)
+    :ObjectClass(history_size, count_bits)
+    ,real_(history_size, count_bits)
   {
     /*
       ON_CALL(*this, func())
@@ -68,7 +67,7 @@ protected:
 
   virtual void SetUp()
   {
-    p = new MockObjectClass(0, 4, 2);
+    p = new MockObjectClass(8, 4);
   }
 
   virtual void TearDown()

@@ -63,13 +63,12 @@
    against the filename base (that is, name ignoring .cc/.h./-inl.h). <log
    level> overrides any value given by --v.) type: string default: ""
 */
+#define EOL ""
 #else
 #include <iostream>
 #if defined(COMMON_LOG_OUTPUT_TO_STDERR)
-#define LOG_OUTPUT_STDERR true
 #define LOG_OUTPUT_NULL false
 #else
-#define LOG_OUTPUT_STDERR false
 #define LOG_OUTPUT_NULL true
 #endif
 #define LOG(Lvl) if (LOG_OUTPUT_NULL) {} else std::cerr
@@ -77,6 +76,7 @@ namespace google {
   void InitGoogleLogging(const char* argv0);
   void ShutdownGoogleLogging();
 }
+#define EOL std::endl;
 #endif
 
 #endif /* _LOG_H_ */

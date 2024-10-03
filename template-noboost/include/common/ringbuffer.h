@@ -24,17 +24,18 @@ typedef enum {
 template<typename NODE_T> class RingBuffer {
 public:
   RingBuffer(const NODE_T &default_value, USIZE buffer_length, USIZE buffer_count=1, RingBufferFullStrategy default_strategy=RINGBUFFER_FULL_ERROR);
-  RingBufferStatus getStatus(ISIZE index=0);
+  RingBufferStatus getStatus(ISIZE index=0) const;
   BOOL produce(const NODE_T &value, ISIZE index=0);
   BOOL consume(NODE_T &value, ISIZE index=0);
-  BOOL getFirst(NODE_T &value, ISIZE index=0);
+  BOOL getFirst(NODE_T &value, ISIZE index=0) const;
   BOOL setFirst(const NODE_T &value, ISIZE index=0);
-  BOOL getLast(NODE_T &value, ISIZE index=0);
+  BOOL getLast(NODE_T &value, ISIZE index=0) const;
   BOOL setLast(const NODE_T &value, ISIZE index=0);
   BOOL setStrategy(const RingBufferFullStrategy &strategy, ISIZE index=-1);
-  RingBufferFullStrategy getStrategy(ISIZE index=0);
+  RingBufferFullStrategy getStrategy(ISIZE index=0) const;
+  std::vector<NODE_T> getAll(ISIZE index=0) const;
 private:
-  BOOL getValueByPos(NODE_T &value, USIZE pos, ISIZE index=0);
+  BOOL getValueByPos(NODE_T &value, USIZE pos, ISIZE index=0) const;
   BOOL setValueByPos(const NODE_T &value, USIZE pos, ISIZE index=0);
   USIZE bufcount;
   USIZE buflength;
@@ -54,12 +55,12 @@ RingBuffer<NODE_T>::RingBuffer(const NODE_T &default_value, USIZE buffer_length,
    strategies(bufcount, default_strategy)
 {
 #ifdef RINGBUFFER_ENABLE_LOG
-  LOG(INFO)<<"Buffer_Count="<<bufcount<<" Buffer_Length="<<buflength;
+  LOG(INFO)<<"Buffer_Count="<<bufcount<<" Buffer_Length="<<buflength<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
 }
 
 template<typename NODE_T>
-RingBufferStatus RingBuffer<NODE_T>::getStatus(ISIZE index)
+RingBufferStatus RingBuffer<NODE_T>::getStatus(ISIZE index) const
 {
   RingBufferStatus ret = RINGBUFFER_STATUS_OUTOFRANGE;
   if (index == -1) {
@@ -74,7 +75,7 @@ RingBufferStatus RingBuffer<NODE_T>::getStatus(ISIZE index)
       if (0 == counts[i]) {
         if (RINGBUFFER_STATUS_EMPTY != ret) {
 #ifdef RINGBUFFER_ENABLE_LOG
-          LOG(INFO)<<"status different from: "<<i;
+          LOG(INFO)<<"status different from: "<<i<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
           ret = RINGBUFFER_STATUS_INCONSISTENT;
           break;
@@ -82,7 +83,7 @@ RingBufferStatus RingBuffer<NODE_T>::getStatus(ISIZE index)
       } else if (buflength == counts[i]) {
         if (RINGBUFFER_STATUS_FULL != ret) {
 #ifdef RINGBUFFER_ENABLE_LOG
-          LOG(INFO)<<"status different from: "<<i;
+          LOG(INFO)<<"status different from: "<<i<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
           ret = RINGBUFFER_STATUS_INCONSISTENT;
           break;
@@ -90,7 +91,7 @@ RingBufferStatus RingBuffer<NODE_T>::getStatus(ISIZE index)
       } else {
         if (RINGBUFFER_STATUS_PARTLY != ret) {
 #ifdef RINGBUFFER_ENABLE_LOG
-          LOG(INFO)<<"status different from: "<<i;
+          LOG(INFO)<<"status different from: "<<i<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
           ret = RINGBUFFER_STATUS_INCONSISTENT;
           break;
@@ -98,7 +99,7 @@ RingBufferStatus RingBuffer<NODE_T>::getStatus(ISIZE index)
       }
     }
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(INFO)<<"status[-1]="<<ret;
+    LOG(INFO)<<"status[-1]="<<ret<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   } else if ((index >= 0) && (index < bufcount)) {
     if (0 == counts[index]) {
@@ -109,11 +110,11 @@ RingBufferStatus RingBuffer<NODE_T>::getStatus(ISIZE index)
       ret = RINGBUFFER_STATUS_PARTLY;
     }
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(INFO)<<"status["<<index<<"]="<<ret;
+    LOG(INFO)<<"status["<<index<<"]="<<ret<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"index out of range: "<<index;
+    LOG(WARNING)<<"index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   }
   return ret;
@@ -137,16 +138,16 @@ BOOL RingBuffer<NODE_T>::produce(const NODE_T &value, ISIZE index)
       ret = TRUE;
     } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"full: "<<index;
+    LOG(WARNING)<<"full: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
     }
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"index out of range: "<<index;
+    LOG(WARNING)<<"index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   }
 #ifdef RINGBUFFER_ENABLE_LOG
-  LOG(INFO)<<"points_r["<<index<<"]="<<points_r[index]<<" count="<<counts[index];
+  LOG(INFO)<<"points_r["<<index<<"]="<<points_r[index]<<" count="<<counts[index]<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   return ret;
 }
@@ -163,26 +164,26 @@ BOOL RingBuffer<NODE_T>::consume(NODE_T &value, ISIZE index)
     ret = TRUE;
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"empty / index out of range: "<<index;
+    LOG(WARNING)<<"empty / index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   }
   return ret;
 }
 
 template<typename NODE_T>
-BOOL RingBuffer<NODE_T>::getValueByPos(NODE_T &value, USIZE pos, ISIZE index)
+BOOL RingBuffer<NODE_T>::getValueByPos(NODE_T &value, USIZE pos, ISIZE index) const
 {
   BOOL ret = FALSE;
   if (pos >= buflength) {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"pos out of range: "<<pos;
+    LOG(WARNING)<<"pos out of range: "<<pos<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   } else if ((0 <= index) || (bufcount > index)) {
     value = nodes[index][pos];
     ret = TRUE;
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"empty / index out of range: "<<index;
+    LOG(WARNING)<<"empty / index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   }
   return ret;
@@ -194,21 +195,21 @@ BOOL RingBuffer<NODE_T>::setValueByPos(const NODE_T &value, USIZE pos, ISIZE ind
   BOOL ret = FALSE;
   if (pos >= buflength) {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"pos out of range: "<<pos;
+    LOG(WARNING)<<"pos out of range: "<<pos<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   } else if ((0 <= index) || (bufcount > index)) {
     nodes[index][pos] = value;
     ret = TRUE;
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"empty / index out of range: "<<index;
+    LOG(WARNING)<<"empty / index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   }
   return ret;
 }
 
 template<typename NODE_T>
-BOOL RingBuffer<NODE_T>::getFirst(NODE_T &value, ISIZE index)
+BOOL RingBuffer<NODE_T>::getFirst(NODE_T &value, ISIZE index) const
 {
   BOOL ret = FALSE;
   auto sts = getStatus(index);
@@ -216,7 +217,7 @@ BOOL RingBuffer<NODE_T>::getFirst(NODE_T &value, ISIZE index)
     ret = getValueByPos(value, points_r[index], index);
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"empty / index out of range: "<<index;
+    LOG(WARNING)<<"empty / index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   }
   return ret;
@@ -231,14 +232,14 @@ BOOL RingBuffer<NODE_T>::setFirst(const NODE_T &value, ISIZE index)
     ret = setValueByPos(value, points_r[index], index);
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"empty / index out of range: "<<index;
+    LOG(WARNING)<<"empty / index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   }
   return ret;
 }
 
 template<typename NODE_T>
-BOOL RingBuffer<NODE_T>::getLast(NODE_T &value, ISIZE index)
+BOOL RingBuffer<NODE_T>::getLast(NODE_T &value, ISIZE index) const
 {
   BOOL ret = FALSE;
   auto sts = getStatus(index);
@@ -247,7 +248,7 @@ BOOL RingBuffer<NODE_T>::getLast(NODE_T &value, ISIZE index)
     ret = getValueByPos(value, pos, index);
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"empty / index out of range: "<<index;
+    LOG(WARNING)<<"empty / index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   }
   return ret;
@@ -263,7 +264,7 @@ BOOL RingBuffer<NODE_T>::setLast(const NODE_T &value, ISIZE index)
     ret = setValueByPos(value, pos, index);
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"empty / index out of range: "<<index;
+    LOG(WARNING)<<"empty / index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   }
   return ret;
@@ -281,7 +282,7 @@ BOOL RingBuffer<NODE_T>::setStrategy(const RingBufferFullStrategy &strategy, ISI
     strategies[index] = strategy;
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"index out of range: "<<index;
+    LOG(WARNING)<<"index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
     ret = FALSE;
   }
@@ -289,7 +290,7 @@ BOOL RingBuffer<NODE_T>::setStrategy(const RingBufferFullStrategy &strategy, ISI
 }
 
 template<typename NODE_T>
-RingBufferFullStrategy RingBuffer<NODE_T>::getStrategy(ISIZE index)
+RingBufferFullStrategy RingBuffer<NODE_T>::getStrategy(ISIZE index) const
 {
   RingBufferFullStrategy ret = RINGBUFFER_FULL_OUTOFRANGE;
   if (index == -1) {
@@ -304,11 +305,22 @@ RingBufferFullStrategy RingBuffer<NODE_T>::getStrategy(ISIZE index)
     ret = strategies[index];
   } else {
 #ifdef RINGBUFFER_ENABLE_LOG
-    LOG(WARNING)<<"index out of range: "<<index;
+    LOG(WARNING)<<"index out of range: "<<index<<EOL;
 #endif /* RINGBUFFER_ENABLE_LOG */
   }
   return ret;
 }
 
+template<typename NODE_T>
+std::vector<NODE_T> RingBuffer<NODE_T>::getAll(ISIZE index) const
+{
+  std::vector<NODE_T> ret;
+  if ((index >=0) && (index < bufcount)) {
+    for (auto i=0; i<counts[index]; i++) {
+      ret.push_back(nodes[index][(points_r[index]+i)%buflength]);
+    }
+  }
+  return ret;
+}
 #endif /* COMMON_RINGBUFFER_ENABLE */
 #endif /* __RING_BUFFER_H__ */

@@ -33,12 +33,12 @@ protected:
       ,m_count(0)
     {
 #ifdef TIMER_ENABLE_LOG
-      LOG(INFO)<<"Timer::Node::Node["<<m_id<<"]";
+      LOG(INFO)<<"Timer::Node::Node["<<m_id<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     }
     ~Node() {
 #ifdef TIMER_ENABLE_LOG
-      LOG(INFO)<<"Timer::Node::~Node["<<m_id<<"]";
+      LOG(INFO)<<"Timer::Node::~Node["<<m_id<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     }
     const TIMERID_T& id() const { return m_id; }
@@ -49,14 +49,14 @@ protected:
     {
       m_interval=interval;
 #ifdef TIMER_ENABLE_LOG
-      LOG(INFO)<<"Timer::Node::setInterval[id="<<m_id<<",interval(ns)="<<m_interval.count()<<"]";
+      LOG(INFO)<<"Timer::Node::setInterval[id="<<m_id<<",interval(ns)="<<m_interval.count()<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     }
     VD setCount(const USIZE count)
     {
       m_count=count;
 #ifdef TIMER_ENABLE_LOG
-      LOG(INFO)<<"Timer::Node::setCount[id="<<m_id<<",count="<<m_count<<"]";
+      LOG(INFO)<<"Timer::Node::setCount[id="<<m_id<<",count="<<m_count<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     }
     VD renew(const std::chrono::steady_clock::time_point &base_tp)
@@ -79,7 +79,7 @@ protected:
           m_count--;
         }
 #ifdef TIMER_ENABLE_LOG
-        LOG(INFO)<<"Timer::Node::fire[id="<<m_id<<",count="<<m_count<<"]\n";
+        LOG(INFO)<<"Timer::Node::fire[id="<<m_id<<",count="<<m_count<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
         m_func(m_id);
       }
@@ -151,7 +151,7 @@ TIMERID_T Timer<OWNER_T,TIMERID_T,startidx>::timer_new(const TimeOutFunc &func, 
   TIMERID_T newid;
   std::lock_guard<std::mutex> lg(m_condmutex);
 #ifdef TIMER_ENABLE_LOG
-  LOG(INFO)<<"Timer::timer_new[request-id="<<timerid<<"]";
+  LOG(INFO)<<"Timer::timer_new[request-id="<<timerid<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
   if ((timerid<m_start) && (timerid>std::numeric_limits<TIMERID_T>::min()) && (get_node_by_timerid(timerid)==nullptr)) {
     newid=timerid;
@@ -177,14 +177,14 @@ TIMERID_T Timer<OWNER_T,TIMERID_T,startidx>::timer_new(const TimeOutFunc &func, 
   if (newid!=std::numeric_limits<TIMERID_T>::min()) {
     if (ptshare==nullptr) {
 #ifdef TIMER_ENABLE_LOG
-      LOG(INFO)<<"Timer::timer_new[id="<<newid<<",owner=None]";
+      LOG(INFO)<<"Timer::timer_new[id="<<newid<<",owner=None]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
       std::shared_ptr<Node> temp(new Node(func,m_sharedOwner,newid));
       m_nodelist.insert(temp);
       m_timerlist.push_back(std::weak_ptr<Node>(temp));
     } else {
 #ifdef TIMER_ENABLE_LOG
-      LOG(INFO)<<"Timer::timer_new[id="<<newid<<",owner="<<ptshare<<"]";
+      LOG(INFO)<<"Timer::timer_new[id="<<newid<<",owner="<<ptshare<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
       std::shared_ptr<Node> temp(new Node(func,ptshare,newid));
       m_nodelist.insert(temp);
@@ -192,7 +192,7 @@ TIMERID_T Timer<OWNER_T,TIMERID_T,startidx>::timer_new(const TimeOutFunc &func, 
     }
   } else {
 #ifdef TIMER_ENABLE_LOG
-    LOG(WARNING)<<"Timer::timer_new[id=None,owner=None]";
+    LOG(WARNING)<<"Timer::timer_new[id=None,owner=None]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
   }
   return newid;
@@ -206,7 +206,7 @@ BOOL Timer<OWNER_T,TIMERID_T,startidx>::timer_start(const TIMERID_T &timerid, co
   auto elem=get_node_by_timerid(timerid);
   if (elem!=nullptr) {
 #ifdef TIMER_ENABLE_LOG
-    LOG(INFO)<<"Timer::timer_start[id="<<timerid<<"]";
+    LOG(INFO)<<"Timer::timer_start[id="<<timerid<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     elem->setInterval(interval);
     elem->setCount(count);
@@ -215,7 +215,7 @@ BOOL Timer<OWNER_T,TIMERID_T,startidx>::timer_start(const TIMERID_T &timerid, co
     ret=TRUE;
   } else {
 #ifdef TIMER_ENABLE_LOG
-    LOG(WARNING)<<"Timer::timer_start[id="<<timerid<<"]";
+    LOG(WARNING)<<"Timer::timer_start[id="<<timerid<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     ret=FALSE;
   }
@@ -229,13 +229,13 @@ BOOL Timer<OWNER_T,TIMERID_T,startidx>::timer_stop(const TIMERID_T &timerid)
   auto elem=get_node_by_timerid(timerid);
   if (elem!=nullptr) {
 #ifdef TIMER_ENABLE_LOG
-    LOG(INFO)<<"Timer::timer_stop[id="<<timerid<<"]";
+    LOG(INFO)<<"Timer::timer_stop[id="<<timerid<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     elem->setCount(0);
     ret=TRUE;
   } else {
 #ifdef TIMER_ENABLE_LOG
-    LOG(WARNING)<<"Timer::timer_stop[id="<<timerid<<"]";
+    LOG(WARNING)<<"Timer::timer_stop[id="<<timerid<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     ret=FALSE;
   }
@@ -249,13 +249,13 @@ BOOL Timer<OWNER_T,TIMERID_T,startidx>::timer_delete(const TIMERID_T &timerid)
   auto elem=get_node_by_timerid(timerid);
   if (elem!=nullptr) {
 #ifdef TIMER_ENABLE_LOG
-    LOG(INFO)<<"Timer::timer_delete[id="<<timerid<<"]";
+    LOG(INFO)<<"Timer::timer_delete[id="<<timerid<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     m_nodelist.erase(elem);
     ret=TRUE;
   } else {
 #ifdef TIMER_ENABLE_LOG
-    LOG(WARNING)<<"Timer::timer_delete[id="<<timerid<<"]";
+    LOG(WARNING)<<"Timer::timer_delete[id="<<timerid<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     ret=FALSE;
   }
@@ -337,7 +337,7 @@ VD Timer<OWNER_T,TIMERID_T,startidx>::timer_loop()
       }
     }
 #ifdef TIMER_ENABLE_LOG
-    LOG(INFO)<<"Timer::timer_loop[wait_time(ns)="<<waittime.count()<<"]";
+    LOG(INFO)<<"Timer::timer_loop[wait_time(ns)="<<waittime.count()<<"]"<<EOL;
 #endif /* TIMER_ENABLE_LOG */
     m_cond.wait_for(ul,waittime);
   }
