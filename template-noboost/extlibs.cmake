@@ -37,7 +37,7 @@ if (_find_gflags)
   find_package(gflags REQUIRED)
 endif ()
 if (_find_glog)
-  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${GOOGLE_LIBS_ROOT}/Lib/cmake/glog")
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${GOOGLE_LIBS_ROOT}/lib/cmake/glog")
   add_definitions(-DENABLE_GLOG)
   find_package(glog REQUIRED)
 endif ()
@@ -46,21 +46,21 @@ if (_find_gtest)
   add_library(gtest_main UNKNOWN IMPORTED)
   if (MSVC)
     set_target_properties(gtest PROPERTIES
-      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/gtest.lib
-      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/lib/gtest.lib
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/include"
     )
     set_target_properties(gtest_main PROPERTIES
-      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/gtest_main.lib
-      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/lib/gtest_main.lib
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/include"
     )
   else ()
     set_target_properties(gtest PROPERTIES
-      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgtest.a
-      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/lib/libgtest.a
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/include"
     )
     set_target_properties(gtest_main PROPERTIES
-      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgtest_main.a
-      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/lib/libgtest_main.a
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/include"
     )
   endif ()
   add_definitions(-DENABLE_GTEST)
@@ -70,21 +70,21 @@ if (_find_gmock)
   add_library(gmock_main UNKNOWN IMPORTED)
   if (MSVC)
     set_target_properties(gmock PROPERTIES
-      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/gmock.lib
-      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/lib/gmock.lib
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/include"
     )
     set_target_properties(gmock_main PROPERTIES
-      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/gmock_main.lib
-      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/lib/gmock_main.lib
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/include"
     )
   else ()
     set_target_properties(gmock PROPERTIES
-      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgmock.a
-      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/lib/libgmock.a
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/include"
     )
     set_target_properties(gmock_main PROPERTIES
-      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/Lib/libgmock_main.a
-      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/Include"
+      IMPORTED_LOCATION ${GOOGLE_LIBS_ROOT}/lib/libgmock_main.a
+      INTERFACE_INCLUDE_DIRECTORIES "${GOOGLE_LIBS_ROOT}/include"
     )
   endif ()
   add_definitions(-DENABLE_GTEST)
