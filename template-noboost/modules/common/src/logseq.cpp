@@ -82,11 +82,20 @@ VD Logseq_init(const U4 history_size, const U1 count_bits)
 }
 VD Logseq_mark(const std::string& label)
 {
-  logseq->mark(label);
+  if (nullptr != logseq) {
+    logseq->mark(label);
+  } else {
+#ifdef LOGSEQ_ENABLE_LOG
+    LOG(ERROR)<<"Logseq Uninitialized"<<EOL;
+#endif /* LOGSEQ_ENABLE_LOG */
+  }
 }
 VD Logseq_destroy()
 {
-  delete logseq;
+  if (nullptr != logseq) {
+    delete logseq;
+    logseq = nullptr;
+  }
 }
 
 #endif /* COMMON_LOGSEQ_ENABLE */

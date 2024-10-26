@@ -35,3 +35,13 @@ if exist extsrc/glog-0.7.1 (
 ) else (
   echo %ERROR_COLOR%Not found: extsrc/glog-0.7.1%NORMAL_COLOR%
 )
+if exist extsrc/uchardet-0.0.8 (
+  mkdir build-uchardet
+  cd build-uchardet
+  cmake -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="%ROOT_PATH%" -DCMAKE_INSTALL_PREFIX="%ROOT_PATH%" ../extsrc/uchardet-0.0.8
+  make install
+  cd ..
+  rmdir /S /Q build-uchardet
+) else (
+  echo %ERROR_COLOR%Not found: extsrc/uchardet-0.0.8%NORMAL_COLOR%
+)

@@ -17,6 +17,12 @@ cd build-glog
 cmake -DCMAKE_C_FLAGS=-fPIC -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_PREFIX_PATH="$ROOT_PATH" -DCMAKE_INSTALL_PREFIX="$ROOT_PATH" ../extsrc/glog-0.7.1
 make install
 cd ..
+mkdir build-uchardet
+cd build-uchardet
+cmake -DCMAKE_PREFIX_PATH="%ROOT_PATH%" -DCMAKE_INSTALL_PREFIX="%ROOT_PATH%" ../extsrc/uchardet-0.0.8
+make install
+cd ..
 rm -rf build-gflags
 rm -rf build-gtest
 rm -rf build-glog
+rm -rf build-uchardet
